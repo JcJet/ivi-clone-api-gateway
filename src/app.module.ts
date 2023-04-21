@@ -1,24 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MoviesModule } from './movies/movies.module';
 
 @Module({
-  imports: [
-    ClientsModule.register([
-      {
-        name: 'TO_MOVIES_MS',
-        transport: Transport.RMQ,
-        options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'to_movies_ms',
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-    ]),
-  ],
+  imports: [MoviesModule],
   controllers: [AppController],
   providers: [AppService],
 })
