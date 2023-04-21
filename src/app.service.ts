@@ -14,7 +14,7 @@ export class AppService {
   async getMovies(movieFilterDto: MovieFilterDto): Promise<object> {
     return this.api_to_movies
       .send<object>({ cmd: 'getMovies' }, movieFilterDto)
-      // .subscribe();
+      .subscribe();
   }
 
   async getMovieById(movieId: number): Promise<object> {
