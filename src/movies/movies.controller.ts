@@ -18,9 +18,6 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
-  /*
-  MOVIES MICROSERVICE SECTION
-  */
   @Get('movies')
   getMovies(@Query() movieFilterDto: MovieFilterDto): object {
     return this.moviesService.getMovies(movieFilterDto);
