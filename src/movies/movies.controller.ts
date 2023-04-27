@@ -13,28 +13,33 @@ import { Roles } from '../decorator/roles.decorator';
 import { MovieFilterDto } from './dto/movie-filter.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('movies-api')
 @Controller('movies')
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
-  @Get('movies')
+  @Get()
+  @ApiOperation({ summary: 'Getting list of movies, may be filtered.' })
   getMovies(@Query() movieFilterDto: MovieFilterDto): object {
     return this.moviesService.getMovies(movieFilterDto);
   }
 
-  @Get('movies/:id')
+  @Get('/:id')
   getMovieById(@Param('id') movieId: number): object {
     return this.moviesService.getMovieById(movieId);
   }
 
-  @Delete('movies/:id')
+  @ApiBearerAuth()
+  @Delete('/:id')
   @Roles('admin')
   deleteMovie(@Param('id') movieId: number): object {
     return this.moviesService.deleteMovie(movieId);
   }
 
-  @Put('movies')
+  @ApiBearerAuth()
+  @Put('')
   @Roles('admin')
   updateMovie(
     @Param('id') movieId: number,
@@ -43,7 +48,8 @@ export class MoviesController {
     return this.moviesService.updateMovie(movieId, updateMovieDto);
   }
 
-  @Post('movies')
+  @ApiBearerAuth()
+  @Post('')
   @Roles('admin')
   createMovie(@Body() createMovieDto: CreateMovieDto): object {
     return this.moviesService.createMovie(createMovieDto);
