@@ -10,6 +10,11 @@ Access PORT: 3111.\
    - [ ] POST movie
    - [ ] DELETE movie
    - [ ] PUT movie
+   - [ ] Added transport
+   - [ ] Added tests
+
+2. Swagger API
+
 
 ## Installation
 
