@@ -39,7 +39,7 @@ export class GenresController {
     @Param('id') genreId: number,
     @Body() updateGenreDto: CreateGenreDto,
   ) {
-    console.log('API Gateway - Genres Controller - updateGenre');
+    console.log('API Gateway - Genres Controller - updateGenre at', new Date());
     return this.genresService.updateGenre(genreId, updateGenreDto);
   }
 }
