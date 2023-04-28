@@ -4,7 +4,7 @@ API Gateway for Ivi clone project.\
 Access PORT: 3111.\
 [In progress] Swagger documentation: 
 
-## API list
+## Progress list
 1. Movies microservice
    - [ ] GET all movies or filter
    - [ ] POST movie
@@ -13,7 +13,17 @@ Access PORT: 3111.\
    - [ ] Added transport
    - [ ] Added tests
 
-2. Swagger API
+2. Genres microservice
+   - [ ] GET all genres or filter
+   - [x] POST genre
+   - [ ] DELETE genre
+   - [ ] PUT genre
+   - [x] Added transport
+   - [ ] Added tests
+
+3. Swagger API
+
+4. Errors handler
 
 
 ## Installation
