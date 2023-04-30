@@ -7,7 +7,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   imports: [
     ClientsModule.register([
       {
-        name: 'TO_MOVIES_MS',
+        name: 'ToMoviesMs',
         transport: Transport.RMQ,
         options: {
           urls: ['amqp://localhost:5672'],
