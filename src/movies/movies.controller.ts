@@ -45,7 +45,7 @@ export class MoviesController {
   }
 
   @ApiBearerAuth()
-  @Put('')
+  @Put('/:id')
   @Roles('admin')
   updateMovie(
     @Param('id') movieId: number,
