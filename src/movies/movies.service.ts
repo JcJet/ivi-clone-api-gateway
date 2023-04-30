@@ -9,35 +9,34 @@ export class MoviesService {
   constructor(@Inject('TO_MOVIES_MS') private api_to_movies: ClientProxy) {}
 
   async getMovies(movieFilterDto: MovieFilterDto): Promise<object> {
-    return this.api_to_movies
-      .send<object>({ cmd: 'getMovies' }, movieFilterDto)
-      .subscribe();
+    return this.api_to_movies.send<object>(
+      { cmd: 'getMovies' },
+      movieFilterDto,
+    );
   }
 
   async getMovieById(movieId: number): Promise<object> {
-    return this.api_to_movies
-      .send<object>({ cmd: 'getMovieById' }, movieId)
-      .subscribe();
+    return this.api_to_movies.send<object>({ cmd: 'getMovieById' }, movieId);
   }
 
   async deleteMovie(movieId: number): Promise<object> {
-    return this.api_to_movies
-      .send<object>({ cmd: 'deleteMovie' }, movieId)
-      .subscribe();
+    return this.api_to_movies.send<object>({ cmd: 'deleteMovie' }, movieId);
   }
 
   async updateMovie(
     movieId: number,
     updateMovieDto: UpdateMovieDto,
   ): Promise<object> {
-    return this.api_to_movies
-      .send<object>({ cmd: 'updateMovie' }, { movieId, updateMovieDto })
-      .subscribe();
+    return this.api_to_movies.send<object>(
+      { cmd: 'updateMovie' },
+      { movieId, updateMovieDto },
+    );
   }
 
   async createMovie(createMovieDto: CreateMovieDto): Promise<object> {
-    return this.api_to_movies
-      .send<object>({ cmd: 'createMovie' }, createMovieDto)
-      .subscribe();
+    return this.api_to_movies.send<object>(
+      { cmd: 'createMovie' },
+      createMovieDto,
+    );
   }
 }
