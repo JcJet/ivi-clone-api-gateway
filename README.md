@@ -1,30 +1,36 @@
 ## Description
 
 API Gateway for Ivi clone project.\
-Access PORT: 3111.\
-[In progress] Swagger documentation: 
+Access PORT: 3111.
 
 ## Progress list
 1. Movies microservice
-   - [ ] GET all movies or filter
-   - [ ] POST movie
-   - [ ] DELETE movie
-   - [ ] PUT movie
-   - [ ] Added transport
-   - [ ] Added tests
+   - [x] GET all movies or filter
+   - [x] POST movie
+   - [x] DELETE movie
+   - [x] PUT movie
+   - [x] Add transport
+   - [ ] Add tests
+   - [ ] Add roles guards
 
 2. Genres microservice
-   - [ ] GET all genres or filter
+   - [x] GET all genres or filter
    - [x] POST genre
-   - [ ] DELETE genre
-   - [ ] PUT genre
-   - [x] Added transport
-   - [ ] Added tests
+   - [x] DELETE genre
+   - [x] PUT genre
+   - [x] Add transport
+   - [ ] Add tests
+   - [ ] Add roles guards
 
 3. Swagger API
+   - [x] Register Swagger in main.ts 
+   - [ ] Add Movies module (entities, API, DTOs) 
+   - [ ] Add Genre module (entities, API, DTOs)
+   - [ ] Add User module (entities, API, DTOs)
+   - [ ] Add Profile module (entities, API, DTOs)
 
 4. Errors handler
-
+   - [ ] ???
 
 ## Installation
 
