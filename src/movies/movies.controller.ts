@@ -23,11 +23,16 @@ export class MoviesController {
   @Get()
   @ApiOperation({ summary: 'Getting list of movies, may be filtered.' })
   getMovies(@Query() movieFilterDto: MovieFilterDto): object {
+    console.log('API Gateway - Movies Controller - getMovies at', new Date());
     return this.moviesService.getMovies(movieFilterDto);
   }
 
   @Get('/:id')
   getMovieById(@Param('id') movieId: number): object {
+    console.log(
+      'API Gateway - Movies Controller - getMovieById at',
+      new Date(),
+    );
     return this.moviesService.getMovieById(movieId);
   }
 
@@ -35,6 +40,7 @@ export class MoviesController {
   @Delete('/:id')
   @Roles('admin')
   deleteMovie(@Param('id') movieId: number): object {
+    console.log('API Gateway - Movies Controller - deleteMovie at', new Date());
     return this.moviesService.deleteMovie(movieId);
   }
 
@@ -45,6 +51,7 @@ export class MoviesController {
     @Param('id') movieId: number,
     @Body() updateMovieDto: UpdateMovieDto,
   ) {
+    console.log('API Gateway - Movies Controller - updateMovie at', new Date());
     return this.moviesService.updateMovie(movieId, updateMovieDto);
   }
 
@@ -52,6 +59,7 @@ export class MoviesController {
   @Post('')
   @Roles('admin')
   createMovie(@Body() createMovieDto: CreateMovieDto): object {
+    console.log('API Gateway - Movies Controller - createMovie at', new Date());
     return this.moviesService.createMovie(createMovieDto);
   }
 }
