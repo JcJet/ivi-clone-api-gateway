@@ -13,4 +13,11 @@ export class PersonsService {
       { ...createPersonDto },
     );
   }
+
+  async updatePerson(personId: number, updatePersonDto: CreatePersonDto) {
+    return this.personsRmqProxy.send(
+      { cmd: 'updatePerson' },
+      { personId: personId, ...updatePersonDto },
+    );
+  }
 }
