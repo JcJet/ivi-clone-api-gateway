@@ -15,9 +15,18 @@ export class PersonsService {
   }
 
   async updatePerson(personId: number, updatePersonDto: CreatePersonDto) {
+    console.log('API Gateway - Persons Service - updatePerson at', new Date());
     return this.personsRmqProxy.send(
       { cmd: 'updatePerson' },
       { personId: personId, ...updatePersonDto },
+    );
+  }
+
+  async deletePerson(personId: number) {
+    console.log('API Gateway - Persons Service - deletePerson at', new Date());
+    return this.personsRmqProxy.send(
+      { cmd: 'deletePerson' },
+      { personId: personId },
     );
   }
 }

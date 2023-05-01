@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Put } from '@nestjs/common';
+import {Body, Controller, Delete, Param, Post, Put} from '@nestjs/common';
 import { PersonsService } from './persons.service';
 import { CreatePersonDto } from './dto/create-person.dto';
 
@@ -25,5 +25,14 @@ export class PersonsController {
       new Date(),
     );
     return this.personsService.updatePerson(personId, updatePersonDto);
+  }
+
+  @Delete('/:id')
+  deletePerson(@Param('id') personId: number) {
+    console.log(
+      'API Gateway - Persons Controller - deletePerson at',
+      new Date(),
+    );
+    return this.personsService.deletePerson(personId);
   }
 }
