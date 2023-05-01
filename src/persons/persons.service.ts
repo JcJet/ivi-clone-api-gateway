@@ -29,4 +29,17 @@ export class PersonsService {
       { personId: personId },
     );
   }
+
+  async getPersonById(personId: number) {
+    console.log('API Gateway - Persons Service - getPersonById at', new Date());
+    return this.personsRmqProxy.send(
+      { cmd: 'getPersonById' },
+      { personId: personId },
+    );
+  }
+
+  async getPersons() {
+    console.log('API Gateway - Persons Service - getPersons at', new Date());
+    return this.personsRmqProxy.send({ cmd: 'getPersons' }, {});
+  }
 }

@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
 import { PersonsService } from './persons.service';
 import { CreatePersonDto } from './dto/create-person.dto';
 
@@ -34,5 +34,20 @@ export class PersonsController {
       new Date(),
     );
     return this.personsService.deletePerson(personId);
+  }
+
+  @Get('/:id')
+  getPersonById(@Param('id') personId: number) {
+    console.log(
+      'API Gateway - Persons Controller - getPersonById at',
+      new Date(),
+    );
+    return this.personsService.getPersonById(personId);
+  }
+
+  @Get()
+  getPersons() {
+    console.log('API Gateway - Persons Controller - getPersons at', new Date());
+    return this.personsService.getPersons();
   }
 }
