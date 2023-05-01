@@ -22,14 +22,23 @@ Access PORT: 3111.
    - [ ] Add tests
    - [ ] Add roles guards
 
-3. Swagger API
+3. Persons microservice
+   - [x] GET all persons or filter
+   - [x] POST person
+   - [x] DELETE person
+   - [x] PUT person
+   - [x] Add transport
+   - [ ] Add tests
+   - [ ] Add roles guards
+
+4. Swagger API
    - [x] Register Swagger in main.ts 
    - [ ] Add Movies module (entities, API, DTOs) 
    - [ ] Add Genre module (entities, API, DTOs)
    - [ ] Add User module (entities, API, DTOs)
    - [ ] Add Profile module (entities, API, DTOs)
 
-4. Errors handler
+5. Errors handler
    - [ ] ???
 
 ## Installation
