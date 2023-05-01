@@ -6,11 +6,11 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Injectable()
 export class MoviesService {
-  constructor(@Inject('ToMoviesMs') private api_to_movies: ClientProxy) {}
+  constructor(@Inject('ToMoviesMs') private moviesRmqProxy: ClientProxy) {}
 
   async getMovies(movieFilterDto: MovieFilterDto): Promise<object> {
     console.log('API Gateway - Movies Service - getMovies at', new Date());
-    return this.api_to_movies.send<object>(
+    return this.moviesRmqProxy.send<object>(
       { cmd: 'getMovies' },
       { ...movieFilterDto },
     );
@@ -18,7 +18,7 @@ export class MoviesService {
 
   async getMovieById(movieId: number): Promise<object> {
     console.log('API Gateway - Movies Service - getMovieById at', new Date());
-    return this.api_to_movies.send<object>(
+    return this.moviesRmqProxy.send<object>(
       { cmd: 'getMovieById' },
       { movieId: movieId },
     );
@@ -26,7 +26,7 @@ export class MoviesService {
 
   async deleteMovie(movieId: number): Promise<object> {
     console.log('API Gateway - Movies Service - deleteMovie at', new Date());
-    return this.api_to_movies.send<object>(
+    return this.moviesRmqProxy.send<object>(
       { cmd: 'deleteMovie' },
       { movieId: movieId },
     );
@@ -37,7 +37,7 @@ export class MoviesService {
     updateMovieDto: UpdateMovieDto,
   ): Promise<object> {
     console.log('API Gateway - Movies Service - updateMovie at', new Date());
-    return this.api_to_movies.send<object>(
+    return this.moviesRmqProxy.send<object>(
       { cmd: 'updateMovie' },
       { movieId: movieId, ...updateMovieDto },
     );
@@ -45,7 +45,7 @@ export class MoviesService {
 
   async createMovie(createMovieDto: CreateMovieDto): Promise<object> {
     console.log('API Gateway - Movies Service - createMovie at', new Date());
-    return this.api_to_movies.send<object>(
+    return this.moviesRmqProxy.send<object>(
       { cmd: 'createMovie' },
       { ...createMovieDto },
     );
