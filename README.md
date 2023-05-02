@@ -40,9 +40,9 @@ Access PORT: 3111.
    - [ ] Add roles guards
 
 5. Authorization microservice
-   - [ ] POST (register) user & profile
-   - [ ] Login user (get both tokens)
-   - [ ] Update access token
+   - [x] POST (register) user & profile
+   - [x] Login user (get both tokens)
+   - [ ] Update access token (???)
    - [ ] Add transport
    - [ ] Add tests
    - [ ] Add roles guards

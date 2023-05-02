@@ -18,7 +18,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 @ApiTags('movies-api')
 @Controller('movies')
 export class MoviesController {
-  constructor(private readonly moviesService: MoviesService) {}
+  constructor(private moviesService: MoviesService) {}
 
   @Get()
   @ApiOperation({ summary: 'Getting list of movies, may be filtered.' })
