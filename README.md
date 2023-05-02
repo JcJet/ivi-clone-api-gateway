@@ -31,14 +31,48 @@ Access PORT: 3111.
    - [ ] Add tests
    - [ ] Add roles guards
 
-4. Swagger API
+4. Profile microservice
+   - [ ] GET all profiles
+   - [ ] DELETE profile & user
+   - [ ] PUT profile
+   - [ ] Add transport
+   - [ ] Add tests
+   - [ ] Add roles guards
+
+5. Authorization microservice
+   - [ ] POST (register) user & profile
+   - [ ] Login user (get both tokens)
+   - [ ] Update access token
+   - [ ] Add transport
+   - [ ] Add tests
+   - [ ] Add roles guards
+
+6. Files microservice
+   - [ ] POST file
+   - [ ] DELETE file
+   - [ ] DELETE many files (???)
+   - [ ] GET file (???)
+   - [ ] Add transport
+   - [ ] Add tests
+   - [ ] Add roles guards
+
+7. Comments microservice
+   - [ ] POST comment
+   - [ ] PUT comment
+   - [ ] GET comments (???)
+   - [ ] DELETE comment
+   - [ ] Add transport
+   - [ ] Add tests
+   - [ ] Add roles guards
+
+8. Swagger API
    - [x] Register Swagger in main.ts 
    - [ ] Add Movies module (entities, API, DTOs) 
    - [ ] Add Genre module (entities, API, DTOs)
    - [ ] Add User module (entities, API, DTOs)
    - [ ] Add Profile module (entities, API, DTOs)
 
-5. Errors handler
+9. Errors handler
    - [ ] ???
 
 ## Installation
