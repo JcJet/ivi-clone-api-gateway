@@ -57,8 +57,8 @@ Access PORT: 3111.
    - [ ] Add roles guards
 
 7. Comments microservice
-   - [ ] POST comment
-   - [ ] PUT comment
+   - [x] POST comment
+   - [ ] PUT comment (???)
    - [ ] GET comments (???)
    - [ ] DELETE comment
    - [ ] Add transport
