@@ -2,12 +2,23 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MoviesModule } from './movies/movies.module';
-import { UserModule } from './user/user.module';
 import { GenresModule } from './genres/genres.module';
 import { PersonsModule } from './persons/persons.module';
+import { AuthorizationModule } from './authorization/authorization.module';
+import { ProfileModule } from './profile/profile.module';
+import { FilesModule } from './files/files.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
-  imports: [MoviesModule, UserModule, GenresModule, PersonsModule],
+  imports: [
+    MoviesModule,
+    GenresModule,
+    PersonsModule,
+    AuthorizationModule,
+    ProfileModule,
+    FilesModule,
+    CommentsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
