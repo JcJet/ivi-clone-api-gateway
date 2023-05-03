@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Body, Inject, Injectable, Param } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
@@ -25,6 +25,20 @@ export class CommentsService {
     return this.commentsProxy.send(
       { cmd: 'deleteComment' },
       { commentId: commentId },
+    );
+  }
+
+  async updateComment(commentId: number, createCommentDto: CreateCommentDto) {
+    console.log(
+      'API Gateway - Comments Service - updateComment at',
+      new Date(),
+    );
+    return this.commentsProxy.send(
+      { cmd: 'deleteComment' },
+      {
+        commentId: commentId,
+        createCommentDto: createCommentDto,
+      },
     );
   }
 }

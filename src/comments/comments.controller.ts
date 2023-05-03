@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import {Body, Controller, Delete, Param, Post, Put} from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
@@ -22,5 +22,17 @@ export class CommentsController {
       new Date(),
     );
     return this.commentsService.deleteComment(commentId);
+  }
+
+  @Put('/:id')
+  updateComment(
+    @Param('id') commentId: number,
+    @Body() createCommentDto: CreateCommentDto,
+  ) {
+    console.log(
+      'API Gateway - Comments Controller - updateComment at',
+      new Date(),
+    );
+    return this.commentsService.updateComment(commentId, createCommentDto);
   }
 }

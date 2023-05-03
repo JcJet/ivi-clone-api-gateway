@@ -58,7 +58,7 @@ Access PORT: 3111.
 
 7. Comments microservice
    - [x] POST comment
-   - [ ] PUT comment (???)
+   - [x] PUT comment (???)
    - [ ] GET comments (???)
    - [x] DELETE comment
    - [ ] Add transport
