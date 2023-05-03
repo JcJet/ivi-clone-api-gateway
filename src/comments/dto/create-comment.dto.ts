@@ -1,4 +1,6 @@
 export class CreateCommentDto {
-  text: string;
-  author: string;
+  readonly authorId: number;
+  readonly text: string;
+  readonly essenceTable: string;
+  readonly essenceId: number;
 }

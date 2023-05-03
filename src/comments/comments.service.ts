@@ -16,4 +16,15 @@ export class CommentsService {
       { ...createCommentDto },
     );
   }
+
+  async deleteComment(commentId: number) {
+    console.log(
+      'API Gateway - Comments Service - deleteComment at',
+      new Date(),
+    );
+    return this.commentsProxy.send(
+      { cmd: 'deleteComment' },
+      { commentId: commentId },
+    );
+  }
 }
