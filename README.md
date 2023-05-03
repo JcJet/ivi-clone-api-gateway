@@ -60,7 +60,7 @@ Access PORT: 3111.
    - [x] POST comment
    - [ ] PUT comment (???)
    - [ ] GET comments (???)
-   - [ ] DELETE comment
+   - [x] DELETE comment
    - [ ] Add transport
    - [ ] Add tests
    - [ ] Add roles guards
