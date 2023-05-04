@@ -12,6 +12,8 @@ import {
 import { ProfileService } from './profile.service';
 import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
+import { lastValueFrom } from 'rxjs';
+import { Request, Response } from 'express';
 
 @Controller('profile')
 export class ProfileController {
@@ -72,11 +74,14 @@ export class ProfileController {
   }
 
   @Post('/updateAccessToken')
-  updateAccessToken(@Req() req: Request) {
+  updateAccessToken(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     console.log(
       'API Gateway - Profile Controller - updateAccessToken at',
       new Date(),
     );
-    return this.profileService.updateAccessToken(req);
+    return this.profileService.updateAccessToken(request, response);
   }
 }

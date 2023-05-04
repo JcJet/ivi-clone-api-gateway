@@ -3,6 +3,7 @@ import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class ProfileService {
@@ -59,16 +60,22 @@ export class ProfileService {
     );
   }
 
-  async updateAccessToken(req: Request) {
+  async updateAccessToken(request: Request, response: Response) {
     console.log(
       'API Gateway - Profile Service - updateAccessToken at',
       new Date(),
     );
-    // const { refreshToken } = req.cookies;
-    const profileData = await this.profileProxy.send(
-      { cmd: 'updateAccessToken' },
-      { ...req },
+    const { refreshToken } = request.cookies;
+    const profileData = await lastValueFrom(
+      this.profileProxy.send(
+        { cmd: 'updateAccessToken' },
+        { refreshToken: refreshToken },
+      ),
     );
+    response.cookie('refreshToken', profileData.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
     return profileData;
   }
 }
