@@ -14,7 +14,6 @@ import {
 import { ProfileService } from './profile.service';
 import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
-import { lastValueFrom } from 'rxjs';
 import { Express, Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 
