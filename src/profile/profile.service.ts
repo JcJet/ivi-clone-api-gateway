@@ -78,4 +78,14 @@ export class ProfileService {
     });
     return profileData;
   }
+
+  async logout(request: Request, response: Response) {
+    console.log('API Gateway - Profile Service - logout at', new Date());
+    const { refreshToken } = request.cookies;
+    const profileData = await lastValueFrom(
+      this.profileProxy.send({ cmd: 'logout' }, { refreshToken: refreshToken }),
+    );
+    response.clearCookie('refreshToken');
+    return profileData;
+  }
 }

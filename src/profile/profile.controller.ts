@@ -84,4 +84,13 @@ export class ProfileController {
     );
     return this.profileService.updateAccessToken(request, response);
   }
+
+  @Post('/logout')
+  logout(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    console.log('API Gateway - Profile Controller - logout at', new Date());
+    return this.profileService.logout(request, response);
+  }
 }

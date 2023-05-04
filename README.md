@@ -39,7 +39,7 @@ Access PORT: 3111.
    - [x] DELETE profile & user
    - [x] PUT profile
    - [x] Update access token (???)
-   - [ ] Logout
+   - [x] Logout
    - [ ] Activate profile via email
    - [x] Add transport
    - [ ] Add tests
