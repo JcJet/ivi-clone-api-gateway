@@ -38,7 +38,7 @@ Access PORT: 3111.
    - [x] GET profile by ID
    - [x] DELETE profile & user
    - [x] PUT profile
-   - [ ] Update access token (???)
+   - [x] Update access token (???)
    - [ ] Logout
    - [ ] Activate profile via email
    - [x] Add transport
