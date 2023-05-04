@@ -35,6 +35,7 @@ Access PORT: 3111.
    - [x] POST (register) user & profile
    - [x] Login user (get both tokens)
    - [x] GET all profiles (???)
+   - [x] GET profile by ID
    - [x] DELETE profile & user
    - [x] PUT profile
    - [ ] Update access token (???)

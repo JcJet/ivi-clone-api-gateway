@@ -46,4 +46,15 @@ export class ProfileService {
     );
     return this.profileProxy.send({ cmd: 'getAllProfiles' }, {});
   }
+
+  async getProfileById(profileId: number) {
+    console.log(
+      'API Gateway - Profile Service - getProfileById at',
+      new Date(),
+    );
+    return this.profileProxy.send(
+      { cmd: 'getProfileById' },
+      { profileId: profileId },
+    );
+  }
 }

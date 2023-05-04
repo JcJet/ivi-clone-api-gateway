@@ -60,5 +60,12 @@ export class ProfileController {
     return this.profileService.getAllProfiles();
   }
 
-
+  @Get('/:id')
+  getProfileById(@Param('id') profileId: number) {
+    console.log(
+      'API Gateway - Profile Controller - getProfileById at',
+      new Date(),
+    );
+    return this.profileService.getProfileById(profileId);
+  }
 }
