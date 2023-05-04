@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
@@ -29,5 +29,17 @@ export class ProfileController {
       new Date(),
     );
     return this.profileService.deleteProfile(profileId);
+  }
+
+  @Put('/:id')
+  updateProfile(
+    @Param('id') profileId: number,
+    @Body() updateProfileDto: RegistrationDto,
+  ) {
+    console.log(
+      'API Gateway - Profile Controller - updateProfile at',
+      new Date(),
+    );
+    return this.profileService.updateProfile(profileId, updateProfileDto);
   }
 }
