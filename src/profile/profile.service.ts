@@ -1,7 +1,8 @@
-import { Body, Inject, Injectable, Param } from '@nestjs/common';
+import { Body, Inject, Injectable, Param, Req, Res } from '@nestjs/common';
 import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class ProfileService {
@@ -56,5 +57,18 @@ export class ProfileService {
       { cmd: 'getProfileById' },
       { profileId: profileId },
     );
+  }
+
+  async updateAccessToken(req: Request) {
+    console.log(
+      'API Gateway - Profile Service - updateAccessToken at',
+      new Date(),
+    );
+    // const { refreshToken } = req.cookies;
+    const profileData = await this.profileProxy.send(
+      { cmd: 'updateAccessToken' },
+      { ...req },
+    );
+    return profileData;
   }
 }

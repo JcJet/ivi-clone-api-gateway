@@ -6,6 +6,8 @@ import {
   Param,
   Post,
   Put,
+  Req,
+  Res,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { RegistrationDto } from './dto/registration.dto';
@@ -15,7 +17,7 @@ import { LoginDto } from './dto/login.dto';
 export class ProfileController {
   constructor(private profileService: ProfileService) {}
 
-  @Post()
+  @Post('/registration')
   registration(@Body() registrationDto: RegistrationDto) {
     console.log(
       'API Gateway - Profile Controller - registration at',
@@ -67,5 +69,14 @@ export class ProfileController {
       new Date(),
     );
     return this.profileService.getProfileById(profileId);
+  }
+
+  @Post('/updateAccessToken')
+  updateAccessToken(@Req() req: Request) {
+    console.log(
+      'API Gateway - Profile Controller - updateAccessToken at',
+      new Date(),
+    );
+    return this.profileService.updateAccessToken(req);
   }
 }
