@@ -40,7 +40,7 @@ Access PORT: 3111.
    - [x] PUT profile
    - [x] Update access token (???)
    - [x] Logout
-   - [ ] Activate profile via email
+   - [x] Activate profile via email
    - [x] Add transport
    - [ ] Add tests
    - [ ] Add roles guards

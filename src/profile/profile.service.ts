@@ -88,4 +88,16 @@ export class ProfileService {
     response.clearCookie('refreshToken');
     return profileData;
   }
+
+  async activateAccount(activationLink: string, response: Response) {
+    console.log(
+      'API Gateway - Profile Service - activateAccount at',
+      new Date(),
+    );
+    await this.profileProxy.send(
+      { cmd: 'activateAccount' },
+      { activationLink: activationLink },
+    );
+    return response.redirect('http://localhost:3111');
+  }
 }

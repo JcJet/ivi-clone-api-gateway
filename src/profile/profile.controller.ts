@@ -93,4 +93,16 @@ export class ProfileController {
     console.log('API Gateway - Profile Controller - logout at', new Date());
     return this.profileService.logout(request, response);
   }
+
+  @Get('/activate/:link')
+  activateAccount(
+    @Param('link') activationLink: string,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    console.log(
+      'API Gateway - Profile Controller - activateAccount at',
+      new Date(),
+    );
+    return this.profileService.activateAccount(activationLink, response);
+  }
 }
