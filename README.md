@@ -32,20 +32,19 @@ Access PORT: 3111.
    - [ ] Add roles guards
 
 4. Profile microservice
-   - [ ] GET all profiles
-   - [ ] DELETE profile & user
+   - [x] POST (register) user & profile
+   - [x] Login user (get both tokens)
+   - [ ] GET all profiles (???)
+   - [x] DELETE profile & user
    - [ ] PUT profile
-   - [ ] Add transport
+   - [ ] Update access token (???)
+   - [ ] Logout
+   - [ ] Activate profile via email
+   - [x] Add transport
    - [ ] Add tests
    - [ ] Add roles guards
 
-5. Authorization microservice
-   - [x] POST (register) user & profile
-   - [x] Login user (get both tokens)
-   - [ ] Update access token (???)
-   - [ ] Add transport
-   - [ ] Add tests
-   - [ ] Add roles guards
+5. ~~Authorization microservice~~ (All endpoints moved to profile module)
 
 6. Files microservice
    - [ ] POST file

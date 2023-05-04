@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Param } from '@nestjs/common';
 import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
 import { ClientProxy } from '@nestjs/microservices';
@@ -18,5 +18,13 @@ export class ProfileService {
   async login(loginDto: LoginDto) {
     console.log('API Gateway - Profile Service - login at', new Date());
     return this.profileProxy.send({ cmd: 'login' }, { ...loginDto });
+  }
+
+  async deleteProfile(@Param('id') profileId: number) {
+    console.log('API Gateway - Profile Service - deleteProfile at', new Date());
+    return this.profileProxy.send(
+      { cmd: 'deleteProfile' },
+      { profileId: profileId },
+    );
   }
 }
