@@ -81,8 +81,8 @@ export class ProfileController {
     return this.profileService.getProfileById(profileId);
   }
 
-  @Post('/updateAccessToken')
-  updateAccessToken(
+  @Post('/refreshAccessToken')
+  refreshAccessToken(
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
@@ -90,7 +90,7 @@ export class ProfileController {
       'API Gateway - Profile Controller - updateAccessToken at',
       new Date(),
     );
-    return this.profileService.updateAccessToken(request, response);
+    return this.profileService.refreshAccessToken(request, response);
   }
 
   @Post('/logout')

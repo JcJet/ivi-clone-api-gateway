@@ -13,13 +13,13 @@ export class ProfileService {
     console.log('API Gateway - Profile Service - registration at', new Date());
     return this.profileProxy.send(
       { cmd: 'registration' },
-      { ...registrationDto },
+      { registrationDto: registrationDto },
     );
   }
 
   async login(loginDto: LoginDto) {
     console.log('API Gateway - Profile Service - login at', new Date());
-    return this.profileProxy.send({ cmd: 'login' }, { ...loginDto });
+    return this.profileProxy.send({ cmd: 'login' }, { loginDto: loginDto });
   }
 
   async deleteProfile(@Param('id') profileId: number) {
@@ -65,7 +65,7 @@ export class ProfileService {
     );
   }
 
-  async updateAccessToken(request: Request, response: Response) {
+  async refreshAccessToken(request: Request, response: Response) {
     console.log(
       'API Gateway - Profile Service - updateAccessToken at',
       new Date(),
@@ -73,7 +73,7 @@ export class ProfileService {
     const { refreshToken } = request.cookies;
     const profileData = await lastValueFrom(
       this.profileProxy.send(
-        { cmd: 'updateAccessToken' },
+        { cmd: 'refreshAccessToken' },
         { refreshToken: refreshToken },
       ),
     );

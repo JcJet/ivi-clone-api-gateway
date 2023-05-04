@@ -1,4 +1,4 @@
-import { Body, Inject, Injectable, Param } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
@@ -13,7 +13,7 @@ export class CommentsService {
     );
     return this.commentsProxy.send(
       { cmd: 'createComment' },
-      { ...createCommentDto },
+      { createCommentDto: createCommentDto },
     );
   }
 

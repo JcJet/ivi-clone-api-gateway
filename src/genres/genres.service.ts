@@ -12,7 +12,10 @@ export class GenresService {
     createGenreDto: CreateGenreDto,
   ): Promise<Observable<GenreInterface>> {
     console.log('API Gateway - Genres Controller - createGenre at', new Date());
-    return this.toGenresProxy.send({ cmd: 'createGenre' }, createGenreDto);
+    return this.toGenresProxy.send(
+      { cmd: 'createGenre' },
+      { createGenreDto: createGenreDto },
+    );
   }
 
   async getAllGenres(): Promise<Observable<any>> {
@@ -25,12 +28,15 @@ export class GenresService {
 
   async getGenre(genreId: number): Promise<Observable<any>> {
     console.log('API Gateway - Genres Controller - getGenre at', new Date());
-    return this.toGenresProxy.send({ cmd: 'getGenre' }, genreId);
+    return this.toGenresProxy.send({ cmd: 'getGenre' }, { genreId: genreId });
   }
 
   async deleteGenre(genreId: number): Promise<Observable<any>> {
     console.log('API Gateway - Genres Controller - deleteGenre at', new Date());
-    return this.toGenresProxy.send({ cmd: 'deleteGenre' }, genreId);
+    return this.toGenresProxy.send(
+      { cmd: 'deleteGenre' },
+      { genreId: genreId },
+    );
   }
 
   async updateGenre(
@@ -40,7 +46,7 @@ export class GenresService {
     console.log('API Gateway - Genres Controller - updateGenre at', new Date());
     return this.toGenresProxy.send(
       { cmd: 'updateGenre' },
-      { genreId: genreId, genreData: updateGenreDto },
+      { genreId: genreId, updateGenreDto: updateGenreDto },
     );
   }
 }

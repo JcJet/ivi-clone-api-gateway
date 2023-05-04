@@ -10,7 +10,7 @@ export class PersonsService {
     console.log('API Gateway - Persons Service - createPerson at', new Date());
     return this.personsRmqProxy.send(
       { cmd: 'createPerson' },
-      { ...createPersonDto },
+      { createPersonDto: createPersonDto },
     );
   }
 
@@ -18,7 +18,7 @@ export class PersonsService {
     console.log('API Gateway - Persons Service - updatePerson at', new Date());
     return this.personsRmqProxy.send(
       { cmd: 'updatePerson' },
-      { personId: personId, ...updatePersonDto },
+      { personId: personId, updatePersonDto: updatePersonDto },
     );
   }
 

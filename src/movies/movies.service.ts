@@ -12,7 +12,7 @@ export class MoviesService {
     console.log('API Gateway - Movies Service - getMovies at', new Date());
     return this.moviesRmqProxy.send<object>(
       { cmd: 'getMovies' },
-      { ...movieFilterDto },
+      { movieFilterDto: movieFilterDto },
     );
   }
 
@@ -39,7 +39,7 @@ export class MoviesService {
     console.log('API Gateway - Movies Service - updateMovie at', new Date());
     return this.moviesRmqProxy.send<object>(
       { cmd: 'updateMovie' },
-      { movieId: movieId, ...updateMovieDto },
+      { movieId: movieId, updateMovieDto: updateMovieDto },
     );
   }
 
@@ -47,7 +47,7 @@ export class MoviesService {
     console.log('API Gateway - Movies Service - createMovie at', new Date());
     return this.moviesRmqProxy.send<object>(
       { cmd: 'createMovie' },
-      { ...createMovieDto },
+      { createMovieDto: createMovieDto },
     );
   }
 }
