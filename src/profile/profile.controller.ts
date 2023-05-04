@@ -8,12 +8,15 @@ import {
   Put,
   Req,
   Res,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
 import { lastValueFrom } from 'rxjs';
-import { Request, Response } from 'express';
+import { Express, Request, Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('profile')
 export class ProfileController {
@@ -44,15 +47,21 @@ export class ProfileController {
   }
 
   @Put('/:id')
+  @UseInterceptors(FileInterceptor('avatar'))
   updateProfile(
     @Param('id') profileId: number,
     @Body() updateProfileDto: RegistrationDto,
+    @UploadedFile() avatar: Express.Multer.File,
   ) {
     console.log(
       'API Gateway - Profile Controller - updateProfile at',
       new Date(),
     );
-    return this.profileService.updateProfile(profileId, updateProfileDto);
+    return this.profileService.updateProfile(
+      profileId,
+      updateProfileDto,
+      avatar,
+    );
   }
 
   @Get()

@@ -1,9 +1,9 @@
-import { Body, Inject, Injectable, Param, Req, Res } from '@nestjs/common';
+import { Inject, Injectable, Param } from '@nestjs/common';
 import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
-import { Request, Response } from 'express';
+import { Express, Request, Response } from 'express';
 
 @Injectable()
 export class ProfileService {
@@ -30,13 +30,18 @@ export class ProfileService {
     );
   }
 
-  async updateProfile(profileId: number, updateProfileDto: RegistrationDto) {
+  async updateProfile(
+    profileId: number,
+    updateProfileDto: RegistrationDto,
+    avatar: Express.Multer.File,
+  ) {
     console.log('API Gateway - Profile Service - updateProfile at', new Date());
     return this.profileProxy.send(
       { cmd: 'updateProfile' },
       {
         profileId: profileId,
         updateProfileDto: updateProfileDto,
+        avatar: avatar,
       },
     );
   }
