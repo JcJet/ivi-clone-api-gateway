@@ -34,7 +34,7 @@ Access PORT: 3111.
 4. Profile microservice
    - [x] POST (register) user & profile
    - [x] Login user (get both tokens)
-   - [ ] GET all profiles (???)
+   - [x] GET all profiles (???)
    - [x] DELETE profile & user
    - [x] PUT profile
    - [ ] Update access token (???)

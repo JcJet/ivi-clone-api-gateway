@@ -38,4 +38,12 @@ export class ProfileService {
       },
     );
   }
+
+  async getAllProfiles() {
+    console.log(
+      'API Gateway - Profile Service - getAllProfiles at',
+      new Date(),
+    );
+    return this.profileProxy.send({ cmd: 'getAllProfiles' }, {});
+  }
 }
