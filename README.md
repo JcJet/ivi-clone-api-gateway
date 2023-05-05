@@ -70,7 +70,7 @@ Access PORT: 3111.
    - [x] Add Movies module (entities, API, DTOs) 
    - [x] Add Comment module (entities, API, DTOs)
    - [x] Add Genres module (entities, API, DTOs)
-   - [ ] Add Profile module (entities, API, DTOs)
+   - [x] Add Persons module (entities, API, DTOs)
 
 9. Errors handler
    - [ ] ???

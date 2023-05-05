@@ -9,12 +9,16 @@ import {
 } from '@nestjs/common';
 import { PersonsService } from './persons.service';
 import { CreatePersonDto } from './dto/create-person.dto';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('persons')
+@ApiTags('Persons MS API')
 export class PersonsController {
   constructor(private personsService: PersonsService) {}
 
   @Post()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'ADMIN-ONLY Create person.' })
   createPerson(@Body() createPersonDto: CreatePersonDto) {
     console.log(
       'API Gateway - Persons Controller - createPerson at',
@@ -24,6 +28,8 @@ export class PersonsController {
   }
 
   @Put('/:id')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'ADMIN-ONLY Update person.' })
   updatePerson(
     @Param('id') personId: number,
     @Body() updatePersonDto: CreatePersonDto,
@@ -36,6 +42,8 @@ export class PersonsController {
   }
 
   @Delete('/:id')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'ADMIN-ONLY Delete person.' })
   deletePerson(@Param('id') personId: number) {
     console.log(
       'API Gateway - Persons Controller - deletePerson at',
@@ -45,6 +53,7 @@ export class PersonsController {
   }
 
   @Get('/:id')
+  @ApiOperation({ summary: 'Get person by its ID.' })
   getPersonById(@Param('id') personId: number) {
     console.log(
       'API Gateway - Persons Controller - getPersonById at',
@@ -54,6 +63,7 @@ export class PersonsController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all(?) persons.' })
   getPersons() {
     console.log('API Gateway - Persons Controller - getPersons at', new Date());
     return this.personsService.getPersons();

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import {ApiBearerAuth, ApiOperation, ApiTags} from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('comments')
 @ApiTags('Comments MS API')
