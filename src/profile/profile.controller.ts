@@ -16,7 +16,7 @@ import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
 import { Express, Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import {ApiBearerAuth, ApiOperation, ApiTags} from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('profile')
 @ApiTags('Profile/authentication MS API')
