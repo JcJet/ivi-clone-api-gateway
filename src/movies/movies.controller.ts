@@ -15,7 +15,7 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('movies-api')
+@ApiTags('Movies MS API')
 @Controller('movies')
 export class MoviesController {
   constructor(private moviesService: MoviesService) {}

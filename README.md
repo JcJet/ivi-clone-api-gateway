@@ -67,8 +67,8 @@ Access PORT: 3111.
 
 8. Swagger API
    - [x] Register Swagger in main.ts 
-   - [ ] Add Movies module (entities, API, DTOs) 
-   - [ ] Add Genre module (entities, API, DTOs)
+   - [x] Add Movies module (entities, API, DTOs) 
+   - [x] Add Comment module (entities, API, DTOs)
    - [ ] Add User module (entities, API, DTOs)
    - [ ] Add Profile module (entities, API, DTOs)
 
