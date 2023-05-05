@@ -69,7 +69,7 @@ Access PORT: 3111.
    - [x] Register Swagger in main.ts 
    - [x] Add Movies module (entities, API, DTOs) 
    - [x] Add Comment module (entities, API, DTOs)
-   - [ ] Add User module (entities, API, DTOs)
+   - [x] Add Genres module (entities, API, DTOs)
    - [ ] Add Profile module (entities, API, DTOs)
 
 9. Errors handler
