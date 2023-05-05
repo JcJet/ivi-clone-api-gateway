@@ -21,13 +21,14 @@ export class MoviesController {
   constructor(private moviesService: MoviesService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Getting list of movies, may be filtered.' })
+  @ApiOperation({ summary: 'Get list of movies, may be filtered.' })
   getMovies(@Query() movieFilterDto: MovieFilterDto): object {
     console.log('API Gateway - Movies Controller - getMovies at', new Date());
     return this.moviesService.getMovies(movieFilterDto);
   }
 
   @Get('/:id')
+  @ApiOperation({ summary: 'Get movie by its ID.' })
   getMovieById(@Param('id') movieId: number): object {
     console.log(
       'API Gateway - Movies Controller - getMovieById at',
@@ -36,17 +37,21 @@ export class MoviesController {
     return this.moviesService.getMovieById(movieId);
   }
 
-  @ApiBearerAuth()
   @Delete('/:id')
   @Roles('admin')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'ADMIN-ONLY Delete movie by its ID.' })
   deleteMovie(@Param('id') movieId: number): object {
     console.log('API Gateway - Movies Controller - deleteMovie at', new Date());
     return this.moviesService.deleteMovie(movieId);
   }
 
-  @ApiBearerAuth()
   @Put('/:id')
   @Roles('admin')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'ADMIN-ONLY Update movie by its ID with JSON body.',
+  })
   updateMovie(
     @Param('id') movieId: number,
     @Body() updateMovieDto: UpdateMovieDto,
@@ -55,9 +60,12 @@ export class MoviesController {
     return this.moviesService.updateMovie(movieId, updateMovieDto);
   }
 
-  @ApiBearerAuth()
   @Post('')
   @Roles('admin')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'ADMIN-ONLY Create movie by its ID with JSON body.',
+  })
   createMovie(@Body() createMovieDto: CreateMovieDto): object {
     console.log('API Gateway - Movies Controller - createMovie at', new Date());
     return this.moviesService.createMovie(createMovieDto);

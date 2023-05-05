@@ -8,14 +8,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('API Gateway documentation.')
+    .setTitle('Ivi clone API Gateway documentation.')
     .setDescription('Includes all reachable from client requests.')
-    .setVersion('0.1')
-    .addTag('api-gateway')
+    .setVersion('0.1.1')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
 
+  SwaggerModule.setup('api', app, document);
   app.use(cookieParser());
   app.enableCors();
 
