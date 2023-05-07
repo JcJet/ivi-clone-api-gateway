@@ -1,0 +1,130 @@
+[
+  {
+    "nameRu": "Драма",
+    "nameEn": "Drama"
+  },
+  {
+    "nameRu": "Боевик",
+    "nameEn": "Action"
+  },
+  {
+    "nameRu": "Триллер",
+    "nameEn": "Thriller"
+  },
+  {
+    "nameRu": "Криминал",
+    "nameEn": "Crime"
+  },
+  {
+    "nameRu": "Комедия",
+    "nameEn": "Comedy"
+  },
+  {
+    "nameRu": "Семейный",
+    "nameEn": "Family"
+  },
+  {
+    "nameRu": "Мелодрама",
+    "nameEn": "Melodrama"
+  },
+  {
+    "nameRu": "Военный",
+    "nameEn": "Military"
+  },
+  {
+    "nameRu": "Детектив",
+    "nameEn": "Detective"
+  },
+  {
+    "nameRu": "Спорт",
+    "nameEn": "Sport"
+  },
+  {
+    "nameRu": "История",
+    "nameEn": "History"
+  },
+  {
+    "nameRu": "Фентези",
+    "nameEn": "Fantasy"
+  },
+  {
+    "nameRu": "Фантастика",
+    "nameEn": "Fiction"
+  },
+  {
+    "nameRu": "Доктументальный",
+    "nameEn": "Documentary"
+  },
+  {
+    "nameRu": "Ужасы",
+    "nameEn": "Horror"
+  },
+  {
+    "nameRu": "Биография",
+    "nameEn": "Biography"
+  },
+  {
+    "nameRu": "Аниме",
+    "nameEn": "Anime"
+  },
+  {
+    "nameRu": "Мультфильм",
+    "nameEn": "Cartoon"
+  },
+  {
+    "nameRu": "Новости",
+    "nameEn": "News"
+  },
+  {
+    "nameRu": "Приключения",
+    "nameEn": "Adventure"
+  },
+  {
+    "nameRu": "Короткометражка",
+    "nameEn": "Short film"
+  },
+  {
+    "nameRu": "Мюзикл",
+    "nameEn": "Musical"
+  },
+  {
+    "nameRu": "Детский",
+    "nameEn": "Child"
+  },
+  {
+    "nameRu": "Музыка",
+    "nameEn": "Music"
+  },
+  {
+    "nameRu": "Вестерн",
+    "nameEn": "Western"
+  },
+  {
+    "nameRu": "Концерт",
+    "nameEn": "Concert"
+  },
+  {
+    "nameRu": "Реальное ТВ",
+    "nameEn": "Real TV"
+  },
+  {
+    "nameRu": "Ток-шоу",
+    "nameEn": "Talk show"
+  },
+  {
+    "nameRu": "Для взрослых",
+    "nameEn": "Adult"
+  },
+  {
+    "nameRu": "Игра",
+    "nameEn": "Game"
+  },
+  {
+    "nameRu": "Фильм-нуар",
+    "nameEn": "Film noir"
+  },
+  {
+    "nameRu": "Церемония",
+    "nameEn": "Ceremony"
+  }
+]

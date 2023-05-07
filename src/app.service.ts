@@ -1,31 +1,20 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-
+import { Injectable } from '@nestjs/common';
+import { GenresModule } from './genres/genres.module';
+import * as fs from 'fs';
+import { GenresService } from './genres/genres.service';
 @Injectable()
 export class AppService {
-  // constructor(@Inject('TO_MOVIES_MS') private api_to_movies: ClientProxy) {}
-  /*
-  MOVIES MICROSERVICE SECTION
-  */
-  /*
-  GENRE MICROSERVICE SECTION
-  */
-  /*
-  PERSON MICROSERVICE SECTION
-  */
-  /*
-  GENRE MICROSERVICE SECTION
-  */
-  /*
-  COMMENTARIES MICROSERVICE SECTION
-  */
-  /*
-  ROLES MICROSERVICE SECTION
-  */
-  /*
-  PROFILE MICROSERVICE SECTION
-  */
-  /*
-  USER MICROSERVICE SECTION
-  */
+  constructor(private genresService: GenresService) {}
+
+  async loadDatabase() {
+    //Loading genres into DB
+    const genresFile = fs.readFileSync('genres.json');
+    const genres = JSON.parse(genresFile.toString());
+
+    for (const genre of genres) {
+      await this.genresService.createGenre(genre);
+    }
+
+    return 'Genres loaded!';
+  }
 }
