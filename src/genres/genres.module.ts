@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { GenresService } from './genres.service';
 import { GenresController } from './genres.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { rmqUrl } from '../constants';
 
 @Module({
   imports: [
@@ -10,7 +11,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'TO_GENRES_MS',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://rabbitmq:5672'],  // 'amqp://localhost:5672' if starting on localhost
+          urls: [rmqUrl], // 'amqp://localhost:5672' if starting on localhost
           queue: 'toGenresMs',
           queueOptions: {
             durable: false,

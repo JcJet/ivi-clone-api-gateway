@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { CommentsController } from './comments.controller';
 import { CommentsService } from './comments.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { rmqUrl } from '../constants';
 
 @Module({
   imports: [
@@ -10,7 +11,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'ToCommentsMs',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://rabbitmq:5672'], // 'amqp://localhost:5672' if starting on localhost
+          urls: [rmqUrl], // 'amqp://localhost:5672' if starting on localhost
           queue: 'toCommentsMs',
           queueOptions: {
             durable: false,
