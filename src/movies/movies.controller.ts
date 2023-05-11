@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Roles } from '../decorator/roles.decorator';
-import { MovieFilterDto } from './dto/movie-filter.dto';
+// import { MovieFilterDto } from './dto/movie-filter.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -22,7 +22,7 @@ export class MoviesController {
 
   @Get()
   @ApiOperation({ summary: 'Get list of movies, may be filtered.' })
-  getMovies(@Query() movieFilterDto: MovieFilterDto): object {
+  getMovies(@Query() movieFilterDto: any): object {
     console.log('API Gateway - Movies Controller - getMovies at', new Date());
     return this.moviesService.getMovies(movieFilterDto);
   }
