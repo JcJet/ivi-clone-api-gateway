@@ -16,7 +16,7 @@ import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
 import { Express, Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {ApiBearerAuth, ApiOperation, ApiTags} from '@nestjs/swagger';
 
 @Controller('profile')
 @ApiTags('Profile/authentication MS API')
@@ -25,19 +25,20 @@ export class ProfileController {
 
   @Post('/registration')
   @ApiOperation({ summary: 'Create/register user.' })
-  registration(@Body() registrationDto: RegistrationDto) {
+  async registration(@Body() registrationDto: RegistrationDto, @Res({ passthrough: true }) res: Response,) {
     console.log(
       'API Gateway - Profile Controller - registration at',
       new Date(),
     );
-    return this.profileService.registration(registrationDto);
+    return this.profileService.registration(registrationDto, res);
   }
 
   @Post('/login')
   @ApiOperation({ summary: 'Login endpoint.' })
-  login(@Body() loginDto: LoginDto) {
+  login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
     console.log('API Gateway - Profile Controller - login at', new Date());
-    return this.profileService.login(loginDto);
+
+    return this.profileService.login(loginDto, res);
   }
 
   @Delete('/:id')

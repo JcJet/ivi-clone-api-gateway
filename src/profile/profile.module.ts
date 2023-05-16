@@ -8,11 +8,24 @@ import { rmqUrl } from '../constants';
   imports: [
     ClientsModule.register([
       {
-        name: 'ToProfileMs',
+        name: 'ToProfilesMs',
         transport: Transport.RMQ,
         options: {
           urls: [rmqUrl], // 'amqp://localhost:5672' if starting on localhost
-          queue: 'toProfileMs',
+          queue: 'toProfilesMs',
+          queueOptions: {
+            durable: false,
+          },
+        },
+      },
+    ]),
+    ClientsModule.register([
+      {
+        name: 'ToFilesMs',
+        transport: Transport.RMQ,
+        options: {
+          urls: [rmqUrl], // 'amqp://localhost:5672' if starting on localhost
+          queue: 'toFilesMs',
           queueOptions: {
             durable: false,
           },
