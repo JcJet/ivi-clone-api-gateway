@@ -18,7 +18,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.enableCors();
 
-  await app.listen(3111, () => {
+  await app.listen(3100, () => {
     console.log('Application variables:');
     console.log(rmqUrl);
   });
