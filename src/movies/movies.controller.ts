@@ -22,8 +22,23 @@ export class MoviesController {
 
   @Get()
   @ApiOperation({ summary: 'Get list of movies, may be filtered.' })
-  getMovies(@Query() movieFilterDto: any): object {
+  getMovies(
+    @Query() movieFilterDto: any,
+    // @Param('genres') genres: string,
+  ): object {
     console.log('API Gateway - Movies Controller - getMovies at', new Date());
+    // movieFilterDto.genres = genres;
+    return this.moviesService.getMovies(movieFilterDto);
+  }
+
+  @Get('genres/:genres')
+  @ApiOperation({ summary: 'Get list of movies, may be filtered.' })
+  getMoviesWithGenres(
+    @Query() movieFilterDto: any,
+    @Param('genres') genres: string,
+  ): object {
+    console.log('API Gateway - Movies Controller - getMovies at', new Date());
+    movieFilterDto.genres = genres;
     return this.moviesService.getMovies(movieFilterDto);
   }
 
@@ -60,7 +75,7 @@ export class MoviesController {
     return this.moviesService.updateMovie(movieId, updateMovieDto);
   }
 
-  @Post('')
+  @Post()
   @Roles('admin')
   @ApiBearerAuth()
   @ApiOperation({
