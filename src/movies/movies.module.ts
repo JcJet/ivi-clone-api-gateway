@@ -22,5 +22,6 @@ import { rmqUrl } from '../constants';
   ],
   controllers: [MoviesController],
   providers: [MoviesService],
+  exports: [MoviesModule, MoviesService],
 })
 export class MoviesModule {}

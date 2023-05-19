@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { UpdateMovieDto } from './dto/update-movie.dto';
-import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Injectable()
 export class MoviesService {
@@ -42,7 +41,7 @@ export class MoviesService {
     );
   }
 
-  async createMovie(createMovieDto: CreateMovieDto): Promise<object> {
+  async createMovie(createMovieDto: any) {
     console.log('API Gateway - Movies Service - createMovie at', new Date());
     return this.moviesRmqProxy.send<object>(
       { cmd: 'createMovie' },

@@ -7,9 +7,9 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 export class AppController {
   constructor(private appService: AppService) {}
 
-  @Get('/loadDatabase')
-  @ApiOperation({ summary: 'Load all movie data into DBs.' })
+  @Get('/loadDatabases')
+  @ApiOperation({ summary: 'Load all movie data into databases.' })
   loadDatabase() {
-    return this.appService.loadDatabase();
+    return this.appService.loadDatabases();
   }
 }
