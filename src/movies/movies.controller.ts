@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Roles } from '../decorator/roles.decorator';
-// import { MovieFilterDto } from './dto/movie-filter.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -21,7 +20,9 @@ export class MoviesController {
   constructor(private moviesService: MoviesService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Get list of movies, may be filtered.' })
+  @ApiOperation({
+    summary: 'Get list of movies, may be filtered without genres filter.',
+  })
   getMovies(
     @Query() movieFilterDto: any,
     // @Param('genres') genres: string,
@@ -32,7 +33,9 @@ export class MoviesController {
   }
 
   @Get('genres/:genres')
-  @ApiOperation({ summary: 'Get list of movies, may be filtered.' })
+  @ApiOperation({
+    summary: 'Get list of movies, may be filtered with genres filter.',
+  })
   getMoviesWithGenres(
     @Query() movieFilterDto: any,
     @Param('genres') genres: string,
