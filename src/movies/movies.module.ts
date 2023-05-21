@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { MoviesController } from './movies.controller';
 import { MoviesService } from './movies.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { rmqUrl } from '../constants';
 
 @Module({
   imports: [
@@ -11,7 +10,7 @@ import { rmqUrl } from '../constants';
         name: 'ToMoviesMs',
         transport: Transport.RMQ,
         options: {
-          urls: [rmqUrl],
+          urls: [process.env.RMQ_URL],
           queue: 'toMoviesMs',
           queueOptions: {
             durable: false,

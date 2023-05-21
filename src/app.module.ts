@@ -7,6 +7,7 @@ import { PersonsModule } from './persons/persons.module';
 import { ProfileModule } from './profile/profile.module';
 import { FilesModule } from './files/files.module';
 import { CommentsModule } from './comments/comments.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -16,6 +17,9 @@ import { CommentsModule } from './comments/comments.module';
     ProfileModule,
     FilesModule,
     CommentsModule,
+    ConfigModule.forRoot({
+      envFilePath: `.${process.env.NODE_ENV}.env`,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

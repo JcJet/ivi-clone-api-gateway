@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
-import { rmqUrl } from './constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,9 +17,12 @@ async function bootstrap() {
   app.use(cookieParser());
   app.enableCors();
 
-  await app.listen(3100, () => {
+  await app.listen(process.env.APP_PORT, () => {
+    console.log(
+      `API Gateway started on ${process.env.APP_PORT} at ${new Date()}.`,
+    );
     console.log('Application variables:');
-    console.log(rmqUrl);
+    console.log('RabbitMQ address: ', process.env.RMQ_URL);
   });
 }
 

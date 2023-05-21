@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ProfileController } from './profile.controller';
 import { ProfileService } from './profile.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { rmqUrl } from '../constants';
 
 @Module({
   imports: [
@@ -11,7 +10,7 @@ import { rmqUrl } from '../constants';
         name: 'ToProfilesMs',
         transport: Transport.RMQ,
         options: {
-          urls: [rmqUrl], // 'amqp://localhost:5672' if starting on localhost
+          urls: [process.env.RMQ_URL],
           queue: 'toProfilesMs',
           queueOptions: {
             durable: false,
@@ -24,7 +23,7 @@ import { rmqUrl } from '../constants';
         name: 'ToFilesMs',
         transport: Transport.RMQ,
         options: {
-          urls: [rmqUrl], // 'amqp://localhost:5672' if starting on localhost
+          urls: [process.env.RMQ_URL], // 'amqp://localhost:5672' if starting on localhost
           queue: 'toFilesMs',
           queueOptions: {
             durable: false,
