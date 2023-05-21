@@ -88,4 +88,19 @@ export class MoviesController {
     console.log('API Gateway - Movies Controller - createMovie at', new Date());
     return this.moviesService.createMovie(createMovieDto);
   }
+
+
+
+  @Get('/getcountries')
+  getAllCountries(): object {
+    console.log('API Gateway - Movies Controller - getCountries at', new Date());
+    return this.moviesService.getAllCountries();
+  }
+
+  @Get('/fillcountries')
+  fillCountries(): object {
+    console.log('API Gateway - Movies Controller - fillingCountries at', new Date());
+    return this.moviesService.fillCountries();
+  }
+
 }

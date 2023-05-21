@@ -48,4 +48,14 @@ export class MoviesService {
       { createMovieDto: createMovieDto },
     );
   }
+
+
+  getAllCountries() {
+    return this.moviesRmqProxy.send<object>(
+      { cmd: 'getAllCountries' },{});  }
+
+  fillCountries(){
+    return this.moviesRmqProxy.send<object>(
+      { cmd: 'fillCountries' },{});  }
+
 }
