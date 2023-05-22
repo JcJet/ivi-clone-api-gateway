@@ -5,30 +5,34 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'ToProfilesMs',
-        transport: Transport.RMQ,
-        options: {
-          urls: [process.env.RMQ_URL],
-          queue: 'toProfilesMs',
-          queueOptions: {
-            durable: false,
+        useFactory: () => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [process.env.RMQ_URL],
+            queue: 'toProfilesMs',
+            queueOptions: {
+              durable: false,
+            },
           },
-        },
+        }),
       },
     ]),
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'ToFilesMs',
-        transport: Transport.RMQ,
-        options: {
-          urls: [process.env.RMQ_URL], // 'amqp://localhost:5672' if starting on localhost
-          queue: 'toFilesMs',
-          queueOptions: {
-            durable: false,
+        useFactory: () => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [process.env.RMQ_URL],
+            queue: 'toFilesMs',
+            queueOptions: {
+              durable: false,
+            },
           },
-        },
+        }),
       },
     ]),
   ],

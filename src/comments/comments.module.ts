@@ -5,17 +5,19 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'ToCommentsMs',
-        transport: Transport.RMQ,
-        options: {
-          urls: [process.env.RMQ_URL], // 'amqp://localhost:5672' if starting on localhost
-          queue: 'toCommentsMs',
-          queueOptions: {
-            durable: false,
+        useFactory: () => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [process.env.RMQ_URL],
+            queue: 'toCommentsMs',
+            queueOptions: {
+              durable: false,
+            },
           },
-        },
+        }),
       },
     ]),
   ],

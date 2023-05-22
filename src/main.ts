@@ -22,7 +22,7 @@ async function bootstrap() {
       `API Gateway started on ${process.env.APP_PORT} at ${new Date()}.`,
     );
     console.log('Application variables:');
-    console.log('RabbitMQ address: ', process.env.RMQ_URL);
+    console.log('RabbitMQ address:', process.env.RMQ_URL);
   });
 }
 
