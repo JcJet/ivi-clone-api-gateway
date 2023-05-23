@@ -89,7 +89,7 @@ export class MoviesController {
     return this.moviesService.createMovie(createMovieDto);
   }
 
-  @Get('/getcountries')
+  @Get('/countries/getcountries')
   getAllCountries(): object {
     console.log(
       'API Gateway - Movies Controller - getCountries at',
@@ -98,7 +98,7 @@ export class MoviesController {
     return this.moviesService.getAllCountries();
   }
 
-  @Get('/fillcountries')
+  @Get('/countries/fillcountries')
   fillCountries(): object {
     console.log(
       'API Gateway - Movies Controller - fillingCountries at',
