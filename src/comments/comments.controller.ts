@@ -1,8 +1,17 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, Query} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import {GetCommentsDto} from "./dto/get-comments.dto";
+import { GetCommentsDto } from './dto/get-comments.dto';
 
 @Controller('comments')
 @ApiTags('Comments MS API')
@@ -35,10 +44,13 @@ export class CommentsController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete comments by essenceTable, essenceId' })
   async deleteCommentsByEssence(
-      @Query('essenceTable') essenceTable: string,
-      @Query('essenceId') essenceId: number,
+    @Query('essenceTable') essenceTable: string,
+    @Query('essenceId') essenceId: number,
   ) {
-    return this.commentsService.deleteCommentsFromEssence({ essenceTable, essenceId })
+    return this.commentsService.deleteCommentsFromEssence({
+      essenceTable,
+      essenceId,
+    });
   }
 
   @Put('/:id')
@@ -58,12 +70,13 @@ export class CommentsController {
   @Get()
   @ApiOperation({ summary: 'Get comments by essenceTable, essenceId' })
   async getComments(
-      @Query('essenceTable') essenceTable: string,
-      @Query('essenceId') essenceId: number,
-      @Query('nestedComments') nestedComments: boolean,
+    @Query('essenceTable') essenceTable: string,
+    @Query('essenceId') essenceId: number,
+    @Query('nestedComments') nestedComments: boolean,
   ) {
     const dto: GetCommentsDto = { essenceTable, essenceId };
-    return nestedComments ? this.commentsService.getCommentsTree(dto) : this.commentsService.getComments(dto)
+    return nestedComments
+      ? this.commentsService.getCommentsTree(dto)
+      : this.commentsService.getComments(dto);
   }
-
 }

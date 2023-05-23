@@ -49,13 +49,11 @@ export class MoviesService {
     );
   }
 
-
   getAllCountries() {
-    return this.moviesRmqProxy.send<object>(
-      { cmd: 'getAllCountries' },{});  }
+    return this.moviesRmqProxy.send<object>({ cmd: 'getAllCountries' }, {});
+  }
 
-  fillCountries(){
-    return this.moviesRmqProxy.send<object>(
-      { cmd: 'fillCountries' },{});  }
-
+  fillCountries() {
+    return this.moviesRmqProxy.send<object>({ cmd: 'fillCountries' }, {});
+  }
 }

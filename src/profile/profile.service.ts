@@ -4,18 +4,20 @@ import { LoginDto } from './dto/login.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { Express, Request, Response } from 'express';
-import {FileDto} from "./dto/file.dto";
+import { FileDto } from './dto/file.dto';
 
 @Injectable()
 export class ProfileService {
-  constructor(@Inject('ToProfilesMs') private profileProxy: ClientProxy,
-              @Inject('ToFilesMs') private filesProxy: ClientProxy) {}
+  constructor(
+    @Inject('ToProfilesMs') private profileProxy: ClientProxy,
+    @Inject('ToFilesMs') private filesProxy: ClientProxy,
+  ) {}
 
   async registration(registrationDto: RegistrationDto, response: Response) {
     console.log('API Gateway - Profile Service - registration at', new Date());
 
     const profileData = await lastValueFrom(
-        this.profileProxy.send({ cmd: 'registration' }, { registrationDto }),
+      this.profileProxy.send({ cmd: 'registration' }, { registrationDto }),
     );
 
     response.cookie('refreshToken', profileData.tokens.refreshToken, {
@@ -30,7 +32,7 @@ export class ProfileService {
     console.log('API Gateway - Profile Service - login at', new Date());
 
     const profileData = await lastValueFrom(
-        this.profileProxy.send({ cmd: 'login' }, { loginDto }),
+      this.profileProxy.send({ cmd: 'login' }, { loginDto }),
     );
 
     response.cookie('refreshToken', profileData.refreshToken, {
@@ -58,12 +60,18 @@ export class ProfileService {
 
     let avatarFileName = '';
     if (avatar) {
-      const fileDto: FileDto = { essenceTable: 'Profiles', essenceId: profileId };
+      const fileDto: FileDto = {
+        essenceTable: 'Profiles',
+        essenceId: profileId,
+      };
       await lastValueFrom(
-          this.filesProxy.send({ cmd: 'deleteFiles' }, { dto: fileDto }),
+        this.filesProxy.send({ cmd: 'deleteFiles' }, { dto: fileDto }),
       );
       avatarFileName = await lastValueFrom(
-          this.filesProxy.send({ cmd: 'createFile' }, { file: avatar, dto: fileDto }),
+        this.filesProxy.send(
+          { cmd: 'createFile' },
+          { file: avatar, dto: fileDto },
+        ),
       );
     }
 

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import {GetCommentsDto} from "./dto/get-comments.dto";
+import { GetCommentsDto } from './dto/get-comments.dto';
 
 @Injectable()
 export class CommentsService {
@@ -12,10 +12,7 @@ export class CommentsService {
       'API Gateway - Comments Service - createComment at',
       new Date(),
     );
-    return this.commentsProxy.send(
-      { cmd: 'createComment' },
-      { dto },
-    );
+    return this.commentsProxy.send({ cmd: 'createComment' }, { dto });
   }
 
   async deleteComment(commentId: number) {
@@ -23,10 +20,7 @@ export class CommentsService {
       'API Gateway - Comments Service - deleteComment at',
       new Date(),
     );
-    return this.commentsProxy.send(
-      { cmd: 'deleteComment' },
-      { commentId },
-    );
+    return this.commentsProxy.send({ cmd: 'deleteComment' }, { commentId });
   }
 
   async updateComment(commentId: number, dto: CreateCommentDto) {
@@ -36,39 +30,29 @@ export class CommentsService {
     );
     return this.commentsProxy.send(
       { cmd: 'updateComment' },
-      { commentId, dto }
+      { commentId, dto },
     );
   }
   async getComments(dto: GetCommentsDto) {
-    console.log(
-        'API Gateway - Comments Service - getComments at',
-        new Date(),
-    );
-    return this.commentsProxy.send(
-        { cmd: 'getComments' },
-        { dto },
-    );
+    console.log('API Gateway - Comments Service - getComments at', new Date());
+    return this.commentsProxy.send({ cmd: 'getComments' }, { dto });
   }
   async getCommentsTree(dto: GetCommentsDto) {
     console.log(
-        'API Gateway - Comments Service - getCommentsTree at',
-        new Date(),
+      'API Gateway - Comments Service - getCommentsTree at',
+      new Date(),
     );
-    return this.commentsProxy.send(
-        { cmd: 'getCommentsTree' },
-        { dto },
-    );
+    return this.commentsProxy.send({ cmd: 'getCommentsTree' }, { dto });
   }
 
   async deleteCommentsFromEssence(dto: GetCommentsDto) {
     console.log(
-        'API Gateway - Comments Service - deleteCommentsByEssence at',
-        new Date(),
+      'API Gateway - Comments Service - deleteCommentsByEssence at',
+      new Date(),
     );
     return this.commentsProxy.send(
-        { cmd: 'deleteCommentsFromEssence' },
-        { dto },
+      { cmd: 'deleteCommentsFromEssence' },
+      { dto },
     );
-
   }
 }

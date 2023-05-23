@@ -2,21 +2,22 @@ import { Module } from '@nestjs/common';
 import { MoviesController } from './movies.controller';
 import { MoviesService } from './movies.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { rmqUrl } from '../constants';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'ToMoviesMs',
-        transport: Transport.RMQ,
-        options: {
-          urls: [rmqUrl],
-          queue: 'toMoviesMs',
-          queueOptions: {
-            durable: false,
+        useFactory: () => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [process.env.RMQ_URL],
+            queue: 'toMoviesMs',
+            queueOptions: {
+              durable: false,
+            },
           },
-        },
+        }),
       },
     ]),
   ],

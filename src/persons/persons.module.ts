@@ -2,21 +2,22 @@ import { Module } from '@nestjs/common';
 import { PersonsController } from './persons.controller';
 import { PersonsService } from './persons.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { rmqUrl } from '../constants';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'ToPersonsMs',
-        transport: Transport.RMQ,
-        options: {
-          urls: [rmqUrl], // 'amqp://localhost:5672' if starting on localhost
-          queue: 'toPersonsMs',
-          queueOptions: {
-            durable: false,
+        useFactory: () => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [process.env.RMQ_URL],
+            queue: 'toPersonsMs',
+            queueOptions: {
+              durable: false,
+            },
           },
-        },
+        }),
       },
     ]),
   ],
