@@ -1,3 +1,4 @@
+// @ts-ignore
 import {
   Body,
   Controller,
@@ -10,6 +11,7 @@ import {
   Res,
   UploadedFile,
   UseInterceptors,
+  UseFilters
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { RegistrationDto } from './dto/registration.dto';
@@ -17,6 +19,7 @@ import { LoginDto } from './dto/login.dto';
 import { Express, Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+
 
 @Controller('profile')
 @ApiTags('Profile/authentication MS API')
@@ -33,7 +36,7 @@ export class ProfileController {
       'API Gateway - Profile Controller - registration at',
       new Date(),
     );
-    return this.profileService.registration(registrationDto, res);
+      return this.profileService.registration(registrationDto, res);
   }
 
   @Post('/login')
