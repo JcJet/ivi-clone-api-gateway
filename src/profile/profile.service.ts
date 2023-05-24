@@ -1,4 +1,4 @@
-import { Inject, Injectable, Param } from '@nestjs/common';
+import { Inject, Injectable, Param, HttpException } from '@nestjs/common';
 import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
 import { ClientProxy } from '@nestjs/microservices';
@@ -12,13 +12,19 @@ export class ProfileService {
     @Inject('ToProfilesMs') private profileProxy: ClientProxy,
     @Inject('ToFilesMs') private filesProxy: ClientProxy,
   ) {}
-
+  checkForError(obj) {
+    const exception = obj.exception;
+    if (exception) {
+      throw new HttpException(exception.message, exception.statusCode);
+    }
+  }
   async registration(registrationDto: RegistrationDto, response: Response) {
     console.log('API Gateway - Profile Service - registration at', new Date());
 
     const profileData = await lastValueFrom(
       this.profileProxy.send({ cmd: 'registration' }, { registrationDto }),
     );
+    this.checkForError(profileData);
 
     response.cookie('refreshToken', profileData.tokens.refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -34,6 +40,7 @@ export class ProfileService {
     const profileData = await lastValueFrom(
       this.profileProxy.send({ cmd: 'login' }, { loginDto }),
     );
+    this.checkForError(profileData);
 
     response.cookie('refreshToken', profileData.refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -75,14 +82,17 @@ export class ProfileService {
       );
     }
 
-    return this.profileProxy.send(
+    const updateProfileResult = lastValueFrom(this.profileProxy.send(
       { cmd: 'updateProfile' },
       {
         profileId: profileId,
         updateProfileDto: updateProfileDto,
         avatarFileName: avatarFileName,
       },
-    );
+    ));
+    this.checkForError(updateProfileResult);
+
+    return updateProfileResult;
   }
 
   async getAllProfiles() {
@@ -98,10 +108,11 @@ export class ProfileService {
       'API Gateway - Profile Service - getProfileById at',
       new Date(),
     );
-    return this.profileProxy.send(
+    const profileData = lastValueFrom(this.profileProxy.send(
       { cmd: 'getProfileById' },
       { profileId: profileId },
-    );
+    ));
+    this.checkForError(profileData);
   }
 
   async refreshAccessToken(request: Request, response: Response) {
@@ -116,6 +127,9 @@ export class ProfileService {
         { refreshToken: refreshToken },
       ),
     );
+
+    this.checkForError(profileData);
+
     response.cookie('refreshToken', profileData.refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
@@ -138,10 +152,12 @@ export class ProfileService {
       'API Gateway - Profile Service - activateAccount at',
       new Date(),
     );
-    await this.profileProxy.send(
+   const activationResult = await lastValueFrom(this.profileProxy.send(
       { cmd: 'activateAccount' },
       { activationLink: activationLink },
-    );
+    ));
+    this.checkForError(activationResult);
+
     return response.redirect('http://localhost:3111');
   }
 }
