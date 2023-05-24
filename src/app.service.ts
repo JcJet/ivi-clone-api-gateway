@@ -136,5 +136,6 @@ export class AppService {
       }
     }
     console.log('Movies loaded!');
+    return { status: 200, response: 'All done!' };
   }
 }
