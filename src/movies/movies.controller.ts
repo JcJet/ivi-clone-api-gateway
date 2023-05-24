@@ -17,8 +17,10 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
-  getSchemaPath,
 } from '@nestjs/swagger';
+import { MovieFilterDto } from './dto/movie-filter.dto';
+import { Observable } from 'rxjs';
+import { MoviesResponseDto } from './dto/movies-response.dto';
 
 @ApiTags('Movies MS API')
 @Controller('movies')
@@ -31,13 +33,14 @@ export class MoviesController {
     description:
       'May be filtered only without genres filter. To filter with genres use "/movies/genres/:genres" endpoint.',
   })
-  @ApiOkResponse({ schema: { $ref: getSchemaPath(CreateMovieDto) } })
+  @ApiOkResponse({
+    isArray: true,
+    type: MoviesResponseDto,
+  })
   getMovies(
-    @Query() movieFilterDto: any,
-    // @Param('genres') genres: string,
-  ): object {
+    @Query() movieFilterDto: MovieFilterDto,
+  ): Promise<Observable<MoviesResponseDto>> {
     console.log('API Gateway - Movies Controller - getMovies at', new Date());
-    // movieFilterDto.genres = genres;
     return this.moviesService.getMovies(movieFilterDto);
   }
 

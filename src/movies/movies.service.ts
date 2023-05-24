@@ -1,14 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { Observable } from 'rxjs';
+import { MiniMovieDto } from './dto/mini-movie.dto';
+import { MoviesResponseDto } from "./dto/movies-response.dto";
 
 @Injectable()
 export class MoviesService {
   constructor(@Inject('ToMoviesMs') private moviesRmqProxy: ClientProxy) {}
 
-  async getMovies(movieFilterDto: any): Promise<object> {
+  async getMovies(movieFilterDto: any): Promise<Observable<MoviesResponseDto>> {
     console.log('API Gateway - Movies Service - getMovies at', new Date());
-    return this.moviesRmqProxy.send<object>(
+    return this.moviesRmqProxy.send<MoviesResponseDto>(
       { cmd: 'getMovies' },
       { movieFilterDto: movieFilterDto },
     );
