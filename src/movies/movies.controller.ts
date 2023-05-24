@@ -12,7 +12,13 @@ import { MoviesService } from './movies.service';
 import { Roles } from '../decorator/roles.decorator';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  getSchemaPath,
+} from '@nestjs/swagger';
 
 @ApiTags('Movies MS API')
 @Controller('movies')
@@ -21,8 +27,11 @@ export class MoviesController {
 
   @Get()
   @ApiOperation({
-    summary: 'Get list of movies, may be filtered without genres filter.',
+    summary: 'Get list of movies.',
+    description:
+      'May be filtered only without genres filter. To filter with genres use "/movies/genres/:genres" endpoint.',
   })
+  @ApiOkResponse({ schema: { $ref: getSchemaPath(CreateMovieDto) } })
   getMovies(
     @Query() movieFilterDto: any,
     // @Param('genres') genres: string,

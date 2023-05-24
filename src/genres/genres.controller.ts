@@ -64,4 +64,10 @@ export class GenresController {
     console.log('API Gateway - Genres Controller - updateGenre at', new Date());
     return this.genresService.updateGenre(genreId, updateGenreDto);
   }
+
+  @Get('/get/headerStaticLinks')
+  @ApiOperation({ summary: 'Returns header links.' })
+  getHeaderStaticLinks() {
+    return this.genresService.getHeaderStaticLinks();
+  }
 }

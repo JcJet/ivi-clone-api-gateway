@@ -46,4 +46,12 @@ export class GenresService {
       { genreId: genreId, updateGenreDto: updateGenreDto },
     );
   }
+
+  async getHeaderStaticLinks() {
+    console.log(
+      'API Gateway - Genres Service - getHeaderStaticLinks at',
+      new Date(),
+    );
+    return this.toGenresProxy.send({ cmd: 'getHeaderStaticLinks' }, {});
+  }
 }
