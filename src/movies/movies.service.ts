@@ -2,8 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Observable } from 'rxjs';
-import { MiniMovieDto } from './dto/mini-movie.dto';
-import { MoviesResponseDto } from "./dto/movies-response.dto";
+import { MoviesResponseDto } from './dto/movies-response.dto';
 
 @Injectable()
 export class MoviesService {
