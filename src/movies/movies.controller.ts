@@ -94,7 +94,7 @@ export class MoviesController {
   @Roles('admin')
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'ADMIN-ONLY Create movie by its ID with JSON body.',
+    summary: 'ADMIN-ONLY Create movie with JSON body.',
   })
   createMovie(@Body() createMovieDto: CreateMovieDto): object {
     console.log('API Gateway - Movies Controller - createMovie at', new Date());

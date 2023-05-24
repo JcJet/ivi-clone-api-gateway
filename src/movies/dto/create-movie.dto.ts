@@ -2,6 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateMovieDto {
   @ApiProperty()
+  readonly id: number;
+
+  @ApiProperty()
   readonly nameRu: string;
 
   @ApiProperty()
@@ -11,40 +14,19 @@ export class CreateMovieDto {
   readonly description: string;
 
   @ApiProperty()
-  readonly country: string[];
+  readonly countries: string[];
 
   @ApiProperty()
-  readonly director: string;
-
-  @ApiProperty()
-  readonly actors: string[];
-
-  @ApiProperty()
-  readonly produced: string;
-
-  @ApiProperty()
-  readonly cinematographer: string;
-
-  @ApiProperty()
-  readonly screenwriter: string;
-
-  @ApiProperty()
-  readonly composer: string[];
-
-  @ApiProperty()
-  readonly genres: string[];
+  readonly genres: number[];
 
   @ApiProperty()
   readonly trailer: string;
 
-  @ApiProperty()
-  readonly similarMovies: number[];
+  // @ApiProperty({ isArray: true, type: MiniMovieDto })
+  // readonly similarMovies: MiniMovieDto[];
 
   @ApiProperty()
-  readonly startYear: number;
-
-  @ApiProperty()
-  readonly endYear: number;
+  readonly year: number;
 
   @ApiProperty()
   readonly rating: number;
@@ -53,14 +35,32 @@ export class CreateMovieDto {
   readonly ratingCount: number;
 
   @ApiProperty()
-  readonly imageUrl: string; //  нужна только маленькая картинка, в API кинопоиска posterUrlPreview
+  readonly ageRating: number;
+
+  @ApiProperty()
+  readonly poster: string;
+
+  @ApiProperty()
+  readonly duration: number;
+
+  @ApiProperty()
+  readonly slogan: string;
 
   // @ApiProperty()
-  // readonly reviews: IviReview[]; TODO
-
-  @ApiProperty()
-  readonly reviewCount: number;
-
-  @ApiProperty()
-  readonly duration: string; // в минутах, либо в строке оставить "113 минут"
+  // readonly director: PersonDto[];
+  //
+  // @ApiProperty()
+  // readonly actors: PersonDto[];
+  //
+  // @ApiProperty()
+  // readonly producer: PersonDto[];
+  //
+  // @ApiProperty()
+  // readonly cinematographer: PersonDto[];
+  //
+  // @ApiProperty()
+  // readonly screenwriter: PersonDto[];
+  //
+  // @ApiProperty()
+  // readonly composer: PersonDto[];
 }
