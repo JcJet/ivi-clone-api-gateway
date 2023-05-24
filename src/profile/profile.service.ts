@@ -82,7 +82,7 @@ export class ProfileService {
       );
     }
 
-    const updateProfileResult = lastValueFrom(this.profileProxy.send(
+    const updateProfileResult = await lastValueFrom(this.profileProxy.send(
       { cmd: 'updateProfile' },
       {
         profileId: profileId,
@@ -108,11 +108,13 @@ export class ProfileService {
       'API Gateway - Profile Service - getProfileById at',
       new Date(),
     );
-    const profileData = lastValueFrom(this.profileProxy.send(
+    const profileData = await lastValueFrom(this.profileProxy.send(
       { cmd: 'getProfileById' },
       { profileId: profileId },
     ));
     this.checkForError(profileData);
+
+    return profileData;
   }
 
   async refreshAccessToken(request: Request, response: Response) {
