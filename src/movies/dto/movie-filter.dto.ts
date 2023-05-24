@@ -53,4 +53,6 @@ export class MovieFilterDto {
   //   required: false,
   // })
   readonly actor?: number;
+
+  genres?: string;
 }

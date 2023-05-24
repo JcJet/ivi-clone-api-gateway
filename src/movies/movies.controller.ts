@@ -16,6 +16,7 @@ import {
   ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
 import { MovieFilterDto } from './dto/movie-filter.dto';
@@ -46,12 +47,26 @@ export class MoviesController {
 
   @Get('genres/:genres')
   @ApiOperation({
-    summary: 'Get list of movies, may be filtered with genres filter.',
+    summary: 'Get list of movies with genres filter.',
+    description:
+      'May be filtered with genres. To filter without genres other get method should be used.',
+  })
+  @ApiParam({
+    name: 'genres',
+    example: 'drama+comedy',
+    description:
+      'Genres should be passed as parameter in following format:' +
+      ' "url/movies/genres/drama+tv-show". Genres written in kebab-lower-case, separated by "+".',
+    required: true,
+  })
+  @ApiOkResponse({
+    isArray: true,
+    type: MoviesResponseDto,
   })
   getMoviesWithGenres(
-    @Query() movieFilterDto: any,
+    @Query() movieFilterDto: MovieFilterDto,
     @Param('genres') genres: string,
-  ): object {
+  ): Promise<Observable<MoviesResponseDto>> {
     console.log('API Gateway - Movies Controller - getMovies at', new Date());
     movieFilterDto.genres = genres;
     return this.moviesService.getMovies(movieFilterDto);
