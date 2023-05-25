@@ -101,7 +101,7 @@ export class GenresController {
     return this.genresService.updateGenre(genreId, updateGenreDto);
   }
 
-  @Get('/get/headerStaticLinks')
+  @Get('/navigation')
   @ApiOperation({
     summary: 'Returns header links.',
     description:
