@@ -18,7 +18,6 @@ import {
   ApiOperation,
   ApiParam,
   ApiTags,
-  getSchemaPath,
 } from '@nestjs/swagger';
 import { MovieFilterDto } from './dto/movie-filter.dto';
 import { Observable } from 'rxjs';
