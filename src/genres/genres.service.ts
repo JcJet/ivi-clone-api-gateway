@@ -42,7 +42,7 @@ export class GenresService {
   async updateGenre(
     genreId: number,
     updateGenreDto: CreateGenreDto,
-  ): Promise<Observable<any>> {
+  ): Promise<Observable<GenreDto>> {
     console.log('API Gateway - Genres Service - updateGenre at', new Date());
     return this.toGenresProxy.send(
       { cmd: 'updateGenre' },
