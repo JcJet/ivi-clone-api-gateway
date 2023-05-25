@@ -50,7 +50,7 @@ export class GenresService {
     );
   }
 
-  async getHeaderStaticLinks() {
+  async getHeaderStaticLinks(): Promise<Observable<object>> {
     console.log(
       'API Gateway - Genres Service - getHeaderStaticLinks at',
       new Date(),

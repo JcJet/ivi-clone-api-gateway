@@ -102,8 +102,13 @@ export class GenresController {
   }
 
   @Get('/get/headerStaticLinks')
-  @ApiOperation({ summary: 'Returns header links.' })
-  getHeaderStaticLinks() {
+  @ApiOperation({
+    summary: 'Returns header links.',
+    description:
+      'Returns dynamic header links object, that depends on existing genres.',
+  })
+  @ApiOkResponse({ description: 'All fine!' })
+  getHeaderStaticLinks(): Promise<Observable<object>> {
     return this.genresService.getHeaderStaticLinks();
   }
 }
