@@ -19,7 +19,10 @@ export class GenresController {
 
   @Post()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'ADMIN-ONLY Create genre.' })
+  @ApiOperation({
+    summary: 'ADMIN-ONLY Create genre.',
+    description: 'Create genre with JSON. Names must be unique!',
+  })
   createGenre(
     @Body() createGenreDto: CreateGenreDto,
   ): Promise<Observable<any>> {
