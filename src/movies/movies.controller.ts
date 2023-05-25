@@ -124,10 +124,16 @@ export class MoviesController {
   @ApiOperation({
     summary: 'ADMIN-ONLY Update movie by its ID with JSON body.',
   })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    example: '123',
+    description: 'Just an ID of requested movie.',
+  })
   updateMovie(
     @Param('id') movieId: number,
     @Body() updateMovieDto: UpdateMovieDto,
-  ) {
+  ): Promise<Observable<DeleteMovieResponseDto>> {
     console.log('API Gateway - Movies Controller - updateMovie at', new Date());
     return this.moviesService.updateMovie(movieId, updateMovieDto);
   }

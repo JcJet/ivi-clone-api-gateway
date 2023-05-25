@@ -8,31 +8,25 @@ export class UpdateMovieDto {
   readonly nameEn: string;
 
   @ApiProperty()
+  readonly poster: string;
+
+  @ApiProperty()
+  readonly rating: number;
+
+  @ApiProperty()
+  readonly year: number;
+
+  @ApiProperty()
+  countries: string;
+
+  @ApiProperty()
+  genres: number[];
+
+  @ApiProperty()
+  readonly duration: number;
+
+  @ApiProperty()
   readonly description: string;
-
-  @ApiProperty()
-  readonly country: string[];
-
-  @ApiProperty()
-  readonly director: string;
-
-  @ApiProperty()
-  readonly actors: string[];
-
-  @ApiProperty()
-  readonly produced: string;
-
-  @ApiProperty()
-  readonly cinematographer: string;
-
-  @ApiProperty()
-  readonly screenwriter: string;
-
-  @ApiProperty()
-  readonly composer: string[];
-
-  @ApiProperty()
-  readonly genres: string[];
 
   @ApiProperty()
   readonly trailer: string;
@@ -41,25 +35,29 @@ export class UpdateMovieDto {
   readonly similarMovies: number[];
 
   @ApiProperty()
-  readonly startYear: number;
-
-  @ApiProperty()
-  readonly endYear: number;
-
-  @ApiProperty()
-  readonly rating: number;
-
-  @ApiProperty()
   readonly ratingCount: number;
 
   @ApiProperty()
-  readonly imageUrl: string; //  нужна только маленькая картинка, в API кинопоиска posterUrlPreview
-
-  // readonly reviews: IviReview[]; TODO
+  readonly ageRating: number;
 
   @ApiProperty()
-  readonly reviewCount: number;
+  readonly slogan: string;
 
   @ApiProperty()
-  readonly duration: string; // в минутах, либо в строке оставить "113 минут"
+  readonly director: number[];
+
+  @ApiProperty()
+  readonly actors: number[];
+
+  @ApiProperty()
+  readonly producer: number[];
+
+  @ApiProperty()
+  readonly cinematographer: number[];
+
+  @ApiProperty()
+  readonly screenwriter: number[];
+
+  @ApiProperty()
+  readonly composer: number[];
 }

@@ -42,9 +42,9 @@ export class MoviesService {
   async updateMovie(
     movieId: number,
     updateMovieDto: UpdateMovieDto,
-  ): Promise<object> {
+  ): Promise<Observable<DeleteMovieResponseDto>> {
     console.log('API Gateway - Movies Service - updateMovie at', new Date());
-    return this.moviesRmqProxy.send<object>(
+    return this.moviesRmqProxy.send<DeleteMovieResponseDto>(
       { cmd: 'updateMovie' },
       { movieId: movieId, updateMovieDto: updateMovieDto },
     );
