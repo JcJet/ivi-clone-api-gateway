@@ -23,7 +23,7 @@ export class GenresService {
     return this.toGenresProxy.send({ cmd: 'getAllGenres' }, {});
   }
 
-  async getGenre(genreId: number): Promise<Observable<any>> {
+  async getGenre(genreId: number): Promise<Observable<GenreDto>> {
     console.log('API Gateway - Genres Service - getGenre at', new Date());
     return this.toGenresProxy.send(
       { cmd: 'getGenreById' },

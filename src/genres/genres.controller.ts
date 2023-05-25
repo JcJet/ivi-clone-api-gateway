@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import {
   ApiBearerAuth,
   ApiConflictResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -54,8 +55,13 @@ export class GenresController {
   }
 
   @Get('/:id')
-  @ApiOperation({ summary: 'Get genre by its ID.' })
-  getGenre(@Param('id') genreId: number): Promise<Observable<any>> {
+  @ApiOperation({
+    summary: 'Get genre by its ID.',
+    description: 'Returns genre object if exists.',
+  })
+  @ApiOkResponse({ type: GenreDto })
+  @ApiNotFoundResponse()
+  getGenre(@Param('id') genreId: number): Promise<Observable<GenreDto>> {
     console.log('API Gateway - Genres Controller - getGenre at', new Date());
     return this.genresService.getGenre(genreId);
   }
