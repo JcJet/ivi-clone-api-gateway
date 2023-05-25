@@ -14,6 +14,7 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import {
   ApiBearerAuth,
+  ApiExcludeEndpoint,
   ApiOkResponse,
   ApiOperation,
   ApiParam,
@@ -26,20 +27,12 @@ import { MovieResponseDto } from './dto/movie-response.dto';
 import { DeleteMovieResponseDto } from './dto/delete-movie-response.dto';
 
 @ApiTags('Movies MS API')
-@Controller('movies')
+@Controller()
 export class MoviesController {
   constructor(private moviesService: MoviesService) {}
 
-  @Get()
-  @ApiOperation({
-    summary: 'Get list of movies.',
-    description:
-      'May be filtered only without genres filter. To filter with genres use "/movies/genres/:genres" endpoint.',
-  })
-  @ApiOkResponse({
-    isArray: true,
-    type: MoviesResponseDto,
-  })
+  @Get('/movies/')
+  @ApiExcludeEndpoint()
   getMovies(
     @Query() movieFilterDto: MovieFilterDto,
   ): Promise<Observable<MoviesResponseDto>> {
@@ -47,7 +40,7 @@ export class MoviesController {
     return this.moviesService.getMovies(movieFilterDto);
   }
 
-  @Get('genres/:genres')
+  @Get('movies/:genres')
   @ApiOperation({
     summary: 'Get list of movies with genres filter.',
     description:
@@ -59,7 +52,7 @@ export class MoviesController {
     description:
       'Genres should be passed as parameter in following format:' +
       ' "url/movies/genres/drama+tv-show". Genres written in kebab-lower-case, separated by "+".',
-    required: true,
+    required: false,
   })
   @ApiOkResponse({
     isArray: true,
@@ -74,7 +67,7 @@ export class MoviesController {
     return this.moviesService.getMovies(movieFilterDto);
   }
 
-  @Get('/:id')
+  @Get('/movie/:id')
   @ApiOperation({
     summary: 'Get movie by its ID.',
     description: 'Returns full movie entity.',
@@ -98,7 +91,7 @@ export class MoviesController {
     return this.moviesService.getMovieById(movieId);
   }
 
-  @Delete('/:id')
+  @Delete('/movie/:id')
   @Roles('admin')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'ADMIN-ONLY Delete movie by its ID.' })
@@ -118,7 +111,7 @@ export class MoviesController {
     return this.moviesService.deleteMovie(movieId);
   }
 
-  @Put('/:id')
+  @Put('/movie/:id')
   @Roles('admin')
   @ApiBearerAuth()
   @ApiOperation({
@@ -138,7 +131,7 @@ export class MoviesController {
     return this.moviesService.updateMovie(movieId, updateMovieDto);
   }
 
-  @Post()
+  @Post('/movie/')
   @Roles('admin')
   @ApiBearerAuth()
   @ApiOperation({
