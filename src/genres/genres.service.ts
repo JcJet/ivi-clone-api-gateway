@@ -31,7 +31,7 @@ export class GenresService {
     );
   }
 
-  async deleteGenre(genreId: number): Promise<Observable<any>> {
+  async deleteGenre(genreId: number): Promise<Observable<object>> {
     console.log('API Gateway - Genres Service - deleteGenre at', new Date());
     return this.toGenresProxy.send(
       { cmd: 'deleteGenre' },

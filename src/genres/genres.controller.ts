@@ -12,12 +12,12 @@ import { CreateGenreDto } from './dto/create-genre.dto';
 import { Observable } from 'rxjs';
 import {
   ApiBearerAuth,
-  ApiConflictResponse,
+  ApiConflictResponse, ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+  ApiTags
+} from "@nestjs/swagger";
 import { GenreDto } from './dto/genre.dto';
 
 @ApiTags('Genres MS API')
@@ -68,8 +68,13 @@ export class GenresController {
 
   @Delete('/:id')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'ADMIN-ONLY Delete genre by its ID.' })
-  deleteGenre(@Param('id') genreId: number): Promise<Observable<any>> {
+  @ApiOperation({
+    summary: 'ADMIN-ONLY Delete genre by its ID.',
+    description: 'Delete if only exists.',
+  })
+  @ApiNoContentResponse()
+  @ApiNotFoundResponse()
+  deleteGenre(@Param('id') genreId: number): Promise<Observable<object>> {
     console.log('API Gateway - Genres Controller - deleteGenre at', new Date());
     return this.genresService.deleteGenre(genreId);
   }
