@@ -21,12 +21,20 @@ export class CommentsController {
   @Post()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create comment.' })
-  createComment(@Body() createCommentDto: CreateCommentDto) {
+  createComment(
+    @Body() createCommentDto: CreateCommentDto,
+    @Query('movieId') movieId: number,
+    @Query('commentId') commentId: number,
+  ) {
     console.log(
       'API Gateway - Comments Controller - createComment at',
       new Date(),
     );
-    return this.commentsService.createComment(createCommentDto);
+    return this.commentsService.createComment(
+      createCommentDto,
+      movieId,
+      commentId,
+    );
   }
 
   @Delete('/:id')
@@ -68,15 +76,11 @@ export class CommentsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get comments by essenceTable, essenceId' })
+  @ApiOperation({ summary: 'Get comments by movieId or commentId' })
   async getComments(
-    @Query('essenceTable') essenceTable: string,
-    @Query('essenceId') essenceId: number,
-    @Query('nestedComments') nestedComments: boolean,
+    @Query('movieId') movieId: number,
+    @Query('commentId') commentId: number,
   ) {
-    const dto: GetCommentsDto = { essenceTable, essenceId };
-    return nestedComments
-      ? this.commentsService.getCommentsTree(dto)
-      : this.commentsService.getComments(dto);
+    return this.commentsService.getCommentsTree(movieId, commentId);
   }
 }

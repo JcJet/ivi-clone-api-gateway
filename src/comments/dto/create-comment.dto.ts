@@ -14,18 +14,6 @@ export class CreateCommentDto {
   readonly text: string;
 
   @ApiProperty({
-    example: 'movies',
-    description: 'Название сущности, к которой относится комментарий',
-  })
-  readonly essenceTable: string;
-
-  @ApiProperty({
-    example: '1',
-    description: 'Идентификатор элемента, к которому относится комментарий',
-  })
-  readonly essenceId: number;
-
-  @ApiProperty({
     example: '2019-04-23T18:25:43.511Z',
     description: 'Дата создания комментария',
   })
