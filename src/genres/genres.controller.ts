@@ -10,7 +10,14 @@ import {
 import { GenresService } from './genres.service';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { Observable } from 'rxjs';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiConflictResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { GenreDto } from './dto/genre.dto';
 
 @ApiTags('Genres MS API')
 @Controller('genres')
@@ -23,9 +30,11 @@ export class GenresController {
     summary: 'ADMIN-ONLY Create genre.',
     description: 'Create genre with JSON. Names must be unique!',
   })
+  @ApiOkResponse({ type: GenreDto })
+  @ApiConflictResponse()
   createGenre(
     @Body() createGenreDto: CreateGenreDto,
-  ): Promise<Observable<any>> {
+  ): Promise<Observable<GenreDto>> {
     console.log('API Gateway - Genres Controller - createGenre at', new Date());
     return this.genresService.createGenre(createGenreDto);
   }

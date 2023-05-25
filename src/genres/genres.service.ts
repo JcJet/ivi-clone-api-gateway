@@ -2,12 +2,15 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
+import { GenreDto } from './dto/genre.dto';
 
 @Injectable()
 export class GenresService {
   constructor(@Inject('ToGenresMs') private toGenresProxy: ClientProxy) {}
 
-  async createGenre(createGenreDto: CreateGenreDto): Promise<Observable<any>> {
+  async createGenre(
+    createGenreDto: CreateGenreDto,
+  ): Promise<Observable<GenreDto>> {
     console.log('API Gateway - Genres Service - createGenre at', new Date());
     return this.toGenresProxy.send(
       { cmd: 'createGenre' },
