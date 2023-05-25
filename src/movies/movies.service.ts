@@ -4,6 +4,8 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Observable } from 'rxjs';
 import { MoviesResponseDto } from './dto/movies-response.dto';
 import { MovieFilterDto } from './dto/movie-filter.dto';
+import { MovieResponseDto } from './dto/movie-response.dto';
+import { DeleteMovieResponseDto } from './dto/delete-movie-response.dto';
 
 @Injectable()
 export class MoviesService {
@@ -19,17 +21,19 @@ export class MoviesService {
     );
   }
 
-  async getMovieById(movieId: number): Promise<object> {
+  async getMovieById(movieId: number): Promise<Observable<MovieResponseDto>> {
     console.log('API Gateway - Movies Service - getMovieById at', new Date());
-    return this.moviesRmqProxy.send<object>(
+    return this.moviesRmqProxy.send<MovieResponseDto>(
       { cmd: 'getMovieById' },
       { movieId: movieId },
     );
   }
 
-  async deleteMovie(movieId: number): Promise<object> {
+  async deleteMovie(
+    movieId: number,
+  ): Promise<Observable<DeleteMovieResponseDto>> {
     console.log('API Gateway - Movies Service - deleteMovie at', new Date());
-    return this.moviesRmqProxy.send<object>(
+    return this.moviesRmqProxy.send<DeleteMovieResponseDto>(
       { cmd: 'deleteMovie' },
       { movieId: movieId },
     );

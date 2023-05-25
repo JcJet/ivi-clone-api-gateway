@@ -22,7 +22,7 @@ export class MiniMovieDto {
   readonly year: number;
 
   @ApiProperty({ type: CountryDto })
-  country: CountryDto[];
+  countries: CountryDto[];
 
   @ApiProperty({ type: GenreDto })
   genres: GenreDto[];

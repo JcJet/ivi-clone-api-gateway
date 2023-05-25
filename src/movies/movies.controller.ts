@@ -18,10 +18,13 @@ import {
   ApiOperation,
   ApiParam,
   ApiTags,
+  getSchemaPath,
 } from '@nestjs/swagger';
 import { MovieFilterDto } from './dto/movie-filter.dto';
 import { Observable } from 'rxjs';
 import { MoviesResponseDto } from './dto/movies-response.dto';
+import { MovieResponseDto } from './dto/movie-response.dto';
+import { DeleteMovieResponseDto } from './dto/delete-movie-response.dto';
 
 @ApiTags('Movies MS API')
 @Controller('movies')
@@ -73,8 +76,22 @@ export class MoviesController {
   }
 
   @Get('/:id')
-  @ApiOperation({ summary: 'Get movie by its ID.' })
-  getMovieById(@Param('id') movieId: number): object {
+  @ApiOperation({
+    summary: 'Get movie by its ID.',
+    description: 'Returns full movie entity.',
+  })
+  @ApiOkResponse({
+    type: MovieResponseDto,
+  })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    example: '123',
+    description: 'Just an ID of requested movie.',
+  })
+  getMovieById(
+    @Param('id') movieId: number,
+  ): Promise<Observable<MovieResponseDto>> {
     console.log(
       'API Gateway - Movies Controller - getMovieById at',
       new Date(),
@@ -86,7 +103,18 @@ export class MoviesController {
   @Roles('admin')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'ADMIN-ONLY Delete movie by its ID.' })
-  deleteMovie(@Param('id') movieId: number): object {
+  @ApiParam({
+    name: 'id',
+    required: true,
+    example: '123',
+    description: 'Just an ID of requested movie.',
+  })
+  @ApiOkResponse({
+    type: DeleteMovieResponseDto,
+  })
+  deleteMovie(
+    @Param('id') movieId: number,
+  ): Promise<Observable<DeleteMovieResponseDto>> {
     console.log('API Gateway - Movies Controller - deleteMovie at', new Date());
     return this.moviesService.deleteMovie(movieId);
   }
