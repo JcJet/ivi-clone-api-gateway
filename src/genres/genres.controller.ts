@@ -40,8 +40,12 @@ export class GenresController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all genres.' })
-  getAllGenres(): Promise<Observable<any>> {
+  @ApiOperation({
+    summary: 'Get all genres.',
+    description: 'Returns list of all genres without any filtering.',
+  })
+  @ApiOkResponse({ isArray: true, type: GenreDto })
+  getAllGenres(): Promise<Observable<GenreDto[]>> {
     console.log(
       'API Gateway - Genres Controller - getAllGenres at',
       new Date(),
