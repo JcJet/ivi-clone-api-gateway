@@ -11,13 +11,14 @@ import { PersonsService } from './persons.service';
 import { CreatePersonDto } from './dto/create-person.dto';
 import {
   ApiBearerAuth,
-  ApiCreatedResponse, ApiExcludeEndpoint,
+  ApiCreatedResponse,
+  ApiExcludeEndpoint,
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags
-} from "@nestjs/swagger";
+  ApiTags,
+} from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import { GetPersonDto } from './dto/get-person.dto';
 
@@ -46,7 +47,11 @@ export class PersonsController {
 
   @Put('/:id')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'ADMIN-ONLY Update person.' })
+  @ApiOperation({
+    summary: 'ADMIN-ONLY Update person.',
+    description:
+      'Important: all fields in JSON, that have values, (changed or not) must be sent.',
+  })
   @ApiNoContentResponse({ description: 'Updated successfully.' })
   @ApiNotFoundResponse({ description: 'Not found, change person ID.' })
   updatePerson(
