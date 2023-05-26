@@ -13,11 +13,13 @@ import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
-  ApiNotFoundResponse, ApiOkResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
   ApiOperation,
-  ApiTags
-} from "@nestjs/swagger";
+  ApiTags,
+} from '@nestjs/swagger';
 import { Observable } from 'rxjs';
+import { GetPersonDto } from './dto/get-person.dto';
 
 @Controller('persons')
 @ApiTags('Persons MS API')
@@ -72,8 +74,15 @@ export class PersonsController {
   }
 
   @Get('/:id')
-  @ApiOperation({ summary: 'Get person by its ID.' })
-  getPersonById(@Param('id') personId: number) {
+  @ApiOperation({
+    summary: 'Get person by its ID.',
+    description: 'Returns person info and filmography.',
+  })
+  @ApiOkResponse({ description: 'Success.', type: GetPersonDto })
+  @ApiNotFoundResponse({ description: 'Not found, change person ID.' })
+  getPersonById(
+    @Param('id') personId: number,
+  ): Promise<Observable<GetPersonDto>> {
     console.log(
       'API Gateway - Persons Controller - getPersonById at',
       new Date(),

@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
+import { GetPersonDto } from "./dto/get-person.dto";
 
 @Injectable()
 export class PersonsService {
@@ -33,7 +34,7 @@ export class PersonsService {
     );
   }
 
-  async getPersonById(personId: number) {
+  async getPersonById(personId: number): Promise<Observable<GetPersonDto>> {
     console.log('API Gateway - Persons Service - getPersonById at', new Date());
     return this.personsRmqProxy.send(
       { cmd: 'getPersonById' },
