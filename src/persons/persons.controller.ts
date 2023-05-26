@@ -11,13 +11,13 @@ import { PersonsService } from './persons.service';
 import { CreatePersonDto } from './dto/create-person.dto';
 import {
   ApiBearerAuth,
-  ApiCreatedResponse,
+  ApiCreatedResponse, ApiExcludeEndpoint,
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+  ApiTags
+} from "@nestjs/swagger";
 import { Observable } from 'rxjs';
 import { GetPersonDto } from './dto/get-person.dto';
 
@@ -92,6 +92,7 @@ export class PersonsController {
 
   @Get()
   @ApiOperation({ summary: 'Get all(?) persons.' })
+  @ApiExcludeEndpoint()
   getPersons() {
     console.log('API Gateway - Persons Controller - getPersons at', new Date());
     return this.personsService.getPersons();
