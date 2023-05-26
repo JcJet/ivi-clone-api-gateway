@@ -17,6 +17,6 @@ export class CreateCommentDto {
     example: '2019-04-23T18:25:43.511Z',
     description: 'Дата создания комментария',
   })
-  readonly date: Date;
+  readonly date: string;
 }
 

@@ -33,6 +33,22 @@ export class CommentsService {
       );
     }
   }
+  parseDateString(str: string) {
+    // Строка вида '2019-04-23T18:25:43.511Z'
+    let parsed = new Date(str);
+    if (isNaN(+parsed)) {
+      // Строка - Timestamp
+      parsed = new Date(+str);
+    }
+    if (isNaN(+parsed)) {
+      throw new HttpException(
+        'Ошибка парсинга поля даты',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return parsed;
+  }
+
   async createComment(
     createCommentDto: CreateCommentDto,
     movieId: number,
@@ -42,9 +58,14 @@ export class CommentsService {
       'API Gateway - Comments Service - createComment at',
       new Date(),
     );
+    //TODO: подумать, как сделать почище, когда все будет работать...
+    //иногда может приходить строка вида '1685089274946', которая не парсится по-умолчанию.
+    const date = this.parseDateString(createCommentDto.date);
+    //не захотели работать через essenceTable&essenceId...
     this.checkInputs(movieId, commentId);
     const essenceDto = this.createEssenceDto(movieId, commentId);
-    const fullDto = { ...createCommentDto, ...essenceDto };
+    const fullDto = { ...createCommentDto, ...essenceDto, date };
+
     return this.commentsProxy.send({ cmd: 'createComment' }, { dto: fullDto });
   }
 
