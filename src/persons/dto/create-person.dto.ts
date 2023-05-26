@@ -7,6 +7,12 @@ export class CreatePersonDto {
   @ApiProperty()
   nameEn: string;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'URL to photo image', required: false })
+  photo?: string;
+
+  @ApiProperty({ required: false })
   description?: string;
+
+  @ApiProperty({ required: false })
+  biography?: string;
 }

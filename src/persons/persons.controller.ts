@@ -9,7 +9,13 @@ import {
 } from '@nestjs/common';
 import { PersonsService } from './persons.service';
 import { CreatePersonDto } from './dto/create-person.dto';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Observable } from 'rxjs';
 
 @Controller('persons')
 @ApiTags('Persons MS API')
@@ -18,8 +24,15 @@ export class PersonsController {
 
   @Post()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'ADMIN-ONLY Create person.' })
-  createPerson(@Body() createPersonDto: CreatePersonDto) {
+  @ApiOperation({
+    summary: 'ADMIN-ONLY Create person.',
+    description:
+      'Create person with JSON. All fields can be duplicated from person to person.',
+  })
+  @ApiCreatedResponse({ type: CreatePersonDto })
+  createPerson(
+    @Body() createPersonDto: CreatePersonDto,
+  ): Promise<Observable<CreatePersonDto>> {
     console.log(
       'API Gateway - Persons Controller - createPerson at',
       new Date(),

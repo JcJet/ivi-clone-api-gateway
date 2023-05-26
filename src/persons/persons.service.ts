@@ -1,12 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class PersonsService {
   constructor(@Inject('ToPersonsMs') private personsRmqProxy: ClientProxy) {}
 
-  async createPerson(createPersonDto: CreatePersonDto) {
+  async createPerson(
+    createPersonDto: CreatePersonDto,
+  ): Promise<Observable<CreatePersonDto>> {
     console.log('API Gateway - Persons Service - createPerson at', new Date());
     return this.personsRmqProxy.send(
       { cmd: 'createPerson' },
