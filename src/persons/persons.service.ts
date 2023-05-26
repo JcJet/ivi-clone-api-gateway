@@ -25,7 +25,7 @@ export class PersonsService {
     );
   }
 
-  async deletePerson(personId: number) {
+  async deletePerson(personId: number): Promise<Observable<object>> {
     console.log('API Gateway - Persons Service - deletePerson at', new Date());
     return this.personsRmqProxy.send(
       { cmd: 'deletePerson' },
