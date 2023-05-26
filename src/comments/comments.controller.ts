@@ -33,12 +33,12 @@ export class CommentsController {
   })
   @ApiQuery({
     name: 'movieId',
-    description: 'Use if comment at the top of hierarchy.',
+    description: 'Use if new comment at the top of comments hierarchy.',
     required: false,
   })
   @ApiQuery({
     name: 'commentId',
-    description: 'Use if comment NOT at the top of hierarchy.',
+    description: 'Use if new comment NOT at the top of comments hierarchy.',
     required: false,
   })
   createComment(
