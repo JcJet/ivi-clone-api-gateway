@@ -98,11 +98,11 @@ export class CommentsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get comments by movieId or commentId' })
+  @ApiOperation({ summary: 'Get comments by movieId.' })
   @ApiQuery({ name: 'movieId', description: 'Must be used.', required: true })
   @ApiQuery({
     name: 'commentId',
-    description: 'Must NOT be used!',
+    description: 'SERVICE. Must NOT be used!',
     required: false,
   })
   async getComments(
