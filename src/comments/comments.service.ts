@@ -48,6 +48,17 @@ export class CommentsService {
     }
     return parsed;
   }
+  makeCommentDto(    createCommentDto: CreateCommentDto,
+                     movieId: number,
+                     commentId: number,) {
+    //TODO: подумать, как сделать почище, когда все будет работать...
+    //иногда может приходить строка вида '1685089274946', которая не парсится по-умолчанию.
+    const date = this.parseDateString(createCommentDto.date);
+    //не захотели работать через essenceTable&essenceId...
+    this.checkInputs(movieId, commentId);
+    const essenceDto = this.createEssenceDto(movieId, commentId);
+    return { ...createCommentDto, ...essenceDto, date };
+  }
 
   async createComment(
     createCommentDto: CreateCommentDto,
@@ -58,14 +69,8 @@ export class CommentsService {
       'API Gateway - Comments Service - createComment at',
       new Date(),
     );
-    //TODO: подумать, как сделать почище, когда все будет работать...
-    //иногда может приходить строка вида '1685089274946', которая не парсится по-умолчанию.
-    const date = this.parseDateString(createCommentDto.date);
-    //не захотели работать через essenceTable&essenceId...
-    this.checkInputs(movieId, commentId);
-    const essenceDto = this.createEssenceDto(movieId, commentId);
-    const fullDto = { ...createCommentDto, ...essenceDto, date };
 
+    const fullDto = this.makeCommentDto(createCommentDto, movieId, commentId)
     return this.commentsProxy.send({ cmd: 'createComment' }, { dto: fullDto });
   }
 
@@ -82,9 +87,12 @@ export class CommentsService {
       'API Gateway - Comments Service - updateComment at',
       new Date(),
     );
+
+    const date = this.parseDateString(dto.date);
+
     return this.commentsProxy.send(
       { cmd: 'updateComment' },
-      { commentId, dto },
+      { commentId, dto: {...dto, date} },
     );
   }
   async getComments(dto: GetCommentsDto) {
