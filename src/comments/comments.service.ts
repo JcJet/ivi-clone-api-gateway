@@ -33,31 +33,16 @@ export class CommentsService {
       );
     }
   }
-  parseDateString(str: string) {
-    // Строка вида '2019-04-23T18:25:43.511Z'
-    let parsed = new Date(str);
-    if (isNaN(+parsed)) {
-      // Строка - Timestamp
-      parsed = new Date(+str);
-    }
-    if (isNaN(+parsed)) {
-      throw new HttpException(
-        'Ошибка парсинга поля даты',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    return parsed;
-  }
-  makeCommentDto(    createCommentDto: CreateCommentDto,
-                     movieId: number,
-                     commentId: number,) {
-    //TODO: подумать, как сделать почище, когда все будет работать...
-    //иногда может приходить строка вида '1685089274946', которая не парсится по-умолчанию.
-    const date = this.parseDateString(createCommentDto.date);
+
+  makeCommentDto(
+    createCommentDto: CreateCommentDto,
+    movieId: number,
+    commentId: number,
+  ) {
     //не захотели работать через essenceTable&essenceId...
     this.checkInputs(movieId, commentId);
     const essenceDto = this.createEssenceDto(movieId, commentId);
-    return { ...createCommentDto, ...essenceDto, date };
+    return { ...createCommentDto, ...essenceDto };
   }
 
   async createComment(
@@ -70,7 +55,7 @@ export class CommentsService {
       new Date(),
     );
 
-    const fullDto = this.makeCommentDto(createCommentDto, movieId, commentId)
+    const fullDto = this.makeCommentDto(createCommentDto, movieId, commentId);
     return this.commentsProxy.send({ cmd: 'createComment' }, { dto: fullDto });
   }
 
@@ -88,11 +73,9 @@ export class CommentsService {
       new Date(),
     );
 
-    const date = this.parseDateString(dto.date);
-
     return this.commentsProxy.send(
       { cmd: 'updateComment' },
-      { commentId, dto: {...dto, date} },
+      { commentId, dto: { ...dto } },
     );
   }
   async getComments(dto: GetCommentsDto) {
