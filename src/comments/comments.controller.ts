@@ -12,11 +12,11 @@ import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import {
   ApiBearerAuth,
+  ApiExcludeEndpoint,
   ApiOperation,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { GetCommentsDto } from './dto/get-comments.dto';
 
 @Controller('comments')
 @ApiTags('Comments MS API')
@@ -69,6 +69,7 @@ export class CommentsController {
   }
 
   @Delete()
+  @ApiExcludeEndpoint()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete comments by essenceTable, essenceId' })
   async deleteCommentsByEssence(
@@ -82,6 +83,7 @@ export class CommentsController {
   }
 
   @Put('/:id')
+  @ApiExcludeEndpoint()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update comment by its ID with JSON body.' })
   updateComment(
@@ -97,6 +99,12 @@ export class CommentsController {
 
   @Get()
   @ApiOperation({ summary: 'Get comments by movieId or commentId' })
+  @ApiQuery({ name: 'movieId', description: 'Must be used.', required: true })
+  @ApiQuery({
+    name: 'commentId',
+    description: 'Must NOT be used!',
+    required: false,
+  })
   async getComments(
     @Query('movieId') movieId: number,
     @Query('commentId') commentId: number,
