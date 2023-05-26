@@ -13,10 +13,5 @@ export class CreateCommentDto {
   @ApiProperty({ example: 'любой текст', description: 'Текст комментария' })
   readonly text: string;
 
-  @ApiProperty({
-    example: '2019-04-23T18:25:43.511Z',
-    description: 'Дата создания комментария',
-  })
-  readonly date: Date;
 }
 

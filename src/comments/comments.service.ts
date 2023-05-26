@@ -33,6 +33,18 @@ export class CommentsService {
       );
     }
   }
+
+  makeCommentDto(
+    createCommentDto: CreateCommentDto,
+    movieId: number,
+    commentId: number,
+  ) {
+    //не захотели работать через essenceTable&essenceId...
+    this.checkInputs(movieId, commentId);
+    const essenceDto = this.createEssenceDto(movieId, commentId);
+    return { ...createCommentDto, ...essenceDto };
+  }
+
   async createComment(
     createCommentDto: CreateCommentDto,
     movieId: number,
@@ -42,9 +54,8 @@ export class CommentsService {
       'API Gateway - Comments Service - createComment at',
       new Date(),
     );
-    this.checkInputs(movieId, commentId);
-    const essenceDto = this.createEssenceDto(movieId, commentId);
-    const fullDto = { ...createCommentDto, ...essenceDto };
+
+    const fullDto = this.makeCommentDto(createCommentDto, movieId, commentId);
     return this.commentsProxy.send({ cmd: 'createComment' }, { dto: fullDto });
   }
 
@@ -61,9 +72,10 @@ export class CommentsService {
       'API Gateway - Comments Service - updateComment at',
       new Date(),
     );
+
     return this.commentsProxy.send(
       { cmd: 'updateComment' },
-      { commentId, dto },
+      { commentId, dto: { ...dto } },
     );
   }
   async getComments(dto: GetCommentsDto) {
