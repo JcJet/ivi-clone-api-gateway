@@ -11,10 +11,10 @@ import { PersonsService } from './persons.service';
 import { CreatePersonDto } from './dto/create-person.dto';
 import {
   ApiBearerAuth,
-  ApiCreatedResponse,
+  ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse,
   ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+  ApiTags
+} from "@nestjs/swagger";
 import { Observable } from 'rxjs';
 
 @Controller('persons')
@@ -43,10 +43,12 @@ export class PersonsController {
   @Put('/:id')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'ADMIN-ONLY Update person.' })
+  @ApiNoContentResponse()
+  @ApiNotFoundResponse({ description: 'Not found, change person ID.' })
   updatePerson(
     @Param('id') personId: number,
     @Body() updatePersonDto: CreatePersonDto,
-  ) {
+  ): Promise<Observable<CreatePersonDto>> {
     console.log(
       'API Gateway - Persons Controller - updatePerson at',
       new Date(),
