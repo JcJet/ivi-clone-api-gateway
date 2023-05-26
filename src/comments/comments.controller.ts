@@ -10,7 +10,12 @@ import {
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetCommentsDto } from './dto/get-comments.dto';
 
 @Controller('comments')
@@ -20,7 +25,22 @@ export class CommentsController {
 
   @Post()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Create comment.' })
+  @ApiOperation({
+    summary: 'Create comment.',
+    description:
+      'Either one query element must be used - movieId or commentId.' +
+      ' Depends on what is an essence object for comment.',
+  })
+  @ApiQuery({
+    name: 'movieId',
+    description: 'Use if comment at the top of hierarchy.',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'commentId',
+    description: 'Use if comment NOT at the top of hierarchy.',
+    required: false,
+  })
   createComment(
     @Body() createCommentDto: CreateCommentDto,
     @Query('movieId') movieId: number,
