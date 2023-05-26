@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
-import { GetPersonDto } from "./dto/get-person.dto";
+import { GetPersonDto } from './dto/get-person.dto';
 
 @Injectable()
 export class PersonsService {
