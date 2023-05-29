@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { PersonsService } from './persons.service';
 import { CreatePersonDto } from './dto/create-person.dto';
@@ -101,5 +102,15 @@ export class PersonsController {
   getPersons() {
     console.log('API Gateway - Persons Controller - getPersons at', new Date());
     return this.personsService.getPersons();
+  }
+
+  @Get('name/search')
+  async findPersonByName(@Query() dto: { personName: string }) {
+    console.log(
+      'API Gateway - Persons Controller - findPersonByName at',
+      new Date(),
+    );
+    console.log(dto);
+    return this.personsService.findPersonByName(dto.personName);
   }
 }
