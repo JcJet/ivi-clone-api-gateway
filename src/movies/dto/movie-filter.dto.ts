@@ -38,20 +38,20 @@ export class MovieFilterDto {
   })
   readonly ratingCount?: number;
 
-  // @ApiProperty({
-  //   description: 'Returns movies with specified director. Gets directors ID.',
-  //   type: 'number',
-  //   example: '13',
-  //   required: false,
-  // })
+  @ApiProperty({
+    description: 'Returns movies with specified director. Gets directors ID.',
+    type: 'number',
+    example: '13',
+    required: false,
+  })
   readonly director?: number;
 
-  // @ApiProperty({
-  //   description: 'Returns movies with specified actor. Gets actors ID.',
-  //   type: 'number',
-  //   example: '130',
-  //   required: false,
-  // })
+  @ApiProperty({
+    description: 'Returns movies with specified actor. Gets actors ID.',
+    type: 'number',
+    example: '130',
+    required: false,
+  })
   readonly actor?: number;
 
   genres?: string;
