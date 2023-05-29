@@ -18,6 +18,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
@@ -105,6 +106,16 @@ export class PersonsController {
   }
 
   @Get('name/search')
+  @ApiOperation({
+    summary: 'Find person by name.',
+    description: 'Letter case not affect.',
+  })
+  @ApiQuery({
+    name: 'personName',
+    type: 'string',
+    required: true,
+    description: 'Partial name of person.',
+  })
   async findPersonByName(@Query() dto: { personName: string }) {
     console.log(
       'API Gateway - Persons Controller - findPersonByName at',
