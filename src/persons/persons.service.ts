@@ -46,4 +46,23 @@ export class PersonsService {
     console.log('API Gateway - Persons Service - getPersons at', new Date());
     return this.personsRmqProxy.send({ cmd: 'getPersons' }, {});
   }
+
+  async addPersonsToMovie(data) {
+    console.log(
+      'API Gateway - Persons Service - addPersonsToMovie at',
+      new Date(),
+    );
+    return this.personsRmqProxy.send({ cmd: 'addPersonsToMovie' }, { ...data });
+  }
+
+  async findPersonByName(personName: string) {
+    console.log(
+      'API Gateway - Persons Service - findPersonByName at',
+      new Date(),
+    );
+    return this.personsRmqProxy.send(
+      { cmd: 'findPersonByName' },
+      { personName },
+    );
+  }
 }

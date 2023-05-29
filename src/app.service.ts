@@ -4,12 +4,14 @@ import { lastValueFrom } from 'rxjs';
 import * as fsPromises from 'fs/promises';
 import { MoviesService } from './movies/movies.service';
 import { countriesList } from '../static/countries';
+import { PersonsService } from './persons/persons.service';
 
 @Injectable()
 export class AppService {
   constructor(
     private genresService: GenresService,
     private movieService: MoviesService,
+    private personsService: PersonsService,
   ) {}
 
   async loadDatabases() {
@@ -62,6 +64,32 @@ export class AppService {
             ).shortName,
         );
 
+        //Persons section
+        for (const person of parsedMovieData.persons) {
+          const professions = [
+            'actor',
+            'producer',
+            'director',
+            'operator',
+            'editor',
+            'composer',
+          ];
+          if (professions.includes(person.enProfession)) {
+            const personFromDatabase = await lastValueFrom(
+              await this.personsService.findPersonByName(person.name),
+            );
+            if (personFromDatabase.length == 0) {
+              await lastValueFrom(
+                await this.personsService.createPerson({
+                  nameRu: person.name,
+                  nameEn: person.enName,
+                  photo: person.photo,
+                }),
+              );
+            }
+          }
+        }
+
         //Creating movie object
         const similarMovies = (Math.random() * 100).toFixed(0);
 
@@ -80,8 +108,50 @@ export class AppService {
           slogan: parsedMovieData.slogan,
           genres: [],
           countries: countries,
+          actors: await Promise.all(
+            parsedMovieData.persons
+              .filter((person) => {
+                return person.enProfession == 'actor';
+              })
+              .map(async (object) => await this.getPersonId(object)),
+          ),
+          director: await Promise.all(
+            parsedMovieData.persons
+              .filter((person) => {
+                return person.enProfession == 'director';
+              })
+              .map(async (object) => await this.getPersonId(object)),
+          ),
+          producer: await Promise.all(
+            parsedMovieData.persons
+              .filter((person) => {
+                return person.enProfession == 'producer';
+              })
+              .map(async (object) => await this.getPersonId(object)),
+          ),
+          operator: await Promise.all(
+            parsedMovieData.persons
+              .filter((person) => {
+                return person.enProfession == 'operator';
+              })
+              .map(async (object) => await this.getPersonId(object)),
+          ),
+          editor: await Promise.all(
+            parsedMovieData.persons
+              .filter((person) => {
+                return person.enProfession == 'editor';
+              })
+              .map(async (object) => await this.getPersonId(object)),
+          ),
+          composer: await Promise.all(
+            parsedMovieData.persons
+              .filter((person) => {
+                return person.enProfession == 'composer';
+              })
+              .map(async (object) => await this.getPersonId(object)),
+          ),
         };
-
+        console.log(newMovie);
         const rightGenres = [
           'боевик',
           'триллер',
@@ -137,5 +207,13 @@ export class AppService {
     }
     console.log('Movies loaded!');
     return { status: 200, response: 'All done!' };
+  }
+
+  private async getPersonId(personObject: { name: string }) {
+    const persons = await lastValueFrom(
+      await this.personsService.findPersonByName(personObject.name),
+    );
+    console.log(persons, persons[0].personId);
+    return persons[0].personId;
   }
 }
