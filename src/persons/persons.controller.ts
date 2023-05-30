@@ -116,12 +116,20 @@ export class PersonsController {
     required: true,
     description: 'Partial name of person.',
   })
-  async findPersonByName(@Query() dto: { personName: string }) {
+  @ApiQuery({
+    name: 'position',
+    type: 'string',
+    required: true,
+    description: '"actors" or "director" only!',
+  })
+  async findPersonByName(
+    @Query() dto: { personName: string; position: string },
+  ) {
     console.log(
       'API Gateway - Persons Controller - findPersonByName at',
       new Date(),
     );
     console.log(dto);
-    return this.personsService.findPersonByName(dto.personName);
+    return this.personsService.findPersonByName(dto);
   }
 }

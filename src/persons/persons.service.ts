@@ -55,14 +55,11 @@ export class PersonsService {
     return this.personsRmqProxy.send({ cmd: 'addPersonsToMovie' }, { ...data });
   }
 
-  async findPersonByName(personName: string) {
+  async findPersonByName(dto) {
     console.log(
       'API Gateway - Persons Service - findPersonByName at',
       new Date(),
     );
-    return this.personsRmqProxy.send(
-      { cmd: 'findPersonByName' },
-      { personName: personName },
-    );
+    return this.personsRmqProxy.send({ cmd: 'findPersonByName' }, { ...dto });
   }
 }
