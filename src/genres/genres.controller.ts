@@ -100,15 +100,4 @@ export class GenresController {
     console.log('API Gateway - Genres Controller - updateGenre at', new Date());
     return this.genresService.updateGenre(genreId, updateGenreDto);
   }
-
-  @Get('/navigation')
-  @ApiOperation({
-    summary: 'Returns header links.',
-    description:
-      'Returns dynamic header links object, that depends on existing genres.',
-  })
-  @ApiOkResponse({ description: 'All fine!' })
-  getHeaderStaticLinks(): Promise<Observable<object>> {
-    return this.genresService.getHeaderStaticLinks();
-  }
 }
