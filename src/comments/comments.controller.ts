@@ -17,6 +17,7 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
+import {EssenceIdDto} from "./dto/essence-id-dto";
 
 @Controller('comments')
 @ApiTags('Comments MS API')
@@ -28,7 +29,7 @@ export class CommentsController {
   @ApiOperation({
     summary: 'Create comment.',
     description:
-      'Either one query element must be used - movieId or commentId.' +
+      'Either one query element must be used - movieId, commentId, or personId' +
       ' Depends on what is an essence object for comment.',
   })
   @ApiQuery({
@@ -41,20 +42,23 @@ export class CommentsController {
     description: 'Use if new comment NOT at the top of comments hierarchy.',
     required: false,
   })
+  @ApiQuery({
+    name: 'personId',
+    description: 'Use if new comment at the top of comments hierarchy.',
+    required: false,
+  })
   createComment(
     @Body() createCommentDto: CreateCommentDto,
     @Query('movieId') movieId: number,
     @Query('commentId') commentId: number,
+    @Query('personId') personId: number,
   ) {
     console.log(
       'API Gateway - Comments Controller - createComment at',
       new Date(),
     );
-    return this.commentsService.createComment(
-      createCommentDto,
-      movieId,
-      commentId,
-    );
+    const essenceIdsDto: EssenceIdDto = { movieId, commentId, personId };
+    return this.commentsService.createComment(createCommentDto, essenceIdsDto);
   }
 
   @Delete('/:id')
@@ -98,8 +102,9 @@ export class CommentsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get comments by movieId.' })
-  @ApiQuery({ name: 'movieId', description: 'Must be used.', required: true })
+  @ApiOperation({ summary: 'Get comments by movieId or personId.' })
+  @ApiQuery({ name: 'movieId', description: 'Must be used.', required: false })
+  @ApiQuery({ name: 'personId', description: 'Must be used.', required: false })
   @ApiQuery({
     name: 'commentId',
     description: 'SERVICE. Must NOT be used!',
@@ -108,7 +113,9 @@ export class CommentsController {
   async getComments(
     @Query('movieId') movieId: number,
     @Query('commentId') commentId: number,
+    @Query('personId') personId: number,
   ) {
-    return this.commentsService.getCommentsTree(movieId, commentId);
+    const essenceIdsDto: EssenceIdDto = { movieId, commentId, personId };
+    return this.commentsService.getCommentsTree(essenceIdsDto);
   }
 }

@@ -12,6 +12,5 @@ export class CreateCommentDto {
 
   @ApiProperty({ example: 'любой текст', description: 'Текст комментария' })
   readonly text: string;
-
 }
 
