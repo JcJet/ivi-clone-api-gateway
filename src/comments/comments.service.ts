@@ -2,60 +2,64 @@ import { Inject, Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { GetCommentsDto } from './dto/get-comments.dto';
+import {EssenceIdDto} from "./dto/essence-id-dto";
 
 @Injectable()
 export class CommentsService {
   constructor(@Inject('ToCommentsMs') private commentsProxy: ClientProxy) {}
-
-  createEssenceDto(movieId, commentId) {
+  createEssenceDto(essenceIdsDto: EssenceIdDto) {
+    this.checkInputs(essenceIdsDto);
     let essenceTable: string;
     let essenceId: number;
-    if (movieId) {
+    if (essenceIdsDto.movieId) {
       essenceTable = 'movies';
-      essenceId = movieId;
-    } else if (commentId) {
+      essenceId = essenceIdsDto.movieId;
+    } else if (essenceIdsDto.commentId) {
       essenceTable = 'comments';
-      essenceId = commentId;
+      essenceId = essenceIdsDto.commentId;
+    } else if (essenceIdsDto.personId) {
+      essenceTable = 'persons';
+      essenceId = essenceIdsDto.personId;
     }
     return { essenceTable, essenceId };
   }
-  checkInputs(movieId, commentId) {
-    if (movieId && commentId) {
+  checkInputs(essenceIdsDto: EssenceIdDto) {
+    const idsCount = Object.entries(essenceIdsDto).filter(
+      ([, value]) => value !== undefined,
+    ).length;
+    if (idsCount > 1) {
       throw new HttpException(
-        'Противоречивый запрос: указаны movieId и commentId',
+        'Противоречивый запрос: указано более одного идентификатора',
         HttpStatus.BAD_REQUEST,
       );
     }
-    if (!(movieId || commentId)) {
+    if (idsCount == 0) {
       throw new HttpException(
-        'Не задан movieId или commentId (чувствительно к регистру)',
+        'Не задан movieId, commentId или personId (чувствительно к регистру)',
         HttpStatus.BAD_REQUEST,
       );
     }
   }
 
-  makeCommentDto(
-    createCommentDto: CreateCommentDto,
-    movieId: number,
-    commentId: number,
-  ) {
+  makeCommentDto(createCommentDto: CreateCommentDto, essenceIds) {
     //не захотели работать через essenceTable&essenceId...
-    this.checkInputs(movieId, commentId);
-    const essenceDto = this.createEssenceDto(movieId, commentId);
+    const essenceDto = this.createEssenceDto(essenceIds);
     return { ...createCommentDto, ...essenceDto };
   }
 
   async createComment(
     createCommentDto: CreateCommentDto,
-    movieId: number,
-    commentId: number,
+    essenceIds: { movieId: number; commentId: number; personId: number },
   ) {
     console.log(
       'API Gateway - Comments Service - createComment at',
       new Date(),
     );
 
-    const fullDto = this.makeCommentDto(createCommentDto, movieId, commentId);
+    const fullDto = this.makeCommentDto(
+      createCommentDto,
+      essenceIds
+    );
     return this.commentsProxy.send({ cmd: 'createComment' }, { dto: fullDto });
   }
 
@@ -82,14 +86,14 @@ export class CommentsService {
     console.log('API Gateway - Comments Service - getComments at', new Date());
     return this.commentsProxy.send({ cmd: 'getComments' }, { dto });
   }
-  async getCommentsTree(movieId: number, commentId: number) {
+  async getCommentsTree(essenceIds: EssenceIdDto) {
     console.log(
       'API Gateway - Comments Service - getCommentsTree at',
       new Date(),
     );
 
-    this.checkInputs(movieId, commentId);
-    const dto = this.createEssenceDto(movieId, commentId);
+    this.checkInputs(essenceIds);
+    const dto = this.createEssenceDto(essenceIds);
     return this.commentsProxy.send({ cmd: 'getCommentsTree' }, { dto });
   }
 
