@@ -62,4 +62,16 @@ export class PersonsService {
     );
     return this.personsRmqProxy.send({ cmd: 'findPersonByName' }, { ...dto });
   }
+
+  async findPersonByNameService(dto) {
+    console.log(
+      'API Gateway - Persons Service - findPersonByNameService at',
+      new Date(),
+    );
+    console.log(dto);
+    return this.personsRmqProxy.send(
+      { cmd: 'findPersonByNameService' },
+      { dto },
+    );
+  }
 }

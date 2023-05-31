@@ -64,32 +64,6 @@ export class AppService {
             ).shortName,
         );
 
-        //Persons section
-        for (const person of parsedMovieData.persons) {
-          const professions = [
-            'actor',
-            'producer',
-            'director',
-            'operator',
-            'editor',
-            'composer',
-          ];
-          if (professions.includes(person.enProfession)) {
-            const personFromDatabase = await lastValueFrom(
-              await this.personsService.findPersonByName(person.name),
-            );
-            if (personFromDatabase.length == 0) {
-              await lastValueFrom(
-                await this.personsService.createPerson({
-                  nameRu: person.name,
-                  nameEn: person.enName,
-                  photo: person.photo,
-                }),
-              );
-            }
-          }
-        }
-
         //Creating movie object
         const similarMovies = (Math.random() * 100).toFixed(0);
 
@@ -108,50 +82,64 @@ export class AppService {
           slogan: parsedMovieData.slogan,
           genres: [],
           countries: countries,
-          actors: await Promise.all(
-            parsedMovieData.persons
-              .filter((person) => {
-                return person.enProfession == 'actor';
-              })
-              .map(async (object) => await this.getPersonId(object)),
-          ),
-          director: await Promise.all(
-            parsedMovieData.persons
-              .filter((person) => {
-                return person.enProfession == 'director';
-              })
-              .map(async (object) => await this.getPersonId(object)),
-          ),
-          producer: await Promise.all(
-            parsedMovieData.persons
-              .filter((person) => {
-                return person.enProfession == 'producer';
-              })
-              .map(async (object) => await this.getPersonId(object)),
-          ),
-          operator: await Promise.all(
-            parsedMovieData.persons
-              .filter((person) => {
-                return person.enProfession == 'operator';
-              })
-              .map(async (object) => await this.getPersonId(object)),
-          ),
-          editor: await Promise.all(
-            parsedMovieData.persons
-              .filter((person) => {
-                return person.enProfession == 'editor';
-              })
-              .map(async (object) => await this.getPersonId(object)),
-          ),
-          composer: await Promise.all(
-            parsedMovieData.persons
-              .filter((person) => {
-                return person.enProfession == 'composer';
-              })
-              .map(async (object) => await this.getPersonId(object)),
-          ),
+          actors: [],
+          director: [],
+          producer: [],
+          operator: [],
+          editor: [],
+          composer: [],
         };
-        console.log(newMovie);
+
+        //Persons section
+        for (const person of parsedMovieData.persons) {
+          const professions = [
+            'actor',
+            'producer',
+            'director',
+            'operator',
+            'editor',
+            'composer',
+          ];
+          if (professions.includes(person.enProfession)) {
+            const insertedId = { id: null };
+            const personFromDatabase = await lastValueFrom(
+              await this.personsService.findPersonByNameService(person.name),
+            );
+            if (!personFromDatabase) {
+              const newPerson = await lastValueFrom(
+                await this.personsService.createPerson({
+                  nameRu: person.name,
+                  nameEn: person.enName,
+                  photo: person.photo,
+                }),
+              );
+              insertedId.id = newPerson.personId;
+            } else {
+              insertedId.id = personFromDatabase.personId;
+            }
+            switch (person.enProfession) {
+              case 'actor':
+                newMovie.actors.push(insertedId.id);
+                break;
+              case 'producer':
+                newMovie.producer.push(insertedId.id);
+                break;
+              case 'director':
+                newMovie.director.push(insertedId.id);
+                break;
+              case 'operator':
+                newMovie.operator.push(insertedId.id);
+                break;
+              case 'editor':
+                newMovie.editor.push(insertedId.id);
+                break;
+              case 'composer':
+                newMovie.composer.push(insertedId.id);
+                break;
+            }
+          }
+        }
+
         const rightGenres = [
           'боевик',
           'триллер',
@@ -200,20 +188,22 @@ export class AppService {
           }
         }
 
-        await lastValueFrom(await this.movieService.createMovie(newMovie));
+        if (
+          newMovie.composer.length > 0 &&
+          newMovie.actors.length > 0 &&
+          newMovie.producer.length > 0 &&
+          newMovie.director.length > 0 &&
+          newMovie.operator.length > 0 &&
+          newMovie.editor.length > 0
+        ) {
+          console.log(newMovie);
+          await lastValueFrom(await this.movieService.createMovie(newMovie));
+        }
       } catch (e) {
         console.log(e);
       }
     }
     console.log('Movies loaded!');
     return { status: 200, response: 'All done!' };
-  }
-
-  private async getPersonId(personObject: { name: string }) {
-    const persons = await lastValueFrom(
-      await this.personsService.findPersonByName(personObject.name),
-    );
-    console.log(persons, persons[0].personId);
-    return persons[0].personId;
   }
 }
