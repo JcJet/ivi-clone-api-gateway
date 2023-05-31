@@ -15,6 +15,9 @@ export class AppService {
   ) {}
 
   async loadDatabases() {
+    const createdPersons = [];
+    const createdMovies = [];
+
     //Loading countries
     console.log('Loading countries...');
     try {
@@ -56,6 +59,9 @@ export class AppService {
         if (parsedMovieData.type != 'movie') {
           continue;
         }
+
+        if (createdMovies.includes(parsedMovieData.id)) continue;
+        createdMovies.push(parsedMovieData.id);
 
         const countries = parsedMovieData.countries.map(
           (country) =>
@@ -100,12 +106,13 @@ export class AppService {
             'editor',
             'composer',
           ];
-          if (professions.includes(person.enProfession)) {
+          if (
+            professions.includes(person.enProfession) &&
+            person.name &&
+            person.enName
+          ) {
             const insertedId = { id: null };
-            const personFromDatabase = await lastValueFrom(
-              await this.personsService.findPersonByNameService(person.name),
-            );
-            if (!personFromDatabase) {
+            if (!createdPersons.includes(person.id)) {
               const newPerson = await lastValueFrom(
                 await this.personsService.createPerson({
                   nameRu: person.name,
@@ -114,7 +121,11 @@ export class AppService {
                 }),
               );
               insertedId.id = newPerson.personId;
+              createdPersons.push(person.id);
             } else {
+              const personFromDatabase = await lastValueFrom(
+                await this.personsService.findPersonByNameService(person.name),
+              );
               insertedId.id = personFromDatabase.personId;
             }
             switch (person.enProfession) {
