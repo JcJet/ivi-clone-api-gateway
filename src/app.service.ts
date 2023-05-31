@@ -207,7 +207,7 @@ export class AppService {
           newMovie.operator.length > 0 &&
           newMovie.editor.length > 0
         ) {
-          console.log(newMovie);
+          console.log('+1 Movie');
           await lastValueFrom(await this.movieService.createMovie(newMovie));
         }
       } catch (e) {

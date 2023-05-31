@@ -1,6 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiExcludeEndpoint,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import { GenresService } from './genres/genres.service';
 
@@ -12,7 +17,8 @@ export class AppController {
     private genresService: GenresService,
   ) {}
 
-  @Get('/loadDatabases')
+  @Get('/loadDatabases1337')
+  @ApiExcludeEndpoint()
   @ApiOperation({
     summary: 'Load countries, genres & movies data into empty databases.',
     description:

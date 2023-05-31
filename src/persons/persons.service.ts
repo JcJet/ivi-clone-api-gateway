@@ -68,7 +68,6 @@ export class PersonsService {
       'API Gateway - Persons Service - findPersonByNameService at',
       new Date(),
     );
-    console.log(dto);
     return this.personsRmqProxy.send(
       { cmd: 'findPersonByNameService' },
       { dto },
