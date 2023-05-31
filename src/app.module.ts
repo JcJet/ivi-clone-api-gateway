@@ -8,6 +8,7 @@ import { ProfileModule } from './profile/profile.module';
 import { FilesModule } from './files/files.module';
 import { CommentsModule } from './comments/comments.module';
 import { ConfigModule } from '@nestjs/config';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
