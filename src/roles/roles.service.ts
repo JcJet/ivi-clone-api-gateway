@@ -1,4 +1,4 @@
-import { Body, Inject, Injectable, Param } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { RoleDto } from './dto/role.dto';
 
