@@ -27,6 +27,7 @@ export class RolesController {
   @ApiOperation({ summary: 'Get role data by its ID.' })
   @ApiOkResponse({
     description: 'May returns empty result (if role not exists).',
+    type: RoleDto,
   })
   getRoleById(@Param('id') id: number) {
     console.log('API Gateway - Roles Controller - getRoleById at', new Date());
