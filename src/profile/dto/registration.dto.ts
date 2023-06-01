@@ -11,11 +11,11 @@ export class RegistrationDto {
   readonly phone: string;
 
   @ApiProperty()
-  readonly login: string;
-
-  @ApiProperty()
   readonly password: string;
 
   @ApiProperty()
   readonly email: string;
+
+  //OAuth provider
+  readonly provider: string;
 }
