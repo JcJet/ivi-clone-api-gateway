@@ -29,4 +29,13 @@ export class RolesService {
 
     return this.rolesRmqProxy.send({ cmd: 'updateRole' }, { id, dto });
   }
+
+  deleteRoleByValue(value: string) {
+    console.log(
+      'API Gateway - Roles Service - deleteRoleByValue at',
+      new Date(),
+    );
+
+    return this.rolesRmqProxy.send({ cmd: 'deleteRoleByValue' }, { value });
+  }
 }

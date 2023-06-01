@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { RoleDto } from './dto/role.dto';
 import {
@@ -6,6 +14,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
 
@@ -59,5 +68,21 @@ export class RolesController {
     console.log('API Gateway - Roles Controller - updateRole at', new Date());
 
     return this.rolesService.updateRole(id, dto);
+  }
+
+  @Delete('/:value')
+  @ApiOperation({ summary: 'Deletes role by its name.' })
+  @ApiParam({ description: 'Role name.', name: 'value' })
+  @ApiOkResponse({
+    description: 'Role deleted.',
+  })
+  @ApiNotFoundResponse({ description: 'Role by given value (name) not exists.' })
+  deleteRoleByValue(@Param('value') value: string) {
+    console.log(
+      'API Gateway - Roles Controller - deleteRoleByValue at',
+      new Date(),
+    );
+
+    return this.rolesService.deleteRoleByValue(value);
   }
 }
