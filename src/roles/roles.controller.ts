@@ -114,4 +114,17 @@ export class RolesController {
 
     return this.rolesService.getUserRoles(userId);
   }
+
+  @Delete('/user/:userId')
+  @ApiOperation({
+    summary: 'Delete user roles by user ID.',
+  })
+  deleteUserRoles(@Param('userId') userId: number) {
+    console.log(
+      'API Gateway - Roles Controller - deleteUserRoles at',
+      new Date(),
+    );
+
+    return this.rolesService.deleteUserRoles(userId);
+  }
 }

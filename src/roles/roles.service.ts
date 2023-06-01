@@ -51,6 +51,12 @@ export class RolesService {
   async getUserRoles(userId: number) {
     console.log('API Gateway - Roles Service - getUserRoles at', new Date());
 
-    return this.rolesRmqProxy.send({ cmd: 'deleteRoleByValue' }, { userId });
+    return this.rolesRmqProxy.send({ cmd: 'getUserRoles' }, { userId });
+  }
+
+  deleteUserRoles(userId: number) {
+    console.log('API Gateway - Roles Service - deleteUserRoles at', new Date());
+
+    return this.rolesRmqProxy.send({ cmd: 'deleteUserRoles' }, { userId });
   }
 }
