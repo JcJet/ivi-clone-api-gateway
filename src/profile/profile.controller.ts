@@ -11,15 +11,16 @@ import {
   Res,
   UploadedFile,
   UseInterceptors,
-  UseFilters
+  UseGuards,
+  Query,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ProfileService } from './profile.service';
 import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
 import { Express, Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-
 
 @Controller('profile')
 @ApiTags('Profile/authentication MS API')
@@ -36,7 +37,7 @@ export class ProfileController {
       'API Gateway - Profile Controller - registration at',
       new Date(),
     );
-      return this.profileService.registration(registrationDto, res);
+    return this.profileService.registration(registrationDto, res);
   }
 
   @Post('/login')
@@ -89,10 +90,10 @@ export class ProfileController {
     return this.profileService.getAllProfiles();
   }
 
-  @Get('/:id')
+  @Get('/')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get profile by its ID.' })
-  getProfileById(@Param('id') profileId: number) {
+  getProfileById(@Query('profileId') profileId: number) {
     console.log(
       'API Gateway - Profile Controller - getProfileById at',
       new Date(),
@@ -136,5 +137,21 @@ export class ProfileController {
       new Date(),
     );
     return this.profileService.activateAccount(activationLink, response);
+  }
+
+  @Get('/google/')
+  @UseGuards(AuthGuard('google'))
+  async googleAuth(@Req() req) {
+    console.log('API Gateway - Profile Controller - googleAuth at', new Date());
+  }
+
+  @Get('redirect')
+  @UseGuards(AuthGuard('google'))
+  googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
+    console.log(
+      'API Gateway - Profile Controller - googleAuthRedirect at',
+      new Date(),
+    );
+    return this.profileService.googleLogin(req, res);
   }
 }

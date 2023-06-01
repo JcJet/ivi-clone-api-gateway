@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ProfileController } from './profile.controller';
 import { ProfileService } from './profile.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import {GoogleStrategy} from "./auth-strategies/google.strategy";
 
 @Module({
   imports: [
@@ -37,6 +38,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     ]),
   ],
   controllers: [ProfileController],
-  providers: [ProfileService],
+  providers: [ProfileService, GoogleStrategy],
 })
 export class ProfileModule {}

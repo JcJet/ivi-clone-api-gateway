@@ -82,14 +82,16 @@ export class ProfileService {
       );
     }
 
-    const updateProfileResult = await lastValueFrom(this.profileProxy.send(
-      { cmd: 'updateProfile' },
-      {
-        profileId: profileId,
-        updateProfileDto: updateProfileDto,
-        avatarFileName: avatarFileName,
-      },
-    ));
+    const updateProfileResult = await lastValueFrom(
+      this.profileProxy.send(
+        { cmd: 'updateProfile' },
+        {
+          profileId: profileId,
+          updateProfileDto: updateProfileDto,
+          avatarFileName: avatarFileName,
+        },
+      ),
+    );
     this.checkForError(updateProfileResult);
 
     return updateProfileResult;
@@ -108,10 +110,12 @@ export class ProfileService {
       'API Gateway - Profile Service - getProfileById at',
       new Date(),
     );
-    const profileData = await lastValueFrom(this.profileProxy.send(
-      { cmd: 'getProfileById' },
-      { profileId: profileId },
-    ));
+    const profileData = await lastValueFrom(
+      this.profileProxy.send(
+        { cmd: 'getProfileById' },
+        { profileId: profileId },
+      ),
+    );
     this.checkForError(profileData);
 
     return profileData;
@@ -154,12 +158,41 @@ export class ProfileService {
       'API Gateway - Profile Service - activateAccount at',
       new Date(),
     );
-   const activationResult = await lastValueFrom(this.profileProxy.send(
-      { cmd: 'activateAccount' },
-      { activationLink: activationLink },
-    ));
+    const activationResult = await lastValueFrom(
+      this.profileProxy.send(
+        { cmd: 'activateAccount' },
+        { activationLink: activationLink },
+      ),
+    );
     this.checkForError(activationResult);
 
     return response.redirect('http://localhost:3111');
+  }
+
+  async googleLogin(req, res) {
+    if (!req.user) {
+      return 'No user from google';
+    }
+    const registrationDto: RegistrationDto = {
+      email: req.user.email,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      password: req.user.accessToken,
+      provider: 'google',
+      phone: '',
+    };
+    try {
+      return await this.registration(registrationDto, res);
+    } catch (e) {
+      console.log(e);
+      if (e.status == 409) {
+        return await this.login(registrationDto, res);
+      } else throw e;
+    }
+
+    /*    return {
+      message: 'User information from google',
+      user: req.user,
+    };*/
   }
 }
