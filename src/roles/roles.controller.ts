@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { RoleDto } from './dto/role.dto';
 import {
   ApiBadRequestResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -46,5 +47,17 @@ export class RolesController {
     console.log('API Gateway - Roles Controller - getAllRoles at', new Date());
 
     return this.rolesService.getAllRoles();
+  }
+
+  @Put('/:id')
+  @ApiOperation({ summary: 'Updates role data by its ID.' })
+  @ApiOkResponse({
+    description: 'Role updated.',
+  })
+  @ApiNotFoundResponse({ description: 'Role by given ID not exists.' })
+  updateRole(@Param('id') id: number, @Body() dto: RoleDto) {
+    console.log('API Gateway - Roles Controller - updateRole at', new Date());
+
+    return this.rolesService.updateRole(id, dto);
   }
 }
