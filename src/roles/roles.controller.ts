@@ -11,6 +11,7 @@ import { RolesService } from './roles.service';
 import { RoleDto } from './dto/role.dto';
 import {
   ApiBadRequestResponse,
+  ApiBody,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -76,7 +77,9 @@ export class RolesController {
   @ApiOkResponse({
     description: 'Role deleted.',
   })
-  @ApiNotFoundResponse({ description: 'Role by given value (name) not exists.' })
+  @ApiNotFoundResponse({
+    description: 'Role by given value (name) not exists.',
+  })
   deleteRoleByValue(@Param('value') value: string) {
     console.log(
       'API Gateway - Roles Controller - deleteRoleByValue at',
@@ -84,5 +87,21 @@ export class RolesController {
     );
 
     return this.rolesService.deleteRoleByValue(value);
+  }
+
+  @Put('/user/:userId')
+  @ApiOperation({
+    summary: 'Add roles to user.',
+    description:
+      'Add roles by their value (name). If role not exists, creates it.',
+  })
+  @ApiBody({ description: 'Roles names array.', type: 'string', isArray: true })
+  addUserRoles(
+    @Param('userId') userId: number,
+    @Body() dto: { roles: string[] },
+  ) {
+    console.log('API Gateway - Roles Controller - addUserRoles at', new Date());
+
+    return this.rolesService.addUserRoles(userId, dto);
   }
 }

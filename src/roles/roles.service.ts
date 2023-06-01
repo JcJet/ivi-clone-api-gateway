@@ -30,12 +30,21 @@ export class RolesService {
     return this.rolesRmqProxy.send({ cmd: 'updateRole' }, { id, dto });
   }
 
-  deleteRoleByValue(value: string) {
+  async deleteRoleByValue(value: string) {
     console.log(
       'API Gateway - Roles Service - deleteRoleByValue at',
       new Date(),
     );
 
     return this.rolesRmqProxy.send({ cmd: 'deleteRoleByValue' }, { value });
+  }
+
+  async addUserRoles(userId: number, dto: { roles: string[] }) {
+    console.log('API Gateway - Roles Service - addUserRoles at', new Date());
+
+    return this.rolesRmqProxy.send(
+      { cmd: 'addUserRoles' },
+      { userId, roles: dto.roles },
+    );
   }
 }
