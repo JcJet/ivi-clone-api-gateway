@@ -104,4 +104,14 @@ export class RolesController {
 
     return this.rolesService.addUserRoles(userId, dto);
   }
+
+  @Get('/user/:userId')
+  @ApiOperation({
+    summary: 'Returns user roles by user ID.',
+  })
+  getUserRoles(@Param('userId') userId: number) {
+    console.log('API Gateway - Roles Controller - getUserRoles at', new Date());
+
+    return this.rolesService.getUserRoles(userId);
+  }
 }
