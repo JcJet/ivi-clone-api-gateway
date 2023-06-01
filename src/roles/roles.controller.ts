@@ -34,4 +34,17 @@ export class RolesController {
 
     return this.rolesService.getRoleById(id);
   }
+
+  @Get()
+  @ApiOperation({ summary: 'Get all roles data.' })
+  @ApiOkResponse({
+    description: 'May returns empty result (if roles not exists).',
+    type: RoleDto,
+    isArray: true,
+  })
+  getAllRoles() {
+    console.log('API Gateway - Roles Controller - getAllRoles at', new Date());
+
+    return this.rolesService.getAllRoles();
+  }
 }

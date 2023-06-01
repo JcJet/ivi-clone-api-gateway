@@ -17,4 +17,10 @@ export class RolesService {
 
     return this.rolesRmqProxy.send({ cmd: 'getRoleById' }, { id: id });
   }
+
+  async getAllRoles() {
+    console.log('API Gateway - Roles Service - getAllRoles at', new Date());
+
+    return this.rolesRmqProxy.send({ cmd: 'getAllRoles' }, {});
+  }
 }
