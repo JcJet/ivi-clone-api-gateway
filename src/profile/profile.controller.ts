@@ -21,6 +21,7 @@ import { Express, Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('profile')
 @ApiTags('Profile/authentication MS API')
@@ -91,11 +92,11 @@ export class ProfileController {
     return this.profileService.getAllProfiles();
   }
 
-  @Get('/')
+  @Get('/:id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get profile by its ID.' })
-  getProfileById(@Query('profileId') profileId: number) {
+  getProfileById(@Param('id') profileId: number) {
     console.log(
       'API Gateway - Profile Controller - getProfileById at',
       new Date(),
@@ -142,7 +143,7 @@ export class ProfileController {
     return this.profileService.activateAccount(activationLink, response);
   }
 
-  @Get('/google/')
+  @Get('google')
   @UseGuards(AuthGuard('google'))
   async googleAuth(@Req() req) {
     console.log('API Gateway - Profile Controller - googleAuth at', new Date());
@@ -152,9 +153,22 @@ export class ProfileController {
   @UseGuards(AuthGuard('google'))
   googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
     console.log(
-      'API Gateway - Profile Controller - googleAuthRedirect at',
-      new Date(),
+        'API Gateway - Profile Controller - googleAuthRedirect at',
+        new Date(),
     );
     return this.profileService.googleLogin(req, res);
+  }
+
+  @Get('vk')
+  async vkAuth(@Req() req, @Res() res) {
+    //const link = `https://oauth.vk.com/authorize?client_id=51665127&display=popup&redirect_uri=http://localhost:4000/profile/vk_redirect/&scope=email&response_type=code&v=5.120&state=4194308`;
+    const redirectUri = process.env.API_URL + '/profile/vk_redirect/';
+    const link = `https://oauth.vk.com/authorize?client_id=${process.env.VK_APP_ID}&redirect_uri=${redirectUri}&scope=email&response_type=code`;
+    console.log(link);
+    res.redirect(link);
+  }
+  @Get('vk_redirect')
+  vkRedirect(@Query('code') code: string, @Query('state') state: string) {
+    return this.profileService.loginVk(code);
   }
 }
