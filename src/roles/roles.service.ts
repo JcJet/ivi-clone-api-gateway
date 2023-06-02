@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { RoleDto } from './dto/role.dto';
+import {AddUserRoleDto} from "./dto/addUserRole.dto";
 
 @Injectable()
 export class RolesService {
@@ -39,13 +40,9 @@ export class RolesService {
     return this.rolesRmqProxy.send({ cmd: 'deleteRoleByValue' }, { value });
   }
 
-  async addUserRoles(userId: number, dto: { roles: string[] }) {
+  async addUserRoles(dto: AddUserRoleDto) {
     console.log('API Gateway - Roles Service - addUserRoles at', new Date());
-
-    return this.rolesRmqProxy.send(
-      { cmd: 'addUserRoles' },
-      { userId, roles: dto.roles },
-    );
+    return this.rolesRmqProxy.send({ cmd: 'addUserRoles' }, { dto });
   }
 
   async getUserRoles(userId: number) {

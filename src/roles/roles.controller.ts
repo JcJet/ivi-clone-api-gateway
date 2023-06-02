@@ -117,7 +117,7 @@ export class RolesController {
   ) {
     console.log('API Gateway - Roles Controller - addUserRoles at', new Date());
 
-    return this.rolesService.addUserRoles(userId, dto);
+    return this.rolesService.addUserRoles({ userId, ...dto });
   }
 
   @Get('/user/:userId')
