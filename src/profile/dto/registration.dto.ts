@@ -2,6 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class RegistrationDto {
   @ApiProperty()
+  readonly nickName: string;
+
+  @ApiProperty()
   readonly firstName: string;
 
   @ApiProperty()
@@ -18,4 +21,6 @@ export class RegistrationDto {
 
   //OAuth provider
   readonly provider: string;
+
+  vkId: number;
 }
