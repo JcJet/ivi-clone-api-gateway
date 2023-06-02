@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -17,7 +18,8 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import {EssenceIdDto} from "./dto/essence-id-dto";
+import { EssenceIdDto } from './dto/essence-id-dto';
+import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 
 @Controller('comments')
 @ApiTags('Comments MS API')
@@ -25,6 +27,7 @@ export class CommentsController {
   constructor(private commentsService: CommentsService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Create comment.',
@@ -61,7 +64,8 @@ export class CommentsController {
     return this.commentsService.createComment(createCommentDto, essenceIdsDto);
   }
 
-  @Delete('/:id')
+  @Delete('/:id') //admin or master
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete comment by its ID.' })
   deleteComment(@Param('id') commentId: number) {
@@ -72,7 +76,8 @@ export class CommentsController {
     return this.commentsService.deleteComment(commentId);
   }
 
-  @Delete()
+  @Delete() //admin
+  @UseGuards(JwtAuthGuard)
   @ApiExcludeEndpoint()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete comments by essenceTable, essenceId' })
@@ -86,7 +91,8 @@ export class CommentsController {
     });
   }
 
-  @Put('/:id')
+  @Put('/:id') // admin or master
+  @UseGuards(JwtAuthGuard)
   @ApiExcludeEndpoint()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update comment by its ID with JSON body.' })

@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { PersonsService } from './persons.service';
 import { CreatePersonDto } from './dto/create-person.dto';
@@ -23,6 +24,7 @@ import {
 } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import { GetPersonDto } from './dto/get-person.dto';
+import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 
 @Controller('persons')
 @ApiTags('Persons MS API')
@@ -30,6 +32,7 @@ export class PersonsController {
   constructor(private personsService: PersonsService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'ADMIN-ONLY Create person.',
@@ -48,6 +51,7 @@ export class PersonsController {
   }
 
   @Put('/:id')
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'ADMIN-ONLY Update person.',
@@ -68,6 +72,7 @@ export class PersonsController {
   }
 
   @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'ADMIN-ONLY Delete person by its ID.' })
   @ApiOkResponse({ description: 'Deleted successfully.' })

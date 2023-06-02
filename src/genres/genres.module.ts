@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { GenresService } from './genres.service';
 import { GenresController } from './genres.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         }),
       },
     ]),
+    JwtModule,
   ],
   providers: [GenresService],
   controllers: [GenresController],

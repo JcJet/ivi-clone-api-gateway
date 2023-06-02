@@ -5,12 +5,12 @@ import {
   Get,
   Param,
   Post,
-  Put,
+  Put, UseGuards,
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { RoleDto } from './dto/role.dto';
 import {
-  ApiBadRequestResponse,
+  ApiBadRequestResponse, ApiBearerAuth,
   ApiBody,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -18,6 +18,7 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import {JwtAuthGuard} from "../decorator/jwt-auth.guard";
 
 @Controller('roles')
 @ApiTags('Roles MS API')
@@ -25,6 +26,8 @@ export class RolesController {
   constructor(private rolesService: RolesService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create new role.' })
   @ApiBadRequestResponse({ description: 'Role already exists.' })
   @ApiOkResponse({ description: 'Role created.' })
@@ -35,6 +38,8 @@ export class RolesController {
   }
 
   @Get('/:id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get role data by its ID.' })
   @ApiOkResponse({
     description: 'May returns empty result (if role not exists).',
@@ -47,6 +52,8 @@ export class RolesController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all roles data.' })
   @ApiOkResponse({
     description: 'May returns empty result (if roles not exists).',
@@ -60,6 +67,8 @@ export class RolesController {
   }
 
   @Put('/:id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Updates role data by its ID.' })
   @ApiOkResponse({
     description: 'Role updated.',
@@ -72,6 +81,8 @@ export class RolesController {
   }
 
   @Delete('/:value')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Deletes role by its name.' })
   @ApiParam({ description: 'Role name.', name: 'value' })
   @ApiOkResponse({
@@ -90,6 +101,8 @@ export class RolesController {
   }
 
   @Put('/user/:userId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Add roles to user.',
     description:
@@ -106,6 +119,8 @@ export class RolesController {
   }
 
   @Get('/user/:userId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Returns user roles by user ID.',
   })
@@ -116,6 +131,8 @@ export class RolesController {
   }
 
   @Delete('/user/:userId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Delete user roles by user ID.',
   })

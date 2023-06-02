@@ -9,6 +9,7 @@ import { FilesModule } from './files/files.module';
 import { CommentsModule } from './comments/comments.module';
 import { ConfigModule } from '@nestjs/config';
 import { RolesModule } from './roles/roles.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -18,12 +19,16 @@ import { RolesModule } from './roles/roles.module';
     ProfileModule,
     FilesModule,
     CommentsModule,
+    RolesModule,
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
-    RolesModule,
+    JwtModule.register({
+      secret: 'SECRET',
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
+  exports: [JwtModule],
 })
 export class AppModule {}
