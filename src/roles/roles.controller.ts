@@ -5,12 +5,14 @@ import {
   Get,
   Param,
   Post,
-  Put, UseGuards,
+  Put,
+  UseGuards,
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { RoleDto } from './dto/role.dto';
 import {
-  ApiBadRequestResponse, ApiBearerAuth,
+  ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -18,7 +20,7 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import {JwtAuthGuard} from "../decorator/jwt-auth.guard";
+import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 
 @Controller('roles')
 @ApiTags('Roles MS API')

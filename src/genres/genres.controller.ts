@@ -5,7 +5,8 @@ import {
   Get,
   Param,
   Post,
-  Put, UseGuards,
+  Put,
+  UseGuards,
 } from '@nestjs/common';
 import { GenresService } from './genres.service';
 import { CreateGenreDto } from './dto/create-genre.dto';
@@ -21,7 +22,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GenreDto } from './dto/genre.dto';
-import {JwtAuthGuard} from "../decorator/jwt-auth.guard";
+import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 
 @ApiTags('Genres MS API')
 @Controller('genres')

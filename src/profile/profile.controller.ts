@@ -8,7 +8,8 @@ import {
   Put,
   Req,
   Res,
-  UploadedFile, UseGuards,
+  UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
@@ -17,7 +18,7 @@ import { LoginDto } from './dto/login.dto';
 import { Express, Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import {JwtAuthGuard} from "../decorator/jwt-auth.guard";
+import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 
 @Controller('profile')
 @ApiTags('Profile/authentication MS API')

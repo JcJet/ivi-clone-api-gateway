@@ -6,7 +6,8 @@ import {
   Param,
   Post,
   Put,
-  Query, UseGuards,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Roles } from '../decorator/roles.decorator';
@@ -25,7 +26,7 @@ import { Observable } from 'rxjs';
 import { MoviesResponseDto } from './dto/movies-response.dto';
 import { MovieResponseDto } from './dto/movie-response.dto';
 import { DeleteMovieResponseDto } from './dto/delete-movie-response.dto';
-import {JwtAuthGuard} from "../decorator/jwt-auth.guard";
+import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 
 @ApiTags('Movies MS API')
 @Controller()
