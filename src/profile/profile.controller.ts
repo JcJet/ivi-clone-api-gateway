@@ -161,7 +161,6 @@ export class ProfileController {
 
   @Get('vk')
   async vkAuth(@Req() req, @Res() res) {
-    //const link = `https://oauth.vk.com/authorize?client_id=51665127&display=popup&redirect_uri=http://localhost:4000/profile/vk_redirect/&scope=email&response_type=code&v=5.120&state=4194308`;
     const redirectUri = process.env.API_URL + '/profile/vk_redirect/';
     const link = `https://oauth.vk.com/authorize?client_id=${process.env.VK_APP_ID}&redirect_uri=${redirectUri}&scope=email&response_type=code`;
     console.log(link);
