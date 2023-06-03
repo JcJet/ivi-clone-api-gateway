@@ -15,7 +15,8 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, document);
   app.use(cookieParser());
-  app.enableCors({
+
+  /*  app.enableCors({
     allowedHeaders: ['content-type', 'authorization'],
     origin: [
       process.env.CLIENT_URL,
@@ -26,7 +27,9 @@ async function bootstrap() {
       '*',
     ],
     credentials: true,
-  });
+  });*/
+
+  app.enableCors({ credentials: true, origin: true });
 
   await app.listen(process.env.APP_PORT, () => {
     console.log(
