@@ -23,7 +23,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 import { MasterOrAdminGuard } from '../decorator/master-or-admin.guard';
 
-@Controller('profile')
+@Controller()
 @ApiTags('Profile/authentication MS API')
 export class ProfileController {
   constructor(private profileService: ProfileService) {}
@@ -49,7 +49,7 @@ export class ProfileController {
     return this.profileService.login(loginDto, res);
   }
 
-  @Delete('/:id')
+  @Delete('/profile/:id')
   @UseGuards(JwtAuthGuard, MasterOrAdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete profile by its ID.' })
@@ -61,7 +61,7 @@ export class ProfileController {
     return this.profileService.deleteProfile(profileId);
   }
 
-  @Put('/:id') //admin or master
+  @Put('/profile/:id') //admin or master
   @UseGuards(JwtAuthGuard, MasterOrAdminGuard)
   @UseInterceptors(FileInterceptor('avatar')) //???
   @ApiBearerAuth()
@@ -82,7 +82,7 @@ export class ProfileController {
     );
   }
 
-  @Get()
+  @Get('/profiles')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all profiles.' })
@@ -94,7 +94,7 @@ export class ProfileController {
     return this.profileService.getAllProfiles();
   }
 
-  @Get('/:id')
+  @Get('profile/:id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get profile by its ID.' })
@@ -144,13 +144,13 @@ export class ProfileController {
     return this.profileService.activateAccount(activationLink, response);
   }
 
-  @Get('google')
+  @Get('/oauth/google')
   @UseGuards(AuthGuard('google'))
   async googleAuth(@Req() req) {
     console.log('API Gateway - Profile Controller - googleAuth at', new Date());
   }
 
-  @Get('redirect')
+  @Get('/oauth/redirect')
   @UseGuards(AuthGuard('google'))
   googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
     console.log(
@@ -160,14 +160,14 @@ export class ProfileController {
     return this.profileService.googleLogin(req, res);
   }
 
-  @Get('vk')
+  @Get('/oauth/vk')
   async vkAuth(@Req() req, @Res() res) {
-    const redirectUri = process.env.API_URL + '/profile/vk_redirect/';
+    const redirectUri = process.env.API_URL + '/oauth/vk_redirect/';
     const link = `https://oauth.vk.com/authorize?client_id=${process.env.VK_APP_ID}&redirect_uri=${redirectUri}&scope=email&response_type=code`;
     console.log(link);
     res.redirect(link);
   }
-  @Get('vk_redirect')
+  @Get('/oauth/vk_redirect/')
   vkRedirect(@Query('code') code: string, @Query('state') state: string) {
     return this.profileService.loginVk(code);
   }
