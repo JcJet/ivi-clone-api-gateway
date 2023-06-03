@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { RoleDto } from './dto/role.dto';
-import {AddUserRoleDto} from "./dto/addUserRole.dto";
+import { AddUserRoleDto } from './dto/addUserRole.dto';
 
 @Injectable()
 export class RolesService {

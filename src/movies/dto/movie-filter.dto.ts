@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class MovieFilterDto {
   @ApiProperty({
@@ -8,6 +9,8 @@ export class MovieFilterDto {
     required: false,
     type: 'string',
   })
+  @IsString()
+  @IsOptional()
   readonly countries?: string;
 
   @ApiProperty({
@@ -18,6 +21,8 @@ export class MovieFilterDto {
     example: '1997-2000',
     required: false,
   })
+  @IsString()
+  @IsOptional()
   readonly years?: string;
 
   @ApiProperty({
@@ -27,6 +32,8 @@ export class MovieFilterDto {
     example: '7.4',
     required: false,
   })
+  @IsNumber()
+  @IsOptional()
   readonly rating?: number;
 
   @ApiProperty({
@@ -36,6 +43,8 @@ export class MovieFilterDto {
     example: '17920',
     required: false,
   })
+  @IsNumber()
+  @IsOptional()
   readonly ratingCount?: number;
 
   @ApiProperty({
@@ -44,6 +53,8 @@ export class MovieFilterDto {
     example: '13',
     required: false,
   })
+  @IsNumber()
+  @IsOptional()
   readonly director?: number;
 
   @ApiProperty({
@@ -52,6 +63,8 @@ export class MovieFilterDto {
     example: '130',
     required: false,
   })
+  @IsNumber()
+  @IsOptional()
   readonly actor?: number;
 
   genres?: string;

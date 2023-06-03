@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Roles } from '../decorator/roles.decorator';
-import { UpdateMovieDto } from './dto/update-movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import {
   ApiBearerAuth,
@@ -130,7 +129,7 @@ export class MoviesController {
   })
   updateMovie(
     @Param('id') movieId: number,
-    @Body() updateMovieDto: UpdateMovieDto,
+    @Body() updateMovieDto: CreateMovieDto,
   ): Promise<Observable<DeleteMovieResponseDto>> {
     console.log('API Gateway - Movies Controller - updateMovie at', new Date());
     return this.moviesService.updateMovie(movieId, updateMovieDto);

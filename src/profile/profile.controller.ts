@@ -106,8 +106,7 @@ export class ProfileController {
     return this.profileService.getProfileById(profileId);
   }
 
-  @Post('/refreshAccessToken') //???
-  // @ApiBearerAuth()
+  @Post('/refreshAccessToken')
   @ApiOperation({ summary: 'Update/refresh access token.' })
   refreshAccessToken(
     @Req() request: Request,
