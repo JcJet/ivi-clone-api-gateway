@@ -21,6 +21,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
+import { RolesGuard } from '../decorator/roles.guard';
+import { Roles } from '../decorator/roles.decorator';
 
 @Controller('roles')
 @ApiTags('Roles MS API')
@@ -28,9 +30,10 @@ export class RolesController {
   constructor(private rolesService: RolesService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Create new role.' })
+  @ApiOperation({ summary: 'ADMIN-ONLY Create new role.' })
   @ApiBadRequestResponse({ description: 'Role already exists.' })
   @ApiOkResponse({ description: 'Role created.' })
   createRole(@Body() dto: RoleDto) {
@@ -40,9 +43,10 @@ export class RolesController {
   }
 
   @Get('/:id')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get role data by its ID.' })
+  @ApiOperation({ summary: 'ADMIN-ONLY Get role data by its ID.' })
   @ApiOkResponse({
     description: 'May returns empty result (if role not exists).',
     type: RoleDto,
@@ -54,9 +58,10 @@ export class RolesController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get all roles data.' })
+  @ApiOperation({ summary: 'ADMIN-ONLY Get all roles data.' })
   @ApiOkResponse({
     description: 'May returns empty result (if roles not exists).',
     type: RoleDto,
@@ -69,9 +74,10 @@ export class RolesController {
   }
 
   @Put('/:id')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Updates role data by its ID.' })
+  @ApiOperation({ summary: 'ADMIN-ONLY Updates role data by its ID.' })
   @ApiOkResponse({
     description: 'Role updated.',
   })
@@ -83,9 +89,10 @@ export class RolesController {
   }
 
   @Delete('/:value')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Deletes role by its name.' })
+  @ApiOperation({ summary: 'ADMIN-ONLY Deletes role by its name.' })
   @ApiParam({ description: 'Role name.', name: 'value' })
   @ApiOkResponse({
     description: 'Role deleted.',
@@ -103,10 +110,11 @@ export class RolesController {
   }
 
   @Put('/user/:userId')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Add roles to user.',
+    summary: 'ADMIN-ONLY Add roles to user.',
     description:
       'Add roles by their value (name). If role not exists, creates it.',
   })
@@ -121,10 +129,11 @@ export class RolesController {
   }
 
   @Get('/user/:userId')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Returns user roles by user ID.',
+    summary: 'ADMIN-ONLY Returns user roles by user ID.',
   })
   getUserRoles(@Param('userId') userId: number) {
     console.log('API Gateway - Roles Controller - getUserRoles at', new Date());
@@ -133,10 +142,11 @@ export class RolesController {
   }
 
   @Delete('/user/:userId')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Delete user roles by user ID.',
+    summary: 'ADMIN-ONLY Delete user roles by user ID.',
   })
   deleteUserRoles(@Param('userId') userId: number) {
     console.log(

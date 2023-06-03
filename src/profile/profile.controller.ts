@@ -21,7 +21,7 @@ import { Express, Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
-import { ConfigService } from '@nestjs/config';
+import { MasterOrAdminGuard } from '../decorator/master-or-admin.guard';
 
 @Controller('profile')
 @ApiTags('Profile/authentication MS API')
@@ -49,7 +49,8 @@ export class ProfileController {
     return this.profileService.login(loginDto, res);
   }
 
-  @Delete('/:id') //admin or master
+  @Delete('/:id')
+  @UseGuards(JwtAuthGuard, MasterOrAdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete profile by its ID.' })
   deleteProfile(@Param('id') profileId: number) {
@@ -61,7 +62,8 @@ export class ProfileController {
   }
 
   @Put('/:id') //admin or master
-  @UseInterceptors(FileInterceptor('avatar'))
+  @UseGuards(JwtAuthGuard, MasterOrAdminGuard)
+  @UseInterceptors(FileInterceptor('avatar')) //???
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update profile by its ID.' })
   updateProfile(
@@ -153,8 +155,8 @@ export class ProfileController {
   @UseGuards(AuthGuard('google'))
   googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
     console.log(
-        'API Gateway - Profile Controller - googleAuthRedirect at',
-        new Date(),
+      'API Gateway - Profile Controller - googleAuthRedirect at',
+      new Date(),
     );
     return this.profileService.googleLogin(req, res);
   }

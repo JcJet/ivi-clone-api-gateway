@@ -27,6 +27,7 @@ import { MoviesResponseDto } from './dto/movies-response.dto';
 import { MovieResponseDto } from './dto/movie-response.dto';
 import { DeleteMovieResponseDto } from './dto/delete-movie-response.dto';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
+import { RolesGuard } from '../decorator/roles.guard';
 
 @ApiTags('Movies MS API')
 @Controller()
@@ -94,8 +95,8 @@ export class MoviesController {
   }
 
   @Delete('/movie/:id')
-  @Roles('admin')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'ADMIN-ONLY Delete movie by its ID.' })
   @ApiParam({
@@ -115,8 +116,8 @@ export class MoviesController {
   }
 
   @Put('/movie/:id')
-  @Roles('admin')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'ADMIN-ONLY Update movie by its ID with JSON body.',
@@ -136,8 +137,8 @@ export class MoviesController {
   }
 
   @Post('/movie/')
-  @Roles('admin')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'ADMIN-ONLY Create movie with JSON body.',

@@ -23,6 +23,8 @@ import {
 } from '@nestjs/swagger';
 import { GenreDto } from './dto/genre.dto';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
+import { Roles } from '../decorator/roles.decorator';
+import { RolesGuard } from '../decorator/roles.guard';
 
 @ApiTags('Genres MS API')
 @Controller('genres')
@@ -30,7 +32,8 @@ export class GenresController {
   constructor(private genresService: GenresService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'ADMIN-ONLY Create genre.',
@@ -76,7 +79,8 @@ export class GenresController {
   }
 
   @Delete('/:id')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'ADMIN-ONLY Delete genre by its ID.',
@@ -90,7 +94,8 @@ export class GenresController {
   }
 
   @Put('/:id')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'ADMIN-ONLY Update genre by its ID with JSON body.',
