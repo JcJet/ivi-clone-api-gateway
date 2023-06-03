@@ -119,13 +119,10 @@ export class RolesController {
       'Add roles by their value (name). If role not exists, creates it.',
   })
   @ApiBody({ description: 'Roles names array.', type: 'string', isArray: true })
-  addUserRoles(
-    @Param('userId') userId: number,
-    @Body() dto: { roles: string[] },
-  ) {
+  addUserRoles(@Param('userId') userId: number, @Body() roles: string[]) {
     console.log('API Gateway - Roles Controller - addUserRoles at', new Date());
 
-    return this.rolesService.addUserRoles({ userId, ...dto });
+    return this.rolesService.addUserRoles({ userId, roles });
   }
 
   @Get('/user/:userId')
@@ -146,14 +143,15 @@ export class RolesController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'ADMIN-ONLY Delete user roles by user ID.',
+    summary: 'ADMIN-ONLY Revoke user roles by user ID and array of role values.',
   })
-  deleteUserRoles(@Param('userId') userId: number) {
+  @ApiBody({ description: 'Roles names array.', type: 'string', isArray: true })
+  revokeUserRoles(@Param('userId') userId: number, @Body() roles: string[]) {
     console.log(
       'API Gateway - Roles Controller - deleteUserRoles at',
       new Date(),
     );
 
-    return this.rolesService.deleteUserRoles(userId);
+    return this.rolesService.revokeUserRoles({ userId, roles });
   }
 }
