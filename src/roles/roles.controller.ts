@@ -13,7 +13,7 @@ import { RoleDto } from './dto/role.dto';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
-  ApiBody,
+  ApiBody, ApiConflictResponse, ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -31,8 +31,8 @@ export class RolesController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create new role.' })
-  @ApiBadRequestResponse({ description: 'Role already exists.' })
-  @ApiOkResponse({ description: 'Role created.' })
+  @ApiConflictResponse({ description: 'Role already exists.' })
+  @ApiCreatedResponse({ description: 'Role created.' })
   createRole(@Body() dto: RoleDto) {
     console.log('API Gateway - Roles Controller - createRole at', new Date());
 
@@ -44,9 +44,10 @@ export class RolesController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get role data by its ID.' })
   @ApiOkResponse({
-    description: 'May returns empty result (if role not exists).',
+    description: 'Role by ID',
     type: RoleDto,
   })
+  @ApiNotFoundResponse({ description: 'Role by given ID not exists.' })
   getRoleById(@Param('id') id: number) {
     console.log('API Gateway - Roles Controller - getRoleById at', new Date());
 
@@ -75,6 +76,7 @@ export class RolesController {
   @ApiOkResponse({
     description: 'Role updated.',
   })
+  @ApiConflictResponse({ description: 'Role with that value already exists.' })
   @ApiNotFoundResponse({ description: 'Role by given ID not exists.' })
   updateRole(@Param('id') id: number, @Body() dto: RoleDto) {
     console.log('API Gateway - Roles Controller - updateRole at', new Date());
@@ -110,6 +112,7 @@ export class RolesController {
     description:
       'Add roles by their value (name). If role not exists, creates it.',
   })
+  @ApiNotFoundResponse({ description: 'User not found.' })
   @ApiBody({ description: 'Roles names array.', type: 'string', isArray: true })
   addUserRoles(@Param('userId') userId: number, @Body() roles: string[]) {
     console.log('API Gateway - Roles Controller - addUserRoles at', new Date());
@@ -123,6 +126,7 @@ export class RolesController {
   @ApiOperation({
     summary: 'Returns user roles by user ID.',
   })
+  @ApiNotFoundResponse({ description: 'User not found.' })
   getUserRoles(@Param('userId') userId: number) {
     console.log('API Gateway - Roles Controller - getUserRoles at', new Date());
 
@@ -135,6 +139,7 @@ export class RolesController {
   @ApiOperation({
     summary: 'Revoke user roles by user ID and array of role values.',
   })
+  @ApiNotFoundResponse({ description: 'User not found.' })
   @ApiBody({ description: 'Roles names array.', type: 'string', isArray: true })
   revokeUserRoles(@Param('userId') userId: number, @Body() roles: string[]) {
     console.log(
