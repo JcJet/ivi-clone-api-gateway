@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Roles } from '../decorator/roles.decorator';
-import { UpdateMovieDto } from './dto/update-movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import {
   ApiBearerAuth,
@@ -27,6 +26,7 @@ import { MoviesResponseDto } from './dto/movies-response.dto';
 import { MovieResponseDto } from './dto/movie-response.dto';
 import { DeleteMovieResponseDto } from './dto/delete-movie-response.dto';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
+import { RolesGuard } from '../decorator/roles.guard';
 
 @ApiTags('Movies MS API')
 @Controller()
@@ -94,8 +94,8 @@ export class MoviesController {
   }
 
   @Delete('/movie/:id')
-  @Roles('admin')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'ADMIN-ONLY Delete movie by its ID.' })
   @ApiParam({
@@ -115,8 +115,8 @@ export class MoviesController {
   }
 
   @Put('/movie/:id')
-  @Roles('admin')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'ADMIN-ONLY Update movie by its ID with JSON body.',
@@ -129,15 +129,15 @@ export class MoviesController {
   })
   updateMovie(
     @Param('id') movieId: number,
-    @Body() updateMovieDto: UpdateMovieDto,
+    @Body() updateMovieDto: CreateMovieDto,
   ): Promise<Observable<DeleteMovieResponseDto>> {
     console.log('API Gateway - Movies Controller - updateMovie at', new Date());
     return this.moviesService.updateMovie(movieId, updateMovieDto);
   }
 
   @Post('/movie/')
-  @Roles('admin')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'ADMIN-ONLY Create movie with JSON body.',

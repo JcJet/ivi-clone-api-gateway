@@ -20,6 +20,9 @@ import {
 } from '@nestjs/swagger';
 import { EssenceIdDto } from './dto/essence-id-dto';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
+import { MasterOrAdminGuard } from '../decorator/master-or-admin.guard';
+import { RolesGuard } from '../decorator/roles.guard';
+import { Roles } from '../decorator/roles.decorator';
 
 @Controller('comments')
 @ApiTags('Comments MS API')
@@ -64,8 +67,8 @@ export class CommentsController {
     return this.commentsService.createComment(createCommentDto, essenceIdsDto);
   }
 
-  @Delete('/:id') //admin or master
-  @UseGuards(JwtAuthGuard)
+  @Delete('/:id')
+  @UseGuards(JwtAuthGuard, MasterOrAdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete comment by its ID.' })
   deleteComment(@Param('id') commentId: number) {
@@ -77,7 +80,8 @@ export class CommentsController {
   }
 
   @Delete() //admin
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiExcludeEndpoint()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete comments by essenceTable, essenceId' })
@@ -91,8 +95,8 @@ export class CommentsController {
     });
   }
 
-  @Put('/:id') // admin or master
-  @UseGuards(JwtAuthGuard)
+  @Put('/:id') // remove from gateway???
+  @UseGuards(JwtAuthGuard, MasterOrAdminGuard)
   @ApiExcludeEndpoint()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update comment by its ID with JSON body.' })

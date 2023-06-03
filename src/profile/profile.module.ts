@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ProfileController } from './profile.controller';
 import { ProfileService } from './profile.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
 import { GoogleStrategy } from './auth-strategies/google.strategy';
+import { CommentsModule } from '../comments/comments.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -38,8 +40,11 @@ import { GoogleStrategy } from './auth-strategies/google.strategy';
       },
     ]),
     JwtModule,
+    forwardRef(() => CommentsModule),
+    ConfigModule,
   ],
   controllers: [ProfileController],
   providers: [ProfileService, GoogleStrategy],
+  exports: [ProfileService],
 })
 export class ProfileModule {}

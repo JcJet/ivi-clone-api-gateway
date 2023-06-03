@@ -3,6 +3,7 @@ import { RolesController } from './roles.controller';
 import { RolesService } from './roles.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JwtModule } from '@nestjs/jwt';
       },
     ]),
     JwtModule,
+    ConfigModule,
   ],
   controllers: [RolesController],
   providers: [RolesService],

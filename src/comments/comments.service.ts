@@ -2,7 +2,7 @@ import { Inject, Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { GetCommentsDto } from './dto/get-comments.dto';
-import {EssenceIdDto} from "./dto/essence-id-dto";
+import { EssenceIdDto } from './dto/essence-id-dto';
 
 @Injectable()
 export class CommentsService {
@@ -56,10 +56,7 @@ export class CommentsService {
       new Date(),
     );
 
-    const fullDto = this.makeCommentDto(
-      createCommentDto,
-      essenceIds
-    );
+    const fullDto = this.makeCommentDto(createCommentDto, essenceIds);
     return this.commentsProxy.send({ cmd: 'createComment' }, { dto: fullDto });
   }
 
@@ -106,5 +103,13 @@ export class CommentsService {
       { cmd: 'deleteCommentsFromEssence' },
       { dto },
     );
+  }
+
+  async getCommentById(commentId: number) {
+    console.log(
+      'API Gateway - Comments Service - getCommentById at',
+      new Date(),
+    );
+    return this.commentsProxy.send({ cmd: 'getCommentById' }, { commentId });
   }
 }

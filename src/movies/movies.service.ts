@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Observable } from 'rxjs';
 import { MoviesResponseDto } from './dto/movies-response.dto';
 import { MovieFilterDto } from './dto/movie-filter.dto';
 import { MovieResponseDto } from './dto/movie-response.dto';
 import { DeleteMovieResponseDto } from './dto/delete-movie-response.dto';
+import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Injectable()
 export class MoviesService {
@@ -41,7 +41,7 @@ export class MoviesService {
 
   async updateMovie(
     movieId: number,
-    updateMovieDto: UpdateMovieDto,
+    updateMovieDto: CreateMovieDto,
   ): Promise<Observable<DeleteMovieResponseDto>> {
     console.log('API Gateway - Movies Service - updateMovie at', new Date());
     return this.moviesRmqProxy.send<DeleteMovieResponseDto>(

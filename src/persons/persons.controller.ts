@@ -25,6 +25,8 @@ import {
 import { Observable } from 'rxjs';
 import { GetPersonDto } from './dto/get-person.dto';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
+import { Roles } from '../decorator/roles.decorator';
+import { RolesGuard } from '../decorator/roles.guard';
 
 @Controller('persons')
 @ApiTags('Persons MS API')
@@ -32,7 +34,8 @@ export class PersonsController {
   constructor(private personsService: PersonsService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'ADMIN-ONLY Create person.',
@@ -51,7 +54,8 @@ export class PersonsController {
   }
 
   @Put('/:id')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'ADMIN-ONLY Update person.',
@@ -72,7 +76,8 @@ export class PersonsController {
   }
 
   @Delete('/:id')
-  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'ADMIN-ONLY Delete person by its ID.' })
   @ApiOkResponse({ description: 'Deleted successfully.' })
