@@ -15,7 +15,18 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, document);
   app.use(cookieParser());
-  app.enableCors();
+  app.enableCors({
+    allowedHeaders: ['content-type', 'authorization'],
+    origin: [
+      process.env.CLIENT_URL,
+      '95.52.182.155:3000',
+      '95.52.182.155:11392',
+      '95-52-182-155.dynamic.komi.dslavangard.ru:3000',
+      '95-52-182-155.dynamic.komi.dslavangard.ru:11392',
+      '*',
+    ],
+    credentials: true,
+  });
 
   await app.listen(process.env.APP_PORT, () => {
     console.log(
