@@ -3,6 +3,7 @@ import { PersonsController } from './persons.controller';
 import { PersonsService } from './persons.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JwtModule } from '@nestjs/jwt';
       },
     ]),
     JwtModule,
+    ConfigModule,
   ],
   controllers: [PersonsController],
   providers: [PersonsService],

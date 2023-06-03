@@ -3,6 +3,7 @@ import { GenresService } from './genres.service';
 import { GenresController } from './genres.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JwtModule } from '@nestjs/jwt';
       },
     ]),
     JwtModule,
+    ConfigModule,
   ],
   providers: [GenresService],
   controllers: [GenresController],

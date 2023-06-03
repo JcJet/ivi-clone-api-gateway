@@ -1,16 +1,10 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
-import { lastValueFrom, Observable } from 'rxjs';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { lastValueFrom } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
-import { ROLES_KEY } from './roles.decorator';
 import { CommentsService } from '../comments/comments.service';
 import { ProfileService } from '../profile/profile.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MasterOrAdminGuard implements CanActivate {
@@ -19,6 +13,7 @@ export class MasterOrAdminGuard implements CanActivate {
     private reflector: Reflector,
     private commentsService: CommentsService,
     private profileService: ProfileService,
+    private configService: ConfigService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -28,7 +23,7 @@ export class MasterOrAdminGuard implements CanActivate {
       .getRequest()
       .headers.authorization.split(' ')[1];
     const userId = this.jwtService.verify(authToken, {
-      secret: 'jwt-secret-key',
+      secret: this.configService.get('JWT_SECRET_KEY'),
     }).userId;
 
     //Getting userId by accessed entity

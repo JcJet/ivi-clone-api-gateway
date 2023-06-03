@@ -6,22 +6,23 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private jwtService: JwtService,
+    private configService: ConfigService,
+  ) {}
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    return true;
     const req = context.switchToHttp().getRequest();
     try {
       const authHeader = req.headers.authorization;
       const bearer = authHeader.split(' ')[0];
       const token = authHeader.split(' ')[1];
-
-      console.log(authHeader);
 
       if (bearer !== 'Bearer' || !token) {
         throw new UnauthorizedException({
@@ -29,12 +30,11 @@ export class JwtAuthGuard implements CanActivate {
         });
       }
 
-      console.log('Here');
-      req.user = this.jwtService.verify(token);
-      console.log(req.user, token);
+      req.user = this.jwtService.verify(token, {
+        secret: this.configService.get('JWT_SECRET_KEY'),
+      });
       return true;
     } catch (e) {
-      console.log(e);
       throw new UnauthorizedException({
         message: 'Пользователь не авторизован.SSS',
       });

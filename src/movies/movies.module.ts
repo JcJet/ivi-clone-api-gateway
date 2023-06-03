@@ -3,6 +3,7 @@ import { MoviesController } from './movies.controller';
 import { MoviesService } from './movies.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JwtModule } from '@nestjs/jwt';
       },
     ]),
     JwtModule,
+    ConfigModule,
   ],
   controllers: [MoviesController],
   providers: [MoviesService],
