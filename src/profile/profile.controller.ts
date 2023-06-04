@@ -19,7 +19,7 @@ import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
 import { Express, Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {ApiBearerAuth, ApiExcludeEndpoint, ApiOperation, ApiTags} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 import { MasterOrAdminGuard } from '../decorator/master-or-admin.guard';
 
@@ -148,6 +148,7 @@ export class ProfileController {
     console.log('API Gateway - Profile Controller - googleAuth at', new Date());
   }
 
+  @ApiExcludeEndpoint()
   @Get('/oauth/redirect')
   @UseGuards(AuthGuard('google'))
   googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
@@ -165,6 +166,8 @@ export class ProfileController {
     console.log(link);
     res.redirect(link);
   }
+
+  @ApiExcludeEndpoint()
   @Get('/oauth/vk_redirect/')
   vkRedirect(@Query('code') code: string, @Query('state') state: string) {
     return this.profileService.loginVk(code);
