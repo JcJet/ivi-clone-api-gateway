@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   Post,
   Put,
@@ -23,11 +24,17 @@ import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 import { MasterOrAdminGuard } from '../decorator/master-or-admin.guard';
 import { RolesGuard } from '../decorator/roles.guard';
 import { Roles } from '../decorator/roles.decorator';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('comments')
 @ApiTags('Comments MS API')
 export class CommentsController {
-  constructor(private commentsService: CommentsService) {}
+  constructor(
+    private commentsService: CommentsService,
+    private jwtService: JwtService,
+    private configService: ConfigService,
+  ) {}
 
   @Post()
   @UseGuards(JwtAuthGuard)
@@ -58,11 +65,19 @@ export class CommentsController {
     @Query('movieId') movieId: number,
     @Query('commentId') commentId: number,
     @Query('personId') personId: number,
+    @Headers() headers: { authorization: string },
   ) {
     console.log(
       'API Gateway - Comments Controller - createComment at',
       new Date(),
     );
+
+    const userData: { userId: number } = this.jwtService.verify(
+      headers.authorization.split(' ')[1],
+      { secret: this.configService.get('JWT_SECRET_KEY') },
+    );
+    createCommentDto.author.userId = userData.userId;
+
     const essenceIdsDto: EssenceIdDto = { movieId, commentId, personId };
     return this.commentsService.createComment(createCommentDto, essenceIdsDto);
   }

@@ -1,14 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsDefined,
-  IsInstance,
-  IsNumber,
-  IsString,
-  Length,
-} from 'class-validator';
+import { IsDefined, IsString, Length } from 'class-validator';
 
 class Author {
-  readonly userId: number;
+  userId: number;
   readonly name: string;
 }
 
@@ -18,9 +12,6 @@ export class CreateCommentDto {
     description: 'Автор комментария',
   })
   @IsDefined()
-  @IsInstance(Author, {
-    message: 'Must have "userId" as number & "name" as string fields.',
-  })
   readonly author: Author;
 
   @IsDefined()
