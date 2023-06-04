@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import {IsNumber, IsNumberString, IsOptional, IsString} from 'class-validator';
 
 export class MovieFilterDto {
   @ApiProperty({
@@ -32,18 +32,18 @@ export class MovieFilterDto {
     example: '7.4',
     required: false,
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   readonly rating?: number;
 
   @ApiProperty({
     description:
-      'Returns movies with ratings number equal or higher, than specified.',
+      'Returns movies with ratings number equal or higher, than specified. Number should be divided by 1000. For example, 17200 rates should be passed as 17',
     type: 'number',
-    example: '17920',
+    example: '17',
     required: false,
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   readonly ratingCount?: number;
 
@@ -53,7 +53,7 @@ export class MovieFilterDto {
     example: '13',
     required: false,
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   readonly director?: number;
 
@@ -63,7 +63,7 @@ export class MovieFilterDto {
     example: '130',
     required: false,
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   readonly actor?: number;
 

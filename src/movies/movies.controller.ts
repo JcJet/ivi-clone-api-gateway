@@ -8,6 +8,7 @@ import {
   Put,
   Query,
   UseGuards,
+  ValidationPipe,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Roles } from '../decorator/roles.decorator';
@@ -36,7 +37,8 @@ export class MoviesController {
   @Get('/movies/')
   @ApiExcludeEndpoint()
   getMovies(
-    @Query() movieFilterDto: MovieFilterDto,
+    @Query()
+    movieFilterDto: MovieFilterDto,
   ): Promise<Observable<MoviesResponseDto>> {
     console.log('API Gateway - Movies Controller - getMovies at', new Date());
     return this.moviesService.getMovies(movieFilterDto);

@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDefined,
   IsNumber,
+  IsNumberString,
   IsOptional,
   IsString,
   IsUrl,
@@ -9,102 +10,102 @@ import {
 } from 'class-validator';
 
 export class CreateMovieDto {
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsDefined()
   readonly nameRu: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsDefined()
   readonly nameEn: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
   @Length(10, 1000)
   @IsOptional()
   readonly description: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsString({ each: true })
   @IsOptional()
   readonly countries: string[];
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsNumber({}, { each: true })
   @IsOptional()
   readonly genres: number[];
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsUrl()
   @IsOptional()
   readonly trailer: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber({}, { each: true })
   @IsOptional()
   readonly similarMovies: number[];
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsNumber()
   @IsDefined()
   readonly year: number;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
   readonly rating: number;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
   readonly ratingCount: number;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
   readonly ageRating: number;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsUrl()
   @IsOptional()
   readonly poster: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsNumber()
   @IsDefined()
   readonly duration: number;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
   @Length(5, 100)
   @IsOptional()
   readonly slogan: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber({}, { each: true })
   @IsOptional()
   readonly director: number[];
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber({}, { each: true })
   @IsOptional()
   readonly actors: number[];
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber({}, { each: true })
   @IsOptional()
   readonly producer: number[];
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber({}, { each: true })
   @IsOptional()
   readonly cinematographer: number[];
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber({}, { each: true })
   @IsOptional()
   readonly screenwriter: number[];
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber({}, { each: true })
   @IsOptional()
   readonly composer: number[];
