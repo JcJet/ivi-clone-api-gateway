@@ -40,7 +40,9 @@ export class GenresController {
     description: 'Create genre with JSON. Names must be unique!',
   })
   @ApiOkResponse({ type: GenreDto, description: 'Genre created.' })
-  @ApiConflictResponse({ description: 'If body data can not be handled.' })
+  @ApiBadRequestResponse({
+    description: 'If body data can not be handled of genre already exists.',
+  })
   createGenre(
     @Body() createGenreDto: CreateGenreDto,
   ): Promise<Observable<GenreDto>> {

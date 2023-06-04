@@ -69,7 +69,6 @@ export class ProfileController {
   updateProfile(
     @Param('id') profileId: number,
     @Body() updateProfileDto: RegistrationDto,
-    @UploadedFile() avatar: Express.Multer.File,
   ) {
     console.log(
       'API Gateway - Profile Controller - updateProfile at',
@@ -78,7 +77,6 @@ export class ProfileController {
     return this.profileService.updateProfile(
       profileId,
       updateProfileDto,
-      avatar,
     );
   }
 

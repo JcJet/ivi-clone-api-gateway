@@ -58,29 +58,8 @@ export class ProfileService {
     );
   }
 
-  async updateProfile(
-    profileId: number,
-    updateProfileDto: RegistrationDto,
-    avatar: Express.Multer.File,
-  ) {
+  async updateProfile(profileId: number, updateProfileDto: RegistrationDto) {
     console.log('API Gateway - Profile Service - updateProfile at', new Date());
-
-    let avatarFileName = '';
-    if (avatar) {
-      const fileDto: FileDto = {
-        essenceTable: 'Profiles',
-        essenceId: profileId,
-      };
-      await lastValueFrom(
-        this.filesProxy.send({ cmd: 'deleteFiles' }, { dto: fileDto }),
-      );
-      avatarFileName = await lastValueFrom(
-        this.filesProxy.send(
-          { cmd: 'createFile' },
-          { file: avatar, dto: fileDto },
-        ),
-      );
-    }
 
     const updateProfileResult = await lastValueFrom(
       this.profileProxy.send(
@@ -88,7 +67,6 @@ export class ProfileService {
         {
           profileId: profileId,
           updateProfileDto: updateProfileDto,
-          avatarFileName: avatarFileName,
         },
       ),
     );
