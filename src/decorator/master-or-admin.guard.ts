@@ -22,9 +22,10 @@ export class MasterOrAdminGuard implements CanActivate {
       .switchToHttp()
       .getRequest()
       .headers.authorization.split(' ')[1];
-    const userId = this.jwtService.verify(authToken, {
-      secret: this.configService.get('JWT_SECRET_KEY'),
-    }).userId;
+    const userData: { userId: number; roles: string[] } =
+      this.jwtService.verify(authToken, {
+        secret: this.configService.get('JWT_SECRET_KEY'),
+      });
 
     //Getting userId by accessed entity
     const commentsMethods = ['deleteComment', 'updateComment'];
@@ -35,22 +36,24 @@ export class MasterOrAdminGuard implements CanActivate {
     console.log(context.switchToHttp().getRequest().params);
 
     if (commentsMethods.includes(calledMethodName)) {
-      return true;
+      // Comments section
       const commentId = context.switchToHttp().getRequest().params.id;
       const accessedComment = await lastValueFrom(
         await this.commentsService.getCommentById(commentId),
       );
 
-      return accessedComment.userId == userId;
+      return accessedComment.userId == userData.userId;
     } else if (profileMethods.includes(calledMethodName)) {
+      // Profiles section
       const profileId = context.switchToHttp().getRequest().params.id;
       const accessedProfile = await this.profileService.getProfileById(
         profileId,
       );
 
-      return accessedProfile.userId == userId;
+      return accessedProfile.userId == userData.userId;
     }
 
-    return false;
+    //Admin section
+    return userData.roles.includes('ADMIN');
   }
 }
