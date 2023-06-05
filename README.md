@@ -1,80 +1,21 @@
+# Genres Microservice for [Ivi Clone backend](https://github.com/srgklmv/ivi-clone-repo)
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=Umii2VBoTRI" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+</p>
+
+
 ## Description
 
-API Gateway for Ivi clone project.\
-Access PORT: 3111.
+This microservice is an API Gateway for [Ivi Clone backend application](https://github.com/srgklmv/ivi-clone-repo).\
+This is the only one entrypoint to all microservices via http requests.\
+Here you can find an instructions for setting up and running microservice.
 
-## Progress list
-1. Movies microservice
-   - [x] GET all movies or filter
-   - [x] POST movie
-   - [x] DELETE movie
-   - [x] PUT movie
-   - [x] Add transport
-   - [ ] Add tests
-   - [ ] Add roles guards
+If you found this repo before exploring the [main repo](https://github.com/srgklmv/ivi-clone-repo),
+I recommend you to explore [main repo](https://github.com/srgklmv/ivi-clone-repo/.gitignore) firstly for understanding how to run the application.
 
-2. Genres microservice
-   - [x] GET all genres or filter
-   - [x] POST genre
-   - [x] DELETE genre
-   - [x] PUT genre
-   - [x] Add transport
-   - [ ] Add tests
-   - [ ] Add roles guards
-
-3. Persons microservice
-   - [x] GET all persons or filter
-   - [x] POST person
-   - [x] DELETE person
-   - [x] PUT person
-   - [x] Add transport
-   - [ ] Add tests
-   - [ ] Add roles guards
-
-4. Profile microservice
-   - [x] POST (register) user & profile
-   - [x] Login user (get both tokens)
-   - [x] GET all profiles (???)
-   - [x] GET profile by ID
-   - [x] DELETE profile & user
-   - [x] PUT profile
-   - [x] Update access token (???)
-   - [x] Logout
-   - [x] Activate profile via email
-   - [x] Add transport
-   - [ ] Add tests
-   - [ ] Add roles guards
-
-5. ~~Authorization microservice~~ (All endpoints moved to profile module)
-
-6. Files microservice
-   - [ ] POST file
-   - [ ] DELETE file
-   - [ ] DELETE many files (???)
-   - [ ] GET file (???)
-   - [ ] Add transport
-   - [ ] Add tests
-   - [ ] Add roles guards
-
-7. Comments microservice
-   - [x] POST comment
-   - [x] PUT comment (???)
-   - [ ] GET comments (???)
-   - [x] DELETE comment
-   - [ ] Add transport
-   - [ ] Add tests
-   - [ ] Add roles guards
-
-8. Swagger API
-   - [x] Register Swagger in main.ts 
-   - [x] Add Movies module (entities, API, DTOs) 
-   - [x] Add Comment module (entities, API, DTOs)
-   - [x] Add Genres module (entities, API, DTOs)
-   - [x] Add Persons module (entities, API, DTOs)
-   - [x] Add Profile module (entities, API, DTOs)
-
-9. Errors handler
-   - [ ] ???
+## Requirements
+- RabbitMQ
 
 ## Installation
 
@@ -82,18 +23,39 @@ Access PORT: 3111.
 $ npm install
 ```
 
-## Running the app
+> Note: If you downloaded this repo from main repo script, there is no need to run install command.
 
+## Setting up & running service
+
+### General part (for either localhost & Docker launches)
+
+1. Set up **.dev.env** file for localhost. 
+Choose port as you need to access the application. Then change _API_URL_ & _CLIENT_URL_.
+_API_URL_ is a http link to access Gateway, and _CLIENT_URL_ is for client application. 
+This links provides correct OAuth work.\
+Set up JWT secret key. It must be same as in Auth Service.\
+If using Docker, change **.dev.env**. Do not change port. Instead of it, change accessible port via Docker.\
+_API_URL_ & _CLIENT_URL_ also must be changed.
+2. For loading databases with parsed existing movies you need to create new folder named
+'**movies**', so you will have path to it as:
+'**/ivi-clone-api-gateway/static/movies/**'. Now you need to download [this](https://github.com/JcJet/kinopoisk_nodejs/blob/557726d73af7dd81b79b7630816cffb5bdb0a3db/movies_json.zip) archive
+and extract all .json files into created folder. So now, when you start application, you will be able to run
+'_/loadDatabases1337_' endpoint to load Genres, Movies & Persons databases with real movies & actors.
+\
+
+Now you are able to start Gateway.
+
+>Note: You can access the list of all accessible endpoints using '**/api**' endpoint.
+
+### For localhost
 ```bash
-# development
-$ npm run start
-
 # watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
+
+### For Docker
+> There is no need to set up service for using in Docker. You can continue follow main repo instructions.
+
 
 ## Test
 
@@ -107,3 +69,6 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Author
+[Sergey Klimov](https://github.com/srgklmv)
