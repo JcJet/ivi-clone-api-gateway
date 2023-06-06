@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateGenreDto } from './dto/create-genre.dto';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
-import { catchError, lastValueFrom, Observable, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
+
+import { CreateGenreDto } from './dto/create-genre.dto';
 import { GenreDto } from './dto/genre.dto';
 
 @Injectable()
@@ -22,6 +23,7 @@ export class GenresService {
 
   async getAllGenres(): Promise<Observable<GenreDto[]>> {
     console.log('API Gateway - Genres Service - getAllGenres at', new Date());
+
     return this.toGenresProxy
       .send({ cmd: 'getAllGenres' }, {})
       .pipe(
@@ -31,6 +33,7 @@ export class GenresService {
 
   async getGenre(genreId: number): Promise<Observable<GenreDto>> {
     console.log('API Gateway - Genres Service - getGenre at', new Date());
+
     return this.toGenresProxy
       .send({ cmd: 'getGenreById' }, { genreId: genreId })
       .pipe(
@@ -40,6 +43,7 @@ export class GenresService {
 
   async deleteGenre(genreId: number): Promise<Observable<object>> {
     console.log('API Gateway - Genres Service - deleteGenre at', new Date());
+
     return this.toGenresProxy
       .send({ cmd: 'deleteGenre' }, { genreId: genreId })
       .pipe(
@@ -52,6 +56,7 @@ export class GenresService {
     updateGenreDto: CreateGenreDto,
   ): Promise<Observable<GenreDto>> {
     console.log('API Gateway - Genres Service - updateGenre at', new Date());
+
     return this.toGenresProxy
       .send(
         { cmd: 'updateGenre' },
@@ -67,6 +72,7 @@ export class GenresService {
       'API Gateway - Genres Service - getHeaderStaticLinks at',
       new Date(),
     );
+
     return this.toGenresProxy
       .send({ cmd: 'getHeaderStaticLinks' }, {})
       .pipe(

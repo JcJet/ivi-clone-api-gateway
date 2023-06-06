@@ -1,3 +1,6 @@
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { Observable } from 'rxjs';
 import {
   Body,
   Controller,
@@ -6,12 +9,9 @@ import {
   Headers,
   Param,
   Post,
-  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CommentsService } from './comments.service';
-import { CreateCommentDto } from './dto/create-comment.dto';
 import {
   ApiBearerAuth,
   ApiExcludeEndpoint,
@@ -19,13 +19,14 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
+
+import { CommentsService } from './comments.service';
+import { CreateCommentDto } from './dto/create-comment.dto';
 import { EssenceIdDto } from './dto/essence-id-dto';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 import { MasterOrAdminGuard } from '../decorator/master-or-admin.guard';
 import { RolesGuard } from '../decorator/roles.guard';
 import { Roles } from '../decorator/roles.decorator';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('comments')
 @ApiTags('Comments MS API')
@@ -66,7 +67,7 @@ export class CommentsController {
     @Query('commentId') commentId: number,
     @Query('personId') personId: number,
     @Headers() headers: { authorization: string },
-  ) {
+  ): Promise<Observable<object>> {
     console.log(
       'API Gateway - Comments Controller - createComment at',
       new Date(),
@@ -86,11 +87,12 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard, MasterOrAdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete comment by its ID.' })
-  deleteComment(@Param('id') commentId: number) {
+  deleteComment(@Param('id') commentId: number): Promise<Observable<object>> {
     console.log(
       'API Gateway - Comments Controller - deleteComment at',
       new Date(),
     );
+
     return this.commentsService.deleteComment(commentId);
   }
 
@@ -103,27 +105,16 @@ export class CommentsController {
   async deleteCommentsByEssence(
     @Query('essenceTable') essenceTable: string,
     @Query('essenceId') essenceId: number,
-  ) {
+  ): Promise<Observable<object>> {
+    console.log(
+      'API Gateway - Comments Controller - deleteCommentsByEssence at',
+      new Date(),
+    );
+
     return this.commentsService.deleteCommentsFromEssence({
       essenceTable,
       essenceId,
     });
-  }
-
-  @Put('/:id') // remove from gateway???
-  @UseGuards(JwtAuthGuard, MasterOrAdminGuard)
-  @ApiExcludeEndpoint()
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Update comment by its ID with JSON body.' })
-  updateComment(
-    @Param('id') commentId: number,
-    @Body() createCommentDto: CreateCommentDto,
-  ) {
-    console.log(
-      'API Gateway - Comments Controller - updateComment at',
-      new Date(),
-    );
-    return this.commentsService.updateComment(commentId, createCommentDto);
   }
 
   @Get()
@@ -139,7 +130,12 @@ export class CommentsController {
     @Query('movieId') movieId: number,
     @Query('commentId') commentId: number,
     @Query('personId') personId: number,
-  ) {
+  ): Promise<Observable<object>> {
+    console.log(
+      'API Gateway - Comments Controller - getComments at',
+      new Date(),
+    );
+
     const essenceIdsDto: EssenceIdDto = { movieId, commentId, personId };
     return this.commentsService.getCommentsTree(essenceIdsDto);
   }

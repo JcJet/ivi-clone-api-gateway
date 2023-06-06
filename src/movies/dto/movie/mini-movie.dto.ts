@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CountryDto } from './country.dto';
-import { GenreDto } from './genre.dto';
+
+import { CountryDto } from '../country.dto';
+import { GenreDto } from '../genre.dto';
 
 export class MiniMovieDto {
   @ApiProperty()

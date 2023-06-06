@@ -1,11 +1,12 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { ProfileController } from './profile.controller';
-import { ProfileService } from './profile.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
+
+import { ProfileController } from './profile.controller';
+import { ProfileService } from './profile.service';
 import { GoogleStrategy } from './auth-strategies/google.strategy';
 import { CommentsModule } from '../comments/comments.module';
-import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [

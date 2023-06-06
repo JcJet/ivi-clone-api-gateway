@@ -1,6 +1,7 @@
-import { MiniMovieDto } from './mini-movie.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { PersonDto } from './person.dto';
+
+import { MiniMovieDto } from './mini-movie.dto';
+import { PersonDto } from '../person.dto';
 
 export class MovieDto extends MiniMovieDto {
   @ApiProperty()

@@ -1,3 +1,8 @@
+import { Observable } from 'rxjs';
+import { JwtService } from '@nestjs/jwt';
+import { Reflector } from '@nestjs/core';
+import { ROLES_KEY } from './roles.decorator';
+import { ConfigService } from '@nestjs/config';
 import {
   CanActivate,
   ExecutionContext,
@@ -5,11 +10,6 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { JwtService } from '@nestjs/jwt';
-import { Reflector } from '@nestjs/core';
-import { ROLES_KEY } from './roles.decorator';
-import {ConfigService} from "@nestjs/config";
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -26,9 +26,11 @@ export class RolesGuard implements CanActivate {
       ROLES_KEY,
       [context.getHandler(), context.getClass()],
     );
+
     if (!requiredRoles) {
       return true;
     }
+
     const req = context.switchToHttp().getRequest();
     const authHeader = req.headers.authorization;
     const token = authHeader.split(' ')[1];
@@ -38,9 +40,11 @@ export class RolesGuard implements CanActivate {
     const userRoles = user.roles;
     req.user = user;
     const access = userRoles.some((role) => requiredRoles.includes(role));
+
     if (access) {
       return true;
     }
+
     throw new HttpException('Нет доступа', HttpStatus.FORBIDDEN);
   }
 }

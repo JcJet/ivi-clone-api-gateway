@@ -1,12 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Observable } from 'rxjs';
 import {
   ApiExcludeEndpoint,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Observable } from 'rxjs';
+
+import { AppService } from './app.service';
 import { GenresService } from './genres/genres.service';
 
 @Controller()
@@ -25,7 +26,7 @@ export class AppController {
       'Should be executed every time, when databases are empty - first start, cleaning DBs (deleting Docker containers) etc.',
   })
   @ApiOkResponse({ description: 'All done!' })
-  loadDatabase() {
+  loadDatabase(): Promise<object> {
     return this.appService.loadDatabases();
   }
 

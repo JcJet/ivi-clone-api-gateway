@@ -1,22 +1,17 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom, Observable } from 'rxjs';
+
 import { RoleDto } from './dto/role.dto';
 import { AddUserRoleDto } from './dto/addUserRole.dto';
-import { lastValueFrom, Observable } from 'rxjs';
 
 @Injectable()
 export class RolesService {
   constructor(@Inject('ToRolesMs') private rolesRmqProxy: ClientProxy) {}
-  async checkForError(obj: Observable<any>) {
-    const rmqResponse = await lastValueFrom(obj);
-    const exception = rmqResponse?.exception;
-    if (exception) {
-      throw new HttpException(exception.message, exception.statusCode);
-    }
-    return rmqResponse;
-  }
+
   async createRole(dto: RoleDto) {
     console.log('API Gateway - Roles Service - createRole at', new Date());
+
     return this.checkForError(
       this.rolesRmqProxy.send({ cmd: 'createRole' }, { dto: dto }),
     );
@@ -59,6 +54,7 @@ export class RolesService {
 
   async addUserRoles(dto: AddUserRoleDto) {
     console.log('API Gateway - Roles Service - addUserRoles at', new Date());
+
     return this.checkForError(
       this.rolesRmqProxy.send({ cmd: 'addUserRoles' }, { dto }),
     );
@@ -78,5 +74,19 @@ export class RolesService {
     return this.checkForError(
       this.rolesRmqProxy.send({ cmd: 'deleteUserRoles' }, { dto }),
     );
+  }
+
+  private async checkForError(obj: Observable<any>) {
+    console.log(
+      'API Gateway - Roles Controller - checkForError at',
+      new Date(),
+    );
+
+    const rmqResponse = await lastValueFrom(obj);
+    const exception = rmqResponse?.exception;
+    if (exception) {
+      throw new HttpException(exception.message, exception.statusCode);
+    }
+    return rmqResponse;
   }
 }

@@ -1,6 +1,7 @@
-import { CreatePersonDto } from './create-person.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { MiniMovieDto } from '../../movies/dto/mini-movie.dto';
+
+import { CreatePersonDto } from './create-person.dto';
+import { MiniMovieDto } from '../../movies/dto/movie/mini-movie.dto';
 
 export class GetPersonDto extends CreatePersonDto {
   @ApiProperty({ isArray: true })

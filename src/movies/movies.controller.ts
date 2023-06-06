@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import {
   Body,
   Controller,
@@ -8,11 +9,7 @@ import {
   Put,
   Query,
   UseGuards,
-  ValidationPipe,
 } from '@nestjs/common';
-import { MoviesService } from './movies.service';
-import { Roles } from '../decorator/roles.decorator';
-import { CreateMovieDto } from './dto/create-movie.dto';
 import {
   ApiBearerAuth,
   ApiExcludeEndpoint,
@@ -21,11 +18,14 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { MovieFilterDto } from './dto/movie-filter.dto';
-import { Observable } from 'rxjs';
-import { MoviesResponseDto } from './dto/movies-response.dto';
-import { MovieResponseDto } from './dto/movie-response.dto';
-import { DeleteMovieResponseDto } from './dto/delete-movie-response.dto';
+
+import { MoviesService } from './movies.service';
+import { Roles } from '../decorator/roles.decorator';
+import { CreateMovieDto } from './dto/movie/create-movie.dto';
+import { MovieFilterDto } from './dto/movie/movie-filter.dto';
+import { MoviesResponseDto } from './dto/movie/movies-response.dto';
+import { MovieResponseDto } from './dto/movie/movie-response.dto';
+import { DeleteMovieResponseDto } from './dto/movie/delete-movie-response.dto';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 import { RolesGuard } from '../decorator/roles.guard';
 
@@ -41,6 +41,7 @@ export class MoviesController {
     movieFilterDto: MovieFilterDto,
   ): Promise<Observable<MoviesResponseDto>> {
     console.log('API Gateway - Movies Controller - getMovies at', new Date());
+
     return this.moviesService.getMovies(movieFilterDto);
   }
 
@@ -68,6 +69,7 @@ export class MoviesController {
   ): Promise<Observable<MoviesResponseDto>> {
     console.log('API Gateway - Movies Controller - getMovies at', new Date());
     movieFilterDto.genres = genres;
+
     return this.moviesService.getMovies(movieFilterDto);
   }
 
@@ -92,6 +94,7 @@ export class MoviesController {
       'API Gateway - Movies Controller - getMovieById at',
       new Date(),
     );
+
     return this.moviesService.getMovieById(movieId);
   }
 
@@ -113,6 +116,7 @@ export class MoviesController {
     @Param('id') movieId: number,
   ): Promise<Observable<DeleteMovieResponseDto>> {
     console.log('API Gateway - Movies Controller - deleteMovie at', new Date());
+
     return this.moviesService.deleteMovie(movieId);
   }
 
@@ -134,6 +138,7 @@ export class MoviesController {
     @Body() updateMovieDto: CreateMovieDto,
   ): Promise<Observable<DeleteMovieResponseDto>> {
     console.log('API Gateway - Movies Controller - updateMovie at', new Date());
+
     return this.moviesService.updateMovie(movieId, updateMovieDto);
   }
 
@@ -146,6 +151,7 @@ export class MoviesController {
   })
   createMovie(@Body() createMovieDto: CreateMovieDto): object {
     console.log('API Gateway - Movies Controller - createMovie at', new Date());
+
     return this.moviesService.createMovie(createMovieDto);
   }
 }

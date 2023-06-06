@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import * as fsPromises from 'fs/promises';
+
 import { GenresService } from './genres/genres.service';
 import { lastValueFrom } from 'rxjs';
-import * as fsPromises from 'fs/promises';
 import { MoviesService } from './movies/movies.service';
 import { countriesList } from '../static/countries';
 import { PersonsService } from './persons/persons.service';
@@ -14,9 +15,9 @@ export class AppService {
     private personsService: PersonsService,
   ) {}
 
-  async loadDatabases() {
-    const createdPersons = [];
-    const createdMovies = [];
+  async loadDatabases(): Promise<object> {
+    const createdPersons: number[] = [];
+    const createdMovies: number[] = [];
 
     //Loading countries
     console.log('Loading countries...');
@@ -215,6 +216,7 @@ export class AppService {
       }
     }
     console.log('Movies loaded!');
+
     return { status: 200, response: 'All done!' };
   }
 }

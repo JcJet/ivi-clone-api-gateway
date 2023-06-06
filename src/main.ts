@@ -1,35 +1,23 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
+
+import { AppModule } from './app.module';
+import * as cookieParser from 'cookie-parser';
 import { RpcExceptionFilter } from './filter/rcp-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Ivi clone API Gateway documentation.')
+    .setTitle('Ivi clone API documentation.')
     .setDescription('Includes all reachable from client requests.')
-    .setVersion('0.1.1')
+    .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
   SwaggerModule.setup('api', app, document);
   app.use(cookieParser());
-
-  /*  app.enableCors({
-    allowedHeaders: ['content-type', 'authorization'],
-    origin: [
-      process.env.CLIENT_URL,
-      '95.52.182.155:3000',
-      '95.52.182.155:11392',
-      '95-52-182-155.dynamic.komi.dslavangard.ru:3000',
-      '95-52-182-155.dynamic.komi.dslavangard.ru:11392',
-      '*',
-    ],
-    credentials: true,
-  });*/
 
   app.enableCors({ credentials: true, origin: true });
   app.useGlobalPipes(new ValidationPipe());

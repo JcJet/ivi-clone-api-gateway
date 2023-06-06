@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import {
   Body,
   Controller,
@@ -8,19 +9,18 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { GenresService } from './genres.service';
-import { CreateGenreDto } from './dto/create-genre.dto';
-import { Observable } from 'rxjs';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
-  ApiConflictResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+
+import { GenresService } from './genres.service';
+import { CreateGenreDto } from './dto/create-genre.dto';
 import { GenreDto } from './dto/genre.dto';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 import { Roles } from '../decorator/roles.decorator';
@@ -47,6 +47,7 @@ export class GenresController {
     @Body() createGenreDto: CreateGenreDto,
   ): Promise<Observable<GenreDto>> {
     console.log('API Gateway - Genres Controller - createGenre at', new Date());
+
     return this.genresService.createGenre(createGenreDto);
   }
 
@@ -65,6 +66,7 @@ export class GenresController {
       'API Gateway - Genres Controller - getAllGenres at',
       new Date(),
     );
+
     return this.genresService.getAllGenres();
   }
 
@@ -77,6 +79,7 @@ export class GenresController {
   @ApiNotFoundResponse({ description: 'If genre not exists. Change ID.' })
   getGenre(@Param('id') genreId: number): Promise<Observable<GenreDto>> {
     console.log('API Gateway - Genres Controller - getGenre at', new Date());
+
     return this.genresService.getGenre(genreId);
   }
 
@@ -92,6 +95,7 @@ export class GenresController {
   @ApiNotFoundResponse({ description: 'If genre not exists. Change ID.' })
   deleteGenre(@Param('id') genreId: number): Promise<Observable<object>> {
     console.log('API Gateway - Genres Controller - deleteGenre at', new Date());
+
     return this.genresService.deleteGenre(genreId);
   }
 
@@ -110,6 +114,7 @@ export class GenresController {
     @Body() updateGenreDto: CreateGenreDto,
   ): Promise<Observable<GenreDto>> {
     console.log('API Gateway - Genres Controller - updateGenre at', new Date());
+
     return this.genresService.updateGenre(genreId, updateGenreDto);
   }
 }

@@ -1,24 +1,24 @@
 import { Inject, Injectable, Param, HttpException } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom, Observable } from 'rxjs';
+import { Request, Response } from 'express';
+
 import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
-import { ClientProxy } from '@nestjs/microservices';
-import { lastValueFrom } from 'rxjs';
-import { Express, Request, Response } from 'express';
-import { FileDto } from './dto/file.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ProfileService {
   constructor(
     @Inject('ToProfilesMs') private profileProxy: ClientProxy,
     @Inject('ToFilesMs') private filesProxy: ClientProxy,
+    private configService: ConfigService,
   ) {}
-  checkForError(obj) {
-    const exception = obj.exception;
-    if (exception) {
-      throw new HttpException(exception.message, exception.statusCode);
-    }
-  }
-  async registration(registrationDto: RegistrationDto, response: Response) {
+
+  async registration(
+    registrationDto: RegistrationDto,
+    response: Response,
+  ): Promise<any> {
     console.log('API Gateway - Profile Service - registration at', new Date());
 
     const profileData = await lastValueFrom(
@@ -34,7 +34,7 @@ export class ProfileService {
     return profileData;
   }
 
-  async login(loginDto: LoginDto, response: Response) {
+  async login(loginDto: LoginDto, response: Response): Promise<any> {
     console.log('API Gateway - Profile Service - login at', new Date());
 
     const profileData = await lastValueFrom(
@@ -50,7 +50,9 @@ export class ProfileService {
     return profileData;
   }
 
-  async deleteProfile(@Param('id') profileId: number) {
+  async deleteProfile(
+    @Param('id') profileId: number,
+  ): Promise<Observable<any>> {
     console.log('API Gateway - Profile Service - deleteProfile at', new Date());
     return this.profileProxy.send(
       { cmd: 'deleteProfile' },
@@ -58,7 +60,10 @@ export class ProfileService {
     );
   }
 
-  async updateProfile(profileId: number, updateProfileDto: RegistrationDto) {
+  async updateProfile(
+    profileId: number,
+    updateProfileDto: RegistrationDto,
+  ): Promise<any> {
     console.log('API Gateway - Profile Service - updateProfile at', new Date());
 
     const updateProfileResult = await lastValueFrom(
@@ -75,19 +80,21 @@ export class ProfileService {
     return updateProfileResult;
   }
 
-  async getAllProfiles() {
+  async getAllProfiles(): Promise<Observable<any>> {
     console.log(
       'API Gateway - Profile Service - getAllProfiles at',
       new Date(),
     );
+
     return this.profileProxy.send({ cmd: 'getAllProfiles' }, {});
   }
 
-  async getProfileById(profileId: number) {
+  async getProfileById(profileId: number): Promise<any> {
     console.log(
       'API Gateway - Profile Service - getProfileById at',
       new Date(),
     );
+
     const profileData = await lastValueFrom(
       this.profileProxy.send(
         { cmd: 'getProfileById' },
@@ -99,11 +106,12 @@ export class ProfileService {
     return profileData;
   }
 
-  async refreshAccessToken(request: Request, response: Response) {
+  async refreshAccessToken(request: Request, response: Response): Promise<any> {
     console.log(
       'API Gateway - Profile Service - updateAccessToken at',
       new Date(),
     );
+
     const { refreshToken } = request.cookies;
     const profileData = await lastValueFrom(
       this.profileProxy.send(
@@ -118,24 +126,31 @@ export class ProfileService {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
+
     return profileData;
   }
 
-  async logout(request: Request, response: Response) {
+  async logout(request: Request, response: Response): Promise<any> {
     console.log('API Gateway - Profile Service - logout at', new Date());
+
     const { refreshToken } = request.cookies;
     const profileData = await lastValueFrom(
       this.profileProxy.send({ cmd: 'logout' }, { refreshToken: refreshToken }),
     );
     response.clearCookie('refreshToken');
+
     return profileData;
   }
 
-  async activateAccount(activationLink: string, response: Response) {
+  async activateAccount(
+    activationLink: string,
+    response: Response,
+  ): Promise<any> {
     console.log(
       'API Gateway - Profile Service - activateAccount at',
       new Date(),
     );
+
     const activationResult = await lastValueFrom(
       this.profileProxy.send(
         { cmd: 'activateAccount' },
@@ -144,10 +159,12 @@ export class ProfileService {
     );
     this.checkForError(activationResult);
 
-    return response.redirect('http://localhost:3111');
+    return response.redirect(this.configService.get('CLIENT_URL'));
   }
 
-  async googleLogin(req, res) {
+  async googleLogin(req, res): Promise<any> {
+    console.log('API Gateway - Profile Service - googleLogin at', new Date());
+
     if (!req.user) {
       return 'No user from google';
     }
@@ -171,7 +188,18 @@ export class ProfileService {
     }
   }
 
-  async loginVk(code: string) {
+  async loginVk(code: string): Promise<any> {
+    console.log('API Gateway - Profile Service - loginVk at', new Date());
+
     return this.profileProxy.send({ cmd: 'loginVk' }, { code });
+  }
+
+  private checkForError(obj) {
+    console.log('API Gateway - Profile Service - checkForError at', new Date());
+
+    const exception = obj.exception;
+    if (exception) {
+      throw new HttpException(exception.message, exception.statusCode);
+    }
   }
 }

@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { MoviesController } from './movies.controller';
-import { MoviesService } from './movies.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
+
+import { MoviesController } from './movies.controller';
+import { MoviesService } from './movies.service';
 
 @Module({
   imports: [

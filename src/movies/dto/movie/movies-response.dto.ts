@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+
 import { MiniMovieDto } from './mini-movie.dto';
 
 export class MoviesResponseDto {

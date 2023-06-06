@@ -8,18 +8,19 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { RolesService } from './roles.service';
-import { RoleDto } from './dto/role.dto';
 import {
-  ApiBadRequestResponse,
   ApiBearerAuth,
-  ApiBody, ApiConflictResponse, ApiCreatedResponse,
+  ApiBody,
+  ApiConflictResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+
+import { RolesService } from './roles.service';
+import { RoleDto } from './dto/role.dto';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 import { RolesGuard } from '../decorator/roles.guard';
 import { Roles } from '../decorator/roles.decorator';
@@ -146,7 +147,8 @@ export class RolesController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'ADMIN-ONLY Revoke user roles by user ID and array of role values.',
+    summary:
+      'ADMIN-ONLY Revoke user roles by user ID and array of role values.',
   })
   @ApiNotFoundResponse({ description: 'User not found.' })
   @ApiBody({ description: 'Roles names array.', type: 'string', isArray: true })

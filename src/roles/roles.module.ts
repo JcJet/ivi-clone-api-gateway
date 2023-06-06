@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { RolesController } from './roles.controller';
-import { RolesService } from './roles.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
+
+import { RolesController } from './roles.controller';
+import { RolesService } from './roles.service';
 
 @Module({
   imports: [

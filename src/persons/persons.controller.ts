@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import {
   Body,
   Controller,
@@ -9,8 +10,6 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { PersonsService } from './persons.service';
-import { CreatePersonDto } from './dto/create-person.dto';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -22,7 +21,9 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { Observable } from 'rxjs';
+
+import { PersonsService } from './persons.service';
+import { CreatePersonDto } from './dto/create-person.dto';
 import { GetPersonDto } from './dto/get-person.dto';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 import { Roles } from '../decorator/roles.decorator';
@@ -50,6 +51,7 @@ export class PersonsController {
       'API Gateway - Persons Controller - createPerson at',
       new Date(),
     );
+
     return this.personsService.createPerson(createPersonDto);
   }
 
@@ -72,6 +74,7 @@ export class PersonsController {
       'API Gateway - Persons Controller - updatePerson at',
       new Date(),
     );
+
     return this.personsService.updatePerson(personId, updatePersonDto);
   }
 
@@ -87,6 +90,7 @@ export class PersonsController {
       'API Gateway - Persons Controller - deletePerson at',
       new Date(),
     );
+
     return this.personsService.deletePerson(personId);
   }
 
@@ -104,14 +108,16 @@ export class PersonsController {
       'API Gateway - Persons Controller - getPersonById at',
       new Date(),
     );
+
     return this.personsService.getPersonById(personId);
   }
 
   @Get()
   @ApiOperation({ summary: 'Get all(?) persons.' })
   @ApiExcludeEndpoint()
-  getPersons() {
+  getPersons(): Promise<Observable<object>> {
     console.log('API Gateway - Persons Controller - getPersons at', new Date());
+
     return this.personsService.getPersons();
   }
 
@@ -134,12 +140,12 @@ export class PersonsController {
   })
   async findPersonByName(
     @Query() dto: { personName: string; position: string },
-  ) {
+  ): Promise<Observable<object>> {
     console.log(
       'API Gateway - Persons Controller - findPersonByName at',
       new Date(),
     );
-    console.log(dto);
+
     return this.personsService.findPersonByName(dto);
   }
 }
