@@ -65,8 +65,8 @@ export class CommentsService {
     return this.commentsProxy.send({ cmd: 'getCommentById' }, { commentId });
   }
 
-  private async createEssenceDto(essenceIdsDto: EssenceIdDto) {
-    await this.checkInputs(essenceIdsDto);
+  private createEssenceDto(essenceIdsDto: EssenceIdDto) {
+    this.checkInputs(essenceIdsDto);
     let essenceTable: string;
     let essenceId: number;
 
@@ -84,7 +84,7 @@ export class CommentsService {
     return { essenceTable, essenceId };
   }
 
-  private async checkInputs(essenceIdsDto: EssenceIdDto) {
+  private checkInputs(essenceIdsDto: EssenceIdDto) {
     const idsCount = Object.entries(essenceIdsDto).filter(
       ([, value]) => value !== undefined,
     ).length;
