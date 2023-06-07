@@ -59,16 +59,7 @@ $ npm run start:dev
 
 ## Test
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
+Tests are not provided by now. It will be added shortly later.
 
 ## Author
 [Sergey Klimov](https://github.com/srgklmv)
