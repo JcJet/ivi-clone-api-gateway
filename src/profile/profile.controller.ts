@@ -25,6 +25,7 @@ import { RegistrationDto } from './dto/registration.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from '../decorator/jwt-auth.guard';
 import { MasterOrAdminGuard } from '../decorator/master-or-admin.guard';
+import {UpdateProfileDto} from "./dto/update-profile.dto";
 
 @Controller()
 @ApiTags('Profile/authentication MS API')
@@ -75,7 +76,7 @@ export class ProfileController {
   @ApiOperation({ summary: 'Update profile by its ID.' })
   updateProfile(
     @Param('id') profileId: number,
-    @Body() updateProfileDto: RegistrationDto,
+    @Body() updateProfileDto: UpdateProfileDto,
   ): Promise<any> {
     console.log(
       'API Gateway - Profile Controller - updateProfile at',

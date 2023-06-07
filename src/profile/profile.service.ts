@@ -26,7 +26,7 @@ export class ProfileService {
     );
     this.checkForError(profileData);
 
-    response.cookie('refreshToken', profileData.tokens.refreshToken, {
+    response.cookie('refreshToken', profileData.refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
